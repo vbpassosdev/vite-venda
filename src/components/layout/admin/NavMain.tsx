@@ -1,5 +1,5 @@
-import { Link, useRouterState } from "@tanstack/react-router";
-import { Star } from "lucide-react";
+import { Link, useRouterState } from "@tanstack/react-router"
+import { Star } from "lucide-react"
 
 import {
   SidebarGroup,
@@ -7,42 +7,53 @@ import {
   SidebarMenu,
   SidebarMenuButton,
   SidebarMenuItem,
-} from "@/components/ui/sidebar";
+} from "@/components/ui/sidebar"
 
 export function NavMain() {
   const pathname = useRouterState({
     select: (state) => state.location.pathname,
-  });
+  })
 
-  const isActiveInfluenciadores =
-    pathname === "/admin/influenciadores" ||
-    pathname.startsWith("/admin/influenciadores/");
+  const isActive = (path: string) =>
+    pathname === path || pathname.startsWith(`${path}/`)
 
-  const isActiveClientes = pathname.startsWith("/admin/clientes");
+  const menuItems = [
+    {
+      label: "Influenciadores",
+      to: "/admin/influenciadores",
+      icon: Star,
+    },
+    {
+      label: "Clientes",
+      to: "/admin/clientes",
+      icon: Star,
+    },
+  ]
 
   return (
     <SidebarGroup>
       <SidebarGroupLabel>Administração</SidebarGroupLabel>
 
       <SidebarMenu>
-        <SidebarMenuItem asChild>
-          <Link to="/admin/influenciadores">
-            <SidebarMenuButton isActive={isActiveInfluenciadores} tooltip="Influenciadores">
-              <Star className="size-4" />
-              <span>Influenciadores</span>
-            </SidebarMenuButton>
-          </Link>
-        </SidebarMenuItem>
+        {menuItems.map((item) => {
+          const Icon = item.icon
 
-        <SidebarMenuItem asChild>
-          <Link to="/admin/clientes">
-            <SidebarMenuButton isActive={isActiveClientes} tooltip="Clientes">
-              <Star className="size-4" />
-              <span>Clientes</span>
-            </SidebarMenuButton>
-          </Link>
-        </SidebarMenuItem>
+          return (
+            <SidebarMenuItem key={item.to}>
+              <SidebarMenuButton
+                asChild
+                tooltip={item.label}
+                isActive={isActive(item.to)}
+              >
+                <Link to={item.to}>
+                  <Icon className="w-4 h-4" />
+                  <span>{item.label}</span>
+                </Link>
+              </SidebarMenuButton>
+            </SidebarMenuItem>
+          )
+        })}
       </SidebarMenu>
     </SidebarGroup>
-  );
+  )
 }

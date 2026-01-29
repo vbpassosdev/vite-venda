@@ -1,20 +1,33 @@
-import { Sidebar, SidebarContent, SidebarProvider } from "@/components/ui/sidebar";
-import { NavMain } from "./NavMain";
+import {
+  Sidebar,
+  SidebarContent,
+  SidebarInset,
+  SidebarProvider,
+  SidebarTrigger,
+} from "@/components/ui/sidebar"
+import { NavMain } from "./NavMain"
+import { Separator } from "@/components/ui/separator"
 
 export function AdminLayout({ children }: { children: React.ReactNode }) {
   return (
     <SidebarProvider>
-      <div className="flex h-screen w-full">
-        <Sidebar>
-          <SidebarContent>
-            <NavMain />
-          </SidebarContent>
-        </Sidebar>
+      <Sidebar>
+        <SidebarContent>
+          <NavMain />
+        </SidebarContent>
+      </Sidebar>
+
+      <SidebarInset>
+        <header className="flex h-12 items-center gap-2 px-4 border-b">
+          <SidebarTrigger />
+          <Separator orientation="vertical" className="h-4" />
+          <span className="text-sm font-medium">Admin</span>
+        </header>
 
         <main className="flex-1 p-6 overflow-auto">
           {children}
         </main>
-      </div>
+      </SidebarInset>
     </SidebarProvider>
-  );
+  )
 }
