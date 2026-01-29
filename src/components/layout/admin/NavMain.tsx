@@ -1,5 +1,6 @@
 import { Link, useRouterState } from "@tanstack/react-router"
 import { Star } from "lucide-react"
+import { clsx } from "clsx"
 
 import {
   SidebarGroup,
@@ -32,18 +33,26 @@ export function NavMain() {
 
   return (
     <SidebarGroup>
-      <SidebarGroupLabel>Administração</SidebarGroupLabel>
+      <SidebarGroupLabel className="text-xs uppercase tracking-wide px-2 mb-2" 
+        style={{ color: '#ec4899' }}>
+        <h1 className="px-50">Administração</h1>
+      </SidebarGroupLabel>
 
-      <SidebarMenu>
+      <SidebarMenu className="space-y-1">
         {menuItems.map((item) => {
           const Icon = item.icon
+          const active = isActive(item.to)
 
           return (
             <SidebarMenuItem key={item.to}>
-              <SidebarMenuButton
-                asChild
+              <SidebarMenuButton 
+                asChild 
                 tooltip={item.label}
-                isActive={isActive(item.to)}
+                isActive={active}
+                className={clsx(
+                  "gap-3",
+                  active && "bg-primary text-primary-foreground hover:bg-primary hover:text-primary-foreground"
+                )}
               >
                 <Link to={item.to}>
                   <Icon className="w-4 h-4" />

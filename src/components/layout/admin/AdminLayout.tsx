@@ -11,11 +11,7 @@ import { Separator } from "@/components/ui/separator"
 export function AdminLayout({ children }: { children: React.ReactNode }) {
   return (
     <SidebarProvider>
-      <Sidebar>
-        <SidebarContent>
-          <NavMain />
-        </SidebarContent>
-      </Sidebar>
+   
 
       <SidebarInset>
         <header className="flex h-12 items-center gap-2 px-4 border-b">
@@ -28,6 +24,13 @@ export function AdminLayout({ children }: { children: React.ReactNode }) {
           {children}
         </main>
       </SidebarInset>
+
+
+         <Sidebar>
+        <SidebarContent>
+          <NavMain />
+        </SidebarContent>
+      </Sidebar>
     </SidebarProvider>
   )
 }
