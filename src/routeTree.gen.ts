@@ -9,237 +9,98 @@
 // Additionally, you should also exclude this file from your linter and/or formatter to prevent it from being checked or modified.
 
 import { Route as rootRouteImport } from './routes/__root'
+import { Route as AdminRouteImport } from './routes/admin'
 import { Route as IndexRouteImport } from './routes/index'
-import { Route as DemoTanchatRouteImport } from './routes/demo/tanchat'
-import { Route as DemoStoreRouteImport } from './routes/demo/store'
-import { Route as ExampleGuitarsIndexRouteImport } from './routes/example.guitars/index'
-import { Route as ExampleGuitarsGuitarIdRouteImport } from './routes/example.guitars/$guitarId'
-import { Route as DemoStartServerFuncsRouteImport } from './routes/demo/start.server-funcs'
-import { Route as DemoStartApiRequestRouteImport } from './routes/demo/start.api-request'
-import { Route as DemoSentryTestingRouteImport } from './routes/demo/sentry.testing'
-import { Route as DemoFormSimpleRouteImport } from './routes/demo/form.simple'
-import { Route as DemoFormAddressRouteImport } from './routes/demo/form.address'
-import { Route as DemoApiTanchatRouteImport } from './routes/demo/api.tanchat'
-import { Route as DemoApiNamesRouteImport } from './routes/demo/api.names'
-import { Route as DemoStartSsrIndexRouteImport } from './routes/demo/start.ssr.index'
-import { Route as DemoStartSsrSpaModeRouteImport } from './routes/demo/start.ssr.spa-mode'
-import { Route as DemoStartSsrFullSsrRouteImport } from './routes/demo/start.ssr.full-ssr'
-import { Route as DemoStartSsrDataOnlyRouteImport } from './routes/demo/start.ssr.data-only'
+import { Route as AdminMainRouteImport } from './routes/admin/main'
+import { Route as AdminInfluenciadoresRouteImport } from './routes/admin/influenciadores'
+import { Route as AdminClientesRouteImport } from './routes/admin/clientes'
 
+const AdminRoute = AdminRouteImport.update({
+  id: '/admin',
+  path: '/admin',
+  getParentRoute: () => rootRouteImport,
+} as any)
 const IndexRoute = IndexRouteImport.update({
   id: '/',
   path: '/',
   getParentRoute: () => rootRouteImport,
 } as any)
-const DemoTanchatRoute = DemoTanchatRouteImport.update({
-  id: '/demo/tanchat',
-  path: '/demo/tanchat',
-  getParentRoute: () => rootRouteImport,
+const AdminMainRoute = AdminMainRouteImport.update({
+  id: '/main',
+  path: '/main',
+  getParentRoute: () => AdminRoute,
 } as any)
-const DemoStoreRoute = DemoStoreRouteImport.update({
-  id: '/demo/store',
-  path: '/demo/store',
-  getParentRoute: () => rootRouteImport,
+const AdminInfluenciadoresRoute = AdminInfluenciadoresRouteImport.update({
+  id: '/influenciadores',
+  path: '/influenciadores',
+  getParentRoute: () => AdminRoute,
 } as any)
-const ExampleGuitarsIndexRoute = ExampleGuitarsIndexRouteImport.update({
-  id: '/example/guitars/',
-  path: '/example/guitars/',
-  getParentRoute: () => rootRouteImport,
-} as any)
-const ExampleGuitarsGuitarIdRoute = ExampleGuitarsGuitarIdRouteImport.update({
-  id: '/example/guitars/$guitarId',
-  path: '/example/guitars/$guitarId',
-  getParentRoute: () => rootRouteImport,
-} as any)
-const DemoStartServerFuncsRoute = DemoStartServerFuncsRouteImport.update({
-  id: '/demo/start/server-funcs',
-  path: '/demo/start/server-funcs',
-  getParentRoute: () => rootRouteImport,
-} as any)
-const DemoStartApiRequestRoute = DemoStartApiRequestRouteImport.update({
-  id: '/demo/start/api-request',
-  path: '/demo/start/api-request',
-  getParentRoute: () => rootRouteImport,
-} as any)
-const DemoSentryTestingRoute = DemoSentryTestingRouteImport.update({
-  id: '/demo/sentry/testing',
-  path: '/demo/sentry/testing',
-  getParentRoute: () => rootRouteImport,
-} as any)
-const DemoFormSimpleRoute = DemoFormSimpleRouteImport.update({
-  id: '/demo/form/simple',
-  path: '/demo/form/simple',
-  getParentRoute: () => rootRouteImport,
-} as any)
-const DemoFormAddressRoute = DemoFormAddressRouteImport.update({
-  id: '/demo/form/address',
-  path: '/demo/form/address',
-  getParentRoute: () => rootRouteImport,
-} as any)
-const DemoApiTanchatRoute = DemoApiTanchatRouteImport.update({
-  id: '/demo/api/tanchat',
-  path: '/demo/api/tanchat',
-  getParentRoute: () => rootRouteImport,
-} as any)
-const DemoApiNamesRoute = DemoApiNamesRouteImport.update({
-  id: '/demo/api/names',
-  path: '/demo/api/names',
-  getParentRoute: () => rootRouteImport,
-} as any)
-const DemoStartSsrIndexRoute = DemoStartSsrIndexRouteImport.update({
-  id: '/demo/start/ssr/',
-  path: '/demo/start/ssr/',
-  getParentRoute: () => rootRouteImport,
-} as any)
-const DemoStartSsrSpaModeRoute = DemoStartSsrSpaModeRouteImport.update({
-  id: '/demo/start/ssr/spa-mode',
-  path: '/demo/start/ssr/spa-mode',
-  getParentRoute: () => rootRouteImport,
-} as any)
-const DemoStartSsrFullSsrRoute = DemoStartSsrFullSsrRouteImport.update({
-  id: '/demo/start/ssr/full-ssr',
-  path: '/demo/start/ssr/full-ssr',
-  getParentRoute: () => rootRouteImport,
-} as any)
-const DemoStartSsrDataOnlyRoute = DemoStartSsrDataOnlyRouteImport.update({
-  id: '/demo/start/ssr/data-only',
-  path: '/demo/start/ssr/data-only',
-  getParentRoute: () => rootRouteImport,
+const AdminClientesRoute = AdminClientesRouteImport.update({
+  id: '/clientes',
+  path: '/clientes',
+  getParentRoute: () => AdminRoute,
 } as any)
 
 export interface FileRoutesByFullPath {
   '/': typeof IndexRoute
-  '/demo/store': typeof DemoStoreRoute
-  '/demo/tanchat': typeof DemoTanchatRoute
-  '/demo/api/names': typeof DemoApiNamesRoute
-  '/demo/api/tanchat': typeof DemoApiTanchatRoute
-  '/demo/form/address': typeof DemoFormAddressRoute
-  '/demo/form/simple': typeof DemoFormSimpleRoute
-  '/demo/sentry/testing': typeof DemoSentryTestingRoute
-  '/demo/start/api-request': typeof DemoStartApiRequestRoute
-  '/demo/start/server-funcs': typeof DemoStartServerFuncsRoute
-  '/example/guitars/$guitarId': typeof ExampleGuitarsGuitarIdRoute
-  '/example/guitars/': typeof ExampleGuitarsIndexRoute
-  '/demo/start/ssr/data-only': typeof DemoStartSsrDataOnlyRoute
-  '/demo/start/ssr/full-ssr': typeof DemoStartSsrFullSsrRoute
-  '/demo/start/ssr/spa-mode': typeof DemoStartSsrSpaModeRoute
-  '/demo/start/ssr/': typeof DemoStartSsrIndexRoute
+  '/admin': typeof AdminRouteWithChildren
+  '/admin/clientes': typeof AdminClientesRoute
+  '/admin/influenciadores': typeof AdminInfluenciadoresRoute
+  '/admin/main': typeof AdminMainRoute
 }
 export interface FileRoutesByTo {
   '/': typeof IndexRoute
-  '/demo/store': typeof DemoStoreRoute
-  '/demo/tanchat': typeof DemoTanchatRoute
-  '/demo/api/names': typeof DemoApiNamesRoute
-  '/demo/api/tanchat': typeof DemoApiTanchatRoute
-  '/demo/form/address': typeof DemoFormAddressRoute
-  '/demo/form/simple': typeof DemoFormSimpleRoute
-  '/demo/sentry/testing': typeof DemoSentryTestingRoute
-  '/demo/start/api-request': typeof DemoStartApiRequestRoute
-  '/demo/start/server-funcs': typeof DemoStartServerFuncsRoute
-  '/example/guitars/$guitarId': typeof ExampleGuitarsGuitarIdRoute
-  '/example/guitars': typeof ExampleGuitarsIndexRoute
-  '/demo/start/ssr/data-only': typeof DemoStartSsrDataOnlyRoute
-  '/demo/start/ssr/full-ssr': typeof DemoStartSsrFullSsrRoute
-  '/demo/start/ssr/spa-mode': typeof DemoStartSsrSpaModeRoute
-  '/demo/start/ssr': typeof DemoStartSsrIndexRoute
+  '/admin': typeof AdminRouteWithChildren
+  '/admin/clientes': typeof AdminClientesRoute
+  '/admin/influenciadores': typeof AdminInfluenciadoresRoute
+  '/admin/main': typeof AdminMainRoute
 }
 export interface FileRoutesById {
   __root__: typeof rootRouteImport
   '/': typeof IndexRoute
-  '/demo/store': typeof DemoStoreRoute
-  '/demo/tanchat': typeof DemoTanchatRoute
-  '/demo/api/names': typeof DemoApiNamesRoute
-  '/demo/api/tanchat': typeof DemoApiTanchatRoute
-  '/demo/form/address': typeof DemoFormAddressRoute
-  '/demo/form/simple': typeof DemoFormSimpleRoute
-  '/demo/sentry/testing': typeof DemoSentryTestingRoute
-  '/demo/start/api-request': typeof DemoStartApiRequestRoute
-  '/demo/start/server-funcs': typeof DemoStartServerFuncsRoute
-  '/example/guitars/$guitarId': typeof ExampleGuitarsGuitarIdRoute
-  '/example/guitars/': typeof ExampleGuitarsIndexRoute
-  '/demo/start/ssr/data-only': typeof DemoStartSsrDataOnlyRoute
-  '/demo/start/ssr/full-ssr': typeof DemoStartSsrFullSsrRoute
-  '/demo/start/ssr/spa-mode': typeof DemoStartSsrSpaModeRoute
-  '/demo/start/ssr/': typeof DemoStartSsrIndexRoute
+  '/admin': typeof AdminRouteWithChildren
+  '/admin/clientes': typeof AdminClientesRoute
+  '/admin/influenciadores': typeof AdminInfluenciadoresRoute
+  '/admin/main': typeof AdminMainRoute
 }
 export interface FileRouteTypes {
   fileRoutesByFullPath: FileRoutesByFullPath
   fullPaths:
     | '/'
-    | '/demo/store'
-    | '/demo/tanchat'
-    | '/demo/api/names'
-    | '/demo/api/tanchat'
-    | '/demo/form/address'
-    | '/demo/form/simple'
-    | '/demo/sentry/testing'
-    | '/demo/start/api-request'
-    | '/demo/start/server-funcs'
-    | '/example/guitars/$guitarId'
-    | '/example/guitars/'
-    | '/demo/start/ssr/data-only'
-    | '/demo/start/ssr/full-ssr'
-    | '/demo/start/ssr/spa-mode'
-    | '/demo/start/ssr/'
+    | '/admin'
+    | '/admin/clientes'
+    | '/admin/influenciadores'
+    | '/admin/main'
   fileRoutesByTo: FileRoutesByTo
   to:
     | '/'
-    | '/demo/store'
-    | '/demo/tanchat'
-    | '/demo/api/names'
-    | '/demo/api/tanchat'
-    | '/demo/form/address'
-    | '/demo/form/simple'
-    | '/demo/sentry/testing'
-    | '/demo/start/api-request'
-    | '/demo/start/server-funcs'
-    | '/example/guitars/$guitarId'
-    | '/example/guitars'
-    | '/demo/start/ssr/data-only'
-    | '/demo/start/ssr/full-ssr'
-    | '/demo/start/ssr/spa-mode'
-    | '/demo/start/ssr'
+    | '/admin'
+    | '/admin/clientes'
+    | '/admin/influenciadores'
+    | '/admin/main'
   id:
     | '__root__'
     | '/'
-    | '/demo/store'
-    | '/demo/tanchat'
-    | '/demo/api/names'
-    | '/demo/api/tanchat'
-    | '/demo/form/address'
-    | '/demo/form/simple'
-    | '/demo/sentry/testing'
-    | '/demo/start/api-request'
-    | '/demo/start/server-funcs'
-    | '/example/guitars/$guitarId'
-    | '/example/guitars/'
-    | '/demo/start/ssr/data-only'
-    | '/demo/start/ssr/full-ssr'
-    | '/demo/start/ssr/spa-mode'
-    | '/demo/start/ssr/'
+    | '/admin'
+    | '/admin/clientes'
+    | '/admin/influenciadores'
+    | '/admin/main'
   fileRoutesById: FileRoutesById
 }
 export interface RootRouteChildren {
   IndexRoute: typeof IndexRoute
-  DemoStoreRoute: typeof DemoStoreRoute
-  DemoTanchatRoute: typeof DemoTanchatRoute
-  DemoApiNamesRoute: typeof DemoApiNamesRoute
-  DemoApiTanchatRoute: typeof DemoApiTanchatRoute
-  DemoFormAddressRoute: typeof DemoFormAddressRoute
-  DemoFormSimpleRoute: typeof DemoFormSimpleRoute
-  DemoSentryTestingRoute: typeof DemoSentryTestingRoute
-  DemoStartApiRequestRoute: typeof DemoStartApiRequestRoute
-  DemoStartServerFuncsRoute: typeof DemoStartServerFuncsRoute
-  ExampleGuitarsGuitarIdRoute: typeof ExampleGuitarsGuitarIdRoute
-  ExampleGuitarsIndexRoute: typeof ExampleGuitarsIndexRoute
-  DemoStartSsrDataOnlyRoute: typeof DemoStartSsrDataOnlyRoute
-  DemoStartSsrFullSsrRoute: typeof DemoStartSsrFullSsrRoute
-  DemoStartSsrSpaModeRoute: typeof DemoStartSsrSpaModeRoute
-  DemoStartSsrIndexRoute: typeof DemoStartSsrIndexRoute
+  AdminRoute: typeof AdminRouteWithChildren
 }
 
 declare module '@tanstack/react-router' {
   interface FileRoutesByPath {
+    '/admin': {
+      id: '/admin'
+      path: '/admin'
+      fullPath: '/admin'
+      preLoaderRoute: typeof AdminRouteImport
+      parentRoute: typeof rootRouteImport
+    }
     '/': {
       id: '/'
       path: '/'
@@ -247,131 +108,47 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof IndexRouteImport
       parentRoute: typeof rootRouteImport
     }
-    '/demo/tanchat': {
-      id: '/demo/tanchat'
-      path: '/demo/tanchat'
-      fullPath: '/demo/tanchat'
-      preLoaderRoute: typeof DemoTanchatRouteImport
-      parentRoute: typeof rootRouteImport
+    '/admin/main': {
+      id: '/admin/main'
+      path: '/main'
+      fullPath: '/admin/main'
+      preLoaderRoute: typeof AdminMainRouteImport
+      parentRoute: typeof AdminRoute
     }
-    '/demo/store': {
-      id: '/demo/store'
-      path: '/demo/store'
-      fullPath: '/demo/store'
-      preLoaderRoute: typeof DemoStoreRouteImport
-      parentRoute: typeof rootRouteImport
+    '/admin/influenciadores': {
+      id: '/admin/influenciadores'
+      path: '/influenciadores'
+      fullPath: '/admin/influenciadores'
+      preLoaderRoute: typeof AdminInfluenciadoresRouteImport
+      parentRoute: typeof AdminRoute
     }
-    '/example/guitars/': {
-      id: '/example/guitars/'
-      path: '/example/guitars'
-      fullPath: '/example/guitars/'
-      preLoaderRoute: typeof ExampleGuitarsIndexRouteImport
-      parentRoute: typeof rootRouteImport
-    }
-    '/example/guitars/$guitarId': {
-      id: '/example/guitars/$guitarId'
-      path: '/example/guitars/$guitarId'
-      fullPath: '/example/guitars/$guitarId'
-      preLoaderRoute: typeof ExampleGuitarsGuitarIdRouteImport
-      parentRoute: typeof rootRouteImport
-    }
-    '/demo/start/server-funcs': {
-      id: '/demo/start/server-funcs'
-      path: '/demo/start/server-funcs'
-      fullPath: '/demo/start/server-funcs'
-      preLoaderRoute: typeof DemoStartServerFuncsRouteImport
-      parentRoute: typeof rootRouteImport
-    }
-    '/demo/start/api-request': {
-      id: '/demo/start/api-request'
-      path: '/demo/start/api-request'
-      fullPath: '/demo/start/api-request'
-      preLoaderRoute: typeof DemoStartApiRequestRouteImport
-      parentRoute: typeof rootRouteImport
-    }
-    '/demo/sentry/testing': {
-      id: '/demo/sentry/testing'
-      path: '/demo/sentry/testing'
-      fullPath: '/demo/sentry/testing'
-      preLoaderRoute: typeof DemoSentryTestingRouteImport
-      parentRoute: typeof rootRouteImport
-    }
-    '/demo/form/simple': {
-      id: '/demo/form/simple'
-      path: '/demo/form/simple'
-      fullPath: '/demo/form/simple'
-      preLoaderRoute: typeof DemoFormSimpleRouteImport
-      parentRoute: typeof rootRouteImport
-    }
-    '/demo/form/address': {
-      id: '/demo/form/address'
-      path: '/demo/form/address'
-      fullPath: '/demo/form/address'
-      preLoaderRoute: typeof DemoFormAddressRouteImport
-      parentRoute: typeof rootRouteImport
-    }
-    '/demo/api/tanchat': {
-      id: '/demo/api/tanchat'
-      path: '/demo/api/tanchat'
-      fullPath: '/demo/api/tanchat'
-      preLoaderRoute: typeof DemoApiTanchatRouteImport
-      parentRoute: typeof rootRouteImport
-    }
-    '/demo/api/names': {
-      id: '/demo/api/names'
-      path: '/demo/api/names'
-      fullPath: '/demo/api/names'
-      preLoaderRoute: typeof DemoApiNamesRouteImport
-      parentRoute: typeof rootRouteImport
-    }
-    '/demo/start/ssr/': {
-      id: '/demo/start/ssr/'
-      path: '/demo/start/ssr'
-      fullPath: '/demo/start/ssr/'
-      preLoaderRoute: typeof DemoStartSsrIndexRouteImport
-      parentRoute: typeof rootRouteImport
-    }
-    '/demo/start/ssr/spa-mode': {
-      id: '/demo/start/ssr/spa-mode'
-      path: '/demo/start/ssr/spa-mode'
-      fullPath: '/demo/start/ssr/spa-mode'
-      preLoaderRoute: typeof DemoStartSsrSpaModeRouteImport
-      parentRoute: typeof rootRouteImport
-    }
-    '/demo/start/ssr/full-ssr': {
-      id: '/demo/start/ssr/full-ssr'
-      path: '/demo/start/ssr/full-ssr'
-      fullPath: '/demo/start/ssr/full-ssr'
-      preLoaderRoute: typeof DemoStartSsrFullSsrRouteImport
-      parentRoute: typeof rootRouteImport
-    }
-    '/demo/start/ssr/data-only': {
-      id: '/demo/start/ssr/data-only'
-      path: '/demo/start/ssr/data-only'
-      fullPath: '/demo/start/ssr/data-only'
-      preLoaderRoute: typeof DemoStartSsrDataOnlyRouteImport
-      parentRoute: typeof rootRouteImport
+    '/admin/clientes': {
+      id: '/admin/clientes'
+      path: '/clientes'
+      fullPath: '/admin/clientes'
+      preLoaderRoute: typeof AdminClientesRouteImport
+      parentRoute: typeof AdminRoute
     }
   }
 }
 
+interface AdminRouteChildren {
+  AdminClientesRoute: typeof AdminClientesRoute
+  AdminInfluenciadoresRoute: typeof AdminInfluenciadoresRoute
+  AdminMainRoute: typeof AdminMainRoute
+}
+
+const AdminRouteChildren: AdminRouteChildren = {
+  AdminClientesRoute: AdminClientesRoute,
+  AdminInfluenciadoresRoute: AdminInfluenciadoresRoute,
+  AdminMainRoute: AdminMainRoute,
+}
+
+const AdminRouteWithChildren = AdminRoute._addFileChildren(AdminRouteChildren)
+
 const rootRouteChildren: RootRouteChildren = {
   IndexRoute: IndexRoute,
-  DemoStoreRoute: DemoStoreRoute,
-  DemoTanchatRoute: DemoTanchatRoute,
-  DemoApiNamesRoute: DemoApiNamesRoute,
-  DemoApiTanchatRoute: DemoApiTanchatRoute,
-  DemoFormAddressRoute: DemoFormAddressRoute,
-  DemoFormSimpleRoute: DemoFormSimpleRoute,
-  DemoSentryTestingRoute: DemoSentryTestingRoute,
-  DemoStartApiRequestRoute: DemoStartApiRequestRoute,
-  DemoStartServerFuncsRoute: DemoStartServerFuncsRoute,
-  ExampleGuitarsGuitarIdRoute: ExampleGuitarsGuitarIdRoute,
-  ExampleGuitarsIndexRoute: ExampleGuitarsIndexRoute,
-  DemoStartSsrDataOnlyRoute: DemoStartSsrDataOnlyRoute,
-  DemoStartSsrFullSsrRoute: DemoStartSsrFullSsrRoute,
-  DemoStartSsrSpaModeRoute: DemoStartSsrSpaModeRoute,
-  DemoStartSsrIndexRoute: DemoStartSsrIndexRoute,
+  AdminRoute: AdminRouteWithChildren,
 }
 export const routeTree = rootRouteImport
   ._addFileChildren(rootRouteChildren)
