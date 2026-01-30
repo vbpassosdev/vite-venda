@@ -15,7 +15,7 @@ export function AdminLayout({ children }: { children: React.ReactNode }) {
           className="text-lg font-bold mb-6"
           style={{ color: "hsl(var(--primary))" }}
         >
-          Administração
+          Nome da Empresa
         </h1>
         <SidebarMenu />
       </aside>
