@@ -1,68 +1,63 @@
-import { Link, useRouterState } from "@tanstack/react-router"
-import { Star } from "lucide-react"
-import { clsx } from "clsx"
+import { Link, useRouterState } from "@tanstack/react-router";
+import { Star } from "lucide-react";
+import { clsx } from "clsx";
 
-import {
-  SidebarGroup,
-  SidebarGroupLabel,
-  SidebarMenu,
-  SidebarMenuButton,
-  SidebarMenuItem,
-} from "@/components/ui/sidebar"
+type MenuItem = {
+  label: string;
+  to: string;
+  icon: React.ComponentType<{ className?: string }>;
+};
 
-export function NavMain() {
+export function SidebarMenu() {
   const pathname = useRouterState({
     select: (state) => state.location.pathname,
-  })
+  });
+
+  const menuItems: MenuItem[] = [
+    { label: "Influenciadores", to: "/admin/influenciadores", icon: Star },
+    { label: "Clientes", to: "/admin/clientes", icon: Star },
+  ];
 
   const isActive = (path: string) =>
-    pathname === path || pathname.startsWith(`${path}/`)
-
-  const menuItems = [
-    {
-      label: "Influenciadores",
-      to: "/admin/influenciadores",
-      icon: Star,
-    },
-    {
-      label: "Clientes",
-      to: "/admin/clientes",
-      icon: Star,
-    },
-  ]
+    pathname === path || pathname.startsWith(`${path}/`);
 
   return (
-    <SidebarGroup>
-      <SidebarGroupLabel className="text-xs uppercase tracking-wide px-2 mb-2" 
-        style={{ color: '#ec4899' }}>
-        <h1 className="px-50">Administração</h1>
-      </SidebarGroupLabel>
+    <aside
+      className="flex flex-col w-64 p-4 border-r rounded-(--radius)"
+      style={{
+        backgroundColor: "hsl(var(--sidebar))",
+        borderColor: "hsl(var(--sidebar-border))",
+      }}
+    >
+      <h1
+        className="text-lg font-bold mb-6"
+        style={{ color: "hsl(var(--primary))" }}
+      >
+        Administração
+      </h1>
 
-      <SidebarMenu className="space-y-1">
+      <nav className="flex flex-col gap-2">
         {menuItems.map((item) => {
-          const Icon = item.icon
-          const active = isActive(item.to)
+          const active = isActive(item.to);
+          const Icon = item.icon;
 
           return (
-            <SidebarMenuItem key={item.to}>
-              <SidebarMenuButton 
-                asChild 
-                tooltip={item.label}
-                isActive={active}
-                className={clsx(
-                  "gap-3",
-                  active && "bg-primary text-primary-foreground hover:bg-primary hover:text-primary-foreground"
-                )}
-              >
-                <Link to={item.to}>
-                  <Icon className="w-4 h-4" />
-                  <span>{item.label}</span>
-                </Link>
-              </SidebarMenuButton>
-            </SidebarMenuItem>
-          )
+            <Link
+              key={item.to}
+              to={item.to}
+              className={clsx(
+                "flex items-center gap-3 px-3 py-2 rounded-(--radius) transition-colors duration-200",
+                active
+                  ? "bg-[hsl(var(--primary))] text-[hsl(var(--primary-foreground))]"
+                  : "text-[hsl(var(--sidebar-foreground))] hover:bg-[hsl(var(--sidebar-hover))] hover:text-[hsl(var(--primary-foreground))]"
+              )}
+            >
+              <Icon className="w-5 h-5 text-[hsl(var(--sidebar-icon))]" />
+              <span>{item.label}</span>
+            </Link>
+          );
         })}
-      </SidebarMenu>
-    </SidebarGroup>
-  )
+      </nav>
+    </aside>
+  );
 }
