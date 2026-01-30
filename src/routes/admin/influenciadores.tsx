@@ -7,7 +7,7 @@ import { useState } from "react";
 function FormInfluenciadores() {
   const [nome, setNome] = useState("");
   const [email, setEmail] = useState("");
-  const [tefelefone, setTelefone] = useState("");
+  const [telefone, setTelefone] = useState("");
   const [celular, setCelular] = useState("");
   const [loading, setLoading] = useState(false);
   
@@ -16,20 +16,24 @@ function FormInfluenciadores() {
       setLoading(true);
       
       try {
-        const novoCliente = {
+        const novoInfluenciador = {
           nome,
           email,
+          telefone,
+          celular
         };
         
-        await createInfluenciador(novoCliente);
+        await createInfluenciador(novoInfluenciador);
         
         // Limpar o formulário após sucesso
         setNome("");
         setEmail("");
-        alert("Cliente cadastrado com sucesso!");
+        setTelefone("");
+        setCelular("");
+        alert("Influenciador cadastrado com sucesso!");
       } catch (error) {
-        console.error("Erro ao cadastrar cliente:", error);
-        alert("Erro ao cadastrar cliente");
+        console.error("Erro ao cadastrar influenciador:", error);
+        alert("Erro ao cadastrar influenciador");
       } finally {
         setLoading(false);
       }
@@ -78,7 +82,7 @@ function FormInfluenciadores() {
           <input
             id="telefone"
             type="text" 
-            value={tefelefone}
+            value={telefone}
             onChange={(e) => setTelefone(e.target.value)}
             placeholder="Digite o telefone"
             required
@@ -106,7 +110,6 @@ function FormInfluenciadores() {
     </div>
   );
 }
-
 
 //renderiza a rota
 export const Route = createFileRoute("/admin/influenciadores")({
