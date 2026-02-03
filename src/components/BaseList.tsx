@@ -47,7 +47,7 @@ export function BaseList({
 
       {/* TOOLBAR */}
       {toolbar && (
-        <div className="bg-white/80 backdrop-blur-md border border-purple-200 rounded-xl p-3 flex flex-wrap gap-3 items-center">
+        <div className="bg-white/80 border border-purple-200 rounded-xl p-3 flex flex-wrap gap-3 items-center">
           {toolbar}
         </div>
       )}

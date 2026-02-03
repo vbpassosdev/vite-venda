@@ -67,7 +67,7 @@ export function SidebarMenu() {
 
       {/* FOOTER */}
       <footer className="sidebar-footer-floral">
-        <span className="footer-text">Lavender UI ✨</span>
+        <span className="footer-text">Vanessa Passos ✨</span>
       </footer>
     </aside>
   );

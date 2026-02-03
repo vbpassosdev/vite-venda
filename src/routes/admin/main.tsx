@@ -7,7 +7,7 @@ export const Route = createFileRoute('/admin/main')({
 function RouteComponent() {
   return (
     <div>
-      <h1 className="text-2xl font-bold">Dashboard</h1>
+      <h1>Dashboard</h1>
       <p>Bem-vindo ao painel administrativo</p>
     </div>
   )

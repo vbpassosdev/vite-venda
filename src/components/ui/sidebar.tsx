@@ -105,7 +105,7 @@ export function Sidebar({
     return (
       <div
         className={clsx(
-          "flex flex-col w-64 bg-white border-r border-gray-200 dark:bg-gray-900 dark:border-gray-700",
+          "flex flex-col w-64 bg-white border-gray-200 dark:bg-gray-900 dark:border-gray-700",
           className
         )}
         {...props}
@@ -143,7 +143,7 @@ export function Sidebar({
       >
         <div
           className={clsx(
-            "flex h-full w-full flex-col bg-white border-r border-gray-200 dark:bg-gray-900 dark:border-gray-700",
+            "flex h-full w-full flex-col bg-white border-gray-200 dark:bg-gray-900 dark:border-gray-700",
             variant === "floating" && "rounded-lg border m-2"
           )}
         >

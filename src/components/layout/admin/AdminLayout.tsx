@@ -1,24 +1,27 @@
-import { SidebarMenu } from "./NavMain";
-import { Bell, User, Menu } from "lucide-react";
+import { SidebarMenu } from "./NavMain"
+import { Bell, User, Menu } from "lucide-react"
 
 export function AdminLayout({ children }: { children: React.ReactNode }) {
   return (
     <div className="admin-root">
+      
       {/* Sidebar */}
-      <aside className="admin-sidebar">
-        <h1 className="admin-brand">Nome da Empresa</h1>
+      <aside className="sidebar shrink-0">
         <SidebarMenu />
       </aside>
 
       {/* Main */}
-      <div className="admin-main">
+      <div className="admin-main min-w-0">
+        
         {/* Header */}
-        <header className="admin-header">
+        <header className="admin-header sticky top-0 z-20">
           <button className="admin-menu-btn">
             <Menu className="w-5 h-5" />
           </button>
 
-          <span className="admin-title">Administração</span>
+          <span className="admin-title">
+            Administração
+          </span>
 
           <div className="admin-header-actions">
             <button className="admin-icon-btn">
@@ -26,14 +29,17 @@ export function AdminLayout({ children }: { children: React.ReactNode }) {
             </button>
 
             <div className="admin-avatar">
-              <User className="w-4 h-4" />
+              <User className="w-5 h-5" />
             </div>
           </div>
         </header>
 
         {/* Content */}
-        <main className="admin-content">{children}</main>
+        <main className="admin-content">
+          {children}
+        </main>
+
       </div>
     </div>
-  );
+  )
 }

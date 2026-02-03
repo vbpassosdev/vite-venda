@@ -24,7 +24,7 @@ export function SidebarMenu() {
     pathname === path || pathname.startsWith(`${path}/`);
 
   return (
-    <aside className="sidebar">
+    <>
       {/* Header */}
       <div className="sidebar-header">
         <h1 className="sidebar-title">Administração</h1>
@@ -51,6 +51,6 @@ export function SidebarMenu() {
           );
         })}
       </nav>
-    </aside>
+    </>
   );
 }
