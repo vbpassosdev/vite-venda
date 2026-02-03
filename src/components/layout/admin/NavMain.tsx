@@ -1,5 +1,5 @@
 import { Link, useRouterState } from "@tanstack/react-router";
-import { Star } from "lucide-react";
+import { List, Star, User } from "lucide-react";
 import { clsx } from "clsx";
 
 type MenuItem = {
@@ -14,29 +14,24 @@ export function SidebarMenu() {
   });
 
   const menuItems: MenuItem[] = [
-    { label: "Influenciadores", to: "/admin/influenciadores", icon: Star },
-    { label: "Clientes", to: "/admin/clientes", icon: Star },
+    { label: "Influenciadores", to: "/admin/influenciadores", icon: List },
+    { label: "Influenciadores Lista", to: "/admin/influenciadoreslist", icon: Star },
+    { label: "Clientes", to: "/admin/clientes", icon: User },
+    { label: "Clientes Lista", to: "/admin/clienteslist", icon: List },
   ];
 
   const isActive = (path: string) =>
     pathname === path || pathname.startsWith(`${path}/`);
 
   return (
-    <aside
-      className="flex flex-col w-64 p-4 border-r rounded-(--radius)"
-      style={{
-        backgroundColor: "hsl(var(--sidebar))",
-        borderColor: "hsl(var(--sidebar-border))",
-      }}
-    >
-      <h1
-        className="text-lg font-bold mb-6"
-        style={{ color: "hsl(var(--primary))" }}
-      >
-        Administração
-      </h1>
+    <aside className="sidebar">
+      {/* Header */}
+      <div className="sidebar-header">
+        <h1 className="sidebar-title">Administração</h1>
+      </div>
 
-      <nav className="flex flex-col gap-2">
+      {/* Nav Main */}
+      <nav>
         {menuItems.map((item) => {
           const active = isActive(item.to);
           const Icon = item.icon;
@@ -45,15 +40,13 @@ export function SidebarMenu() {
             <Link
               key={item.to}
               to={item.to}
-              className={clsx(
-                "flex items-center gap-3 px-3 py-2 rounded-(--radius) transition-colors duration-200",
-                active
-                  ? "bg-[hsl(var(--primary))] text-[hsl(var(--primary-foreground))]"
-                  : "text-[hsl(var(--sidebar-foreground))] hover:bg-[hsl(var(--sidebar-hover))] hover:text-[hsl(var(--primary-foreground))]"
-              )}
+              className={clsx("sidebar-item", active && "active")}
             >
-              <Icon className="w-5 h-5 text-[hsl(var(--sidebar-icon))]" />
-              <span>{item.label}</span>
+              <div className="sidebar-icon">
+                <Icon />
+              </div>
+
+              <span className="sidebar-label">{item.label}</span>
             </Link>
           );
         })}

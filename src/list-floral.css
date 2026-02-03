@@ -1,0 +1,71 @@
+/* CONTAINER */
+.list-container {
+  @apply max-w-7xl mx-auto p-6;
+}
+
+/* HEADER */
+.list-header {
+  @apply flex flex-col md:flex-row md:items-center justify-between gap-4 mb-6;
+}
+
+.list-title {
+  @apply text-2xl font-extrabold tracking-tight text-purple-900;
+}
+
+/* TABLE WRAPPER */
+.table-wrapper-floral {
+  @apply bg-white/90 backdrop-blur-md border border-purple-200 rounded-2xl overflow-hidden;
+}
+
+/* EMPTY STATE */
+.empty-state {
+  @apply text-center py-16 text-purple-600;
+}
+
+.empty-state h3 {
+  @apply font-bold text-lg mb-2;
+}
+
+/* PAGINATION */
+  /* PAGINATION */
+  .pagination {
+    @apply flex justify-between items-center px-4 py-3 border-t border-purple-200 text-sm text-purple-700;
+  }
+                         
+.table-actions {
+  @apply flex justify-end gap-2;
+}
+
+
+
+//butons de acoes na tabela
+/* ACTIONS */
+.table-actions {
+  @apply flex justify-end gap-2;
+}
+
+/* BASE ICON BUTTON */
+.btn-icon-edit,
+.btn-icon-delete {
+  @apply relative w-10 h-10 flex items-center justify-center rounded-xl transition-all duration-200 backdrop-blur-md;
+}
+
+/* EDIT */
+.btn-icon-edit {
+  @apply border border-purple-300 text-purple-700 bg-white/70 hover:bg-purple-100 hover:scale-105;
+}
+
+/* DELETE */
+.btn-icon-delete {
+  @apply bg-red-500/10 text-red-600 hover:bg-red-500/20 hover:scale-105;
+}
+
+/* ICON ANIMATION */
+.btn-icon-edit svg,
+.btn-icon-delete svg {
+  @apply transition-transform duration-200;
+}
+
+.btn-icon-edit:hover svg {
+  transform: rotate(-8deg) scale(1.15);
+}

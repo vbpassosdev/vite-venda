@@ -1,35 +1,38 @@
 import { SidebarMenu } from "./NavMain";
+import { Bell, User, Menu } from "lucide-react";
 
 export function AdminLayout({ children }: { children: React.ReactNode }) {
   return (
-    <div className="flex h-screen">
+    <div className="admin-root">
       {/* Sidebar */}
-      <aside
-        className="w-64 flex flex-col p-4 border-r rounded-(--radius)"
-        style={{
-          backgroundColor: "hsl(var(--sidebar))",
-          borderColor: "hsl(var(--sidebar-border))",
-        }}
-      >
-        <h1
-          className="text-lg font-bold mb-6"
-          style={{ color: "hsl(var(--primary))" }}
-        >
-          Nome da Empresa
-        </h1>
+      <aside className="admin-sidebar">
+        <h1 className="admin-brand">Nome da Empresa</h1>
         <SidebarMenu />
       </aside>
 
-      {/* Conteúdo principal */}
-      <div className="flex-1 flex flex-col">
-        <header className="flex h-12 items-center gap-2 px-4 border-b">
-          <button className="px-2 py-1 rounded bg-[hsl(var(--primary))] text-[hsl(var(--primary-foreground))]">
-            Menu
+      {/* Main */}
+      <div className="admin-main">
+        {/* Header */}
+        <header className="admin-header">
+          <button className="admin-menu-btn">
+            <Menu className="w-5 h-5" />
           </button>
-          <span className="text-sm font-medium">Admin</span>
+
+          <span className="admin-title">Administração</span>
+
+          <div className="admin-header-actions">
+            <button className="admin-icon-btn">
+              <Bell className="w-5 h-5" />
+            </button>
+
+            <div className="admin-avatar">
+              <User className="w-4 h-4" />
+            </div>
+          </div>
         </header>
 
-        <main className="flex-1 p-6 overflow-auto">{children}</main>
+        {/* Content */}
+        <main className="admin-content">{children}</main>
       </div>
     </div>
   );

@@ -144,7 +144,7 @@ export function Sidebar({
         <div
           className={clsx(
             "flex h-full w-full flex-col bg-white border-r border-gray-200 dark:bg-gray-900 dark:border-gray-700",
-            variant === "floating" && "rounded-lg border shadow-sm m-2"
+            variant === "floating" && "rounded-lg border m-2"
           )}
         >
           {children}

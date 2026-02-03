@@ -113,7 +113,7 @@ const SheetContent = React.forwardRef<HTMLDivElement, SheetContentProps>(
           <div
             ref={ref}
             className={clsx(
-              'fixed z-50 bg-white shadow-lg transition-all duration-300 dark:bg-gray-900',
+              'fixed z-50 bg-white transition-all duration-300 dark:bg-gray-900',
               sideStyles[side],
               side === 'right' ? 'translate-x-0' : '',
               side === 'left' ? 'translate-x-0' : '',

@@ -1,48 +1,78 @@
 import { Button } from "@/components/ui/button";
-import { createInfluenciador } from "@/services/influenciadoresService";
-import { createFileRoute } from "@tanstack/react-router";
-import { useState } from "react";
+import { createInfluenciador, getInfluenciadorById, updateInfluenciador } from "@/services/influenciadoresService";
+import { createFileRoute, useSearch } from "@tanstack/react-router";
+import { useState, useEffect } from "react";
 
 //formulario de influenciadores incluir e editar
 function FormInfluenciadores() {
+  const search = useSearch({ from: "/admin/influenciadores" }) as { id?: number };
+  const influenciadorId = search?.id;
+
   const [nome, setNome] = useState("");
   const [email, setEmail] = useState("");
   const [telefone, setTelefone] = useState("");
   const [celular, setCelular] = useState("");
   const [loading, setLoading] = useState(false);
-  
-    const handleSubmit = async (e: React.FormEvent) => {
-      e.preventDefault();
+
+  useEffect(() => {
+    if (influenciadorId) {
+      loadInfluenciador(influenciadorId);
+    }
+  }, [influenciadorId]);
+
+  const loadInfluenciador = async (id: number) => {
+    try {
       setLoading(true);
+      const data = await getInfluenciadorById(id);
+      setNome(data.nome);
+      setEmail(data.email);
+      setTelefone(data.telefone);
+      setCelular(data.celular);
+    } catch (error) {
+      console.error("Erro ao carregar influenciador:", error);
+      alert("Erro ao carregar influenciador");
+    } finally {
+      setLoading(false);
+    }
+  };
+  
+  const handleSubmit = async (e: React.FormEvent) => {
+    e.preventDefault();
+    setLoading(true);
+    
+    try {
+      const influenciadorData = {
+        nome,
+        email,
+        telefone,
+        celular
+      };
       
-      try {
-        const novoInfluenciador = {
-          nome,
-          email,
-          telefone,
-          celular
-        };
-        
-        await createInfluenciador(novoInfluenciador);
-        
+      if (influenciadorId) {
+        await updateInfluenciador(influenciadorId, influenciadorData);
+        alert("Influenciador atualizado com sucesso!");
+      } else {
+        await createInfluenciador(influenciadorData);
         // Limpar o formulário após sucesso
         setNome("");
         setEmail("");
         setTelefone("");
         setCelular("");
         alert("Influenciador cadastrado com sucesso!");
-      } catch (error) {
-        console.error("Erro ao cadastrar influenciador:", error);
-        alert("Erro ao cadastrar influenciador");
-      } finally {
-        setLoading(false);
       }
-    };
-  
+    } catch (error) {
+      console.error("Erro ao salvar influenciador:", error);
+      alert("Erro ao salvar influenciador");
+    } finally {
+      setLoading(false);
+    }
+  };
   
   return (
     <div className="max-w-2xl mx-auto p-6">
-      <h1 className="text-2xl font-bold mb-6">Cadastro de Influenciadores</h1>
+      <h1 className="text-2xl font-bold mb-6">
+        {influenciadorId ? "Editar Influenciador" : "Cadastro de Influenciadores"}
+      </h1>
       
       <form onSubmit={handleSubmit} className="space-y-4">  
         <div>
@@ -104,7 +134,7 @@ function FormInfluenciadores() {
         </div>
 
         <Button type="submit" disabled={loading}>
-          {loading ? "Cadastrando..." : "Cadastrar Influenciador"}
+          {loading ? "Salvando..." : influenciadorId ? "Atualizar" : "Cadastrar"}
         </Button>
       </form>
     </div>

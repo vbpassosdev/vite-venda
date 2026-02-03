@@ -12,7 +12,9 @@ import { Route as rootRouteImport } from './routes/__root'
 import { Route as AdminRouteImport } from './routes/admin'
 import { Route as IndexRouteImport } from './routes/index'
 import { Route as AdminMainRouteImport } from './routes/admin/main'
+import { Route as AdminInfluenciadoreslistRouteImport } from './routes/admin/influenciadoreslist'
 import { Route as AdminInfluenciadoresRouteImport } from './routes/admin/influenciadores'
+import { Route as AdminClienteslistRouteImport } from './routes/admin/clienteslist'
 import { Route as AdminClientesRouteImport } from './routes/admin/clientes'
 
 const AdminRoute = AdminRouteImport.update({
@@ -30,9 +32,20 @@ const AdminMainRoute = AdminMainRouteImport.update({
   path: '/main',
   getParentRoute: () => AdminRoute,
 } as any)
+const AdminInfluenciadoreslistRoute =
+  AdminInfluenciadoreslistRouteImport.update({
+    id: '/influenciadoreslist',
+    path: '/influenciadoreslist',
+    getParentRoute: () => AdminRoute,
+  } as any)
 const AdminInfluenciadoresRoute = AdminInfluenciadoresRouteImport.update({
   id: '/influenciadores',
   path: '/influenciadores',
+  getParentRoute: () => AdminRoute,
+} as any)
+const AdminClienteslistRoute = AdminClienteslistRouteImport.update({
+  id: '/clienteslist',
+  path: '/clienteslist',
   getParentRoute: () => AdminRoute,
 } as any)
 const AdminClientesRoute = AdminClientesRouteImport.update({
@@ -45,14 +58,18 @@ export interface FileRoutesByFullPath {
   '/': typeof IndexRoute
   '/admin': typeof AdminRouteWithChildren
   '/admin/clientes': typeof AdminClientesRoute
+  '/admin/clienteslist': typeof AdminClienteslistRoute
   '/admin/influenciadores': typeof AdminInfluenciadoresRoute
+  '/admin/influenciadoreslist': typeof AdminInfluenciadoreslistRoute
   '/admin/main': typeof AdminMainRoute
 }
 export interface FileRoutesByTo {
   '/': typeof IndexRoute
   '/admin': typeof AdminRouteWithChildren
   '/admin/clientes': typeof AdminClientesRoute
+  '/admin/clienteslist': typeof AdminClienteslistRoute
   '/admin/influenciadores': typeof AdminInfluenciadoresRoute
+  '/admin/influenciadoreslist': typeof AdminInfluenciadoreslistRoute
   '/admin/main': typeof AdminMainRoute
 }
 export interface FileRoutesById {
@@ -60,7 +77,9 @@ export interface FileRoutesById {
   '/': typeof IndexRoute
   '/admin': typeof AdminRouteWithChildren
   '/admin/clientes': typeof AdminClientesRoute
+  '/admin/clienteslist': typeof AdminClienteslistRoute
   '/admin/influenciadores': typeof AdminInfluenciadoresRoute
+  '/admin/influenciadoreslist': typeof AdminInfluenciadoreslistRoute
   '/admin/main': typeof AdminMainRoute
 }
 export interface FileRouteTypes {
@@ -69,21 +88,27 @@ export interface FileRouteTypes {
     | '/'
     | '/admin'
     | '/admin/clientes'
+    | '/admin/clienteslist'
     | '/admin/influenciadores'
+    | '/admin/influenciadoreslist'
     | '/admin/main'
   fileRoutesByTo: FileRoutesByTo
   to:
     | '/'
     | '/admin'
     | '/admin/clientes'
+    | '/admin/clienteslist'
     | '/admin/influenciadores'
+    | '/admin/influenciadoreslist'
     | '/admin/main'
   id:
     | '__root__'
     | '/'
     | '/admin'
     | '/admin/clientes'
+    | '/admin/clienteslist'
     | '/admin/influenciadores'
+    | '/admin/influenciadoreslist'
     | '/admin/main'
   fileRoutesById: FileRoutesById
 }
@@ -115,11 +140,25 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof AdminMainRouteImport
       parentRoute: typeof AdminRoute
     }
+    '/admin/influenciadoreslist': {
+      id: '/admin/influenciadoreslist'
+      path: '/influenciadoreslist'
+      fullPath: '/admin/influenciadoreslist'
+      preLoaderRoute: typeof AdminInfluenciadoreslistRouteImport
+      parentRoute: typeof AdminRoute
+    }
     '/admin/influenciadores': {
       id: '/admin/influenciadores'
       path: '/influenciadores'
       fullPath: '/admin/influenciadores'
       preLoaderRoute: typeof AdminInfluenciadoresRouteImport
+      parentRoute: typeof AdminRoute
+    }
+    '/admin/clienteslist': {
+      id: '/admin/clienteslist'
+      path: '/clienteslist'
+      fullPath: '/admin/clienteslist'
+      preLoaderRoute: typeof AdminClienteslistRouteImport
       parentRoute: typeof AdminRoute
     }
     '/admin/clientes': {
@@ -134,13 +173,17 @@ declare module '@tanstack/react-router' {
 
 interface AdminRouteChildren {
   AdminClientesRoute: typeof AdminClientesRoute
+  AdminClienteslistRoute: typeof AdminClienteslistRoute
   AdminInfluenciadoresRoute: typeof AdminInfluenciadoresRoute
+  AdminInfluenciadoreslistRoute: typeof AdminInfluenciadoreslistRoute
   AdminMainRoute: typeof AdminMainRoute
 }
 
 const AdminRouteChildren: AdminRouteChildren = {
   AdminClientesRoute: AdminClientesRoute,
+  AdminClienteslistRoute: AdminClienteslistRoute,
   AdminInfluenciadoresRoute: AdminInfluenciadoresRoute,
+  AdminInfluenciadoreslistRoute: AdminInfluenciadoreslistRoute,
   AdminMainRoute: AdminMainRoute,
 }
 
@@ -153,12 +196,3 @@ const rootRouteChildren: RootRouteChildren = {
 export const routeTree = rootRouteImport
   ._addFileChildren(rootRouteChildren)
   ._addFileTypes<FileRouteTypes>()
-
-import type { getRouter } from './router.tsx'
-import type { createStart } from '@tanstack/react-start'
-declare module '@tanstack/react-start' {
-  interface Register {
-    ssr: true
-    router: Awaited<ReturnType<typeof getRouter>>
-  }
-}

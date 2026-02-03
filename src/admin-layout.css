@@ -1,0 +1,52 @@
+/* ROOT */
+.admin-root {
+  @apply flex h-screen bg-linear-to-br from-purple-50 via-pink-50 to-white dark:from-gray-900 dark:via-purple-900 dark:to-gray-950;
+}
+
+/* SIDEBAR */
+.admin-sidebar {
+  @apply w-72 min-h-screen px-5 py-6 bg-white dark:bg-gray-900;
+}
+
+.admin-brand {
+  @apply text-xl font-extrabold mb-6 tracking-tight text-purple-900 dark:text-purple-200;
+}
+
+/* MAIN */
+.admin-main {
+  @apply flex-1 flex flex-col backdrop-blur-md;
+}
+
+/* HEADER */
+.admin-header {
+  @apply h-14 px-6 flex items-center justify-between border-b border-purple-200 bg-white/70 backdrop-blur-md dark:bg-gray-900/80 dark:border-purple-800;
+}
+
+.admin-title {
+  @apply text-sm font-semibold tracking-wide text-purple-900 dark:text-purple-200;
+}
+
+/* MENU BUTTON */
+.admin-menu-btn {
+  @apply p-2 rounded-lg hover:bg-purple-100 text-purple-700 transition;
+}
+
+/* HEADER ACTIONS */
+.admin-header-actions {
+  @apply flex items-center gap-3;
+}
+
+.admin-icon-btn {
+  @apply p-2 rounded-lg hover:bg-purple-100 text-purple-600 transition;
+}
+
+/* AVATAR */
+.admin-avatar {
+  @apply w-9 h-9 rounded-full bg-linear-to-br from-purple-400 to-pink-400 flex items-center justify-center text-white;
+}
+
+
+/* CONTENT */
+.admin-content {
+  @apply flex-1 p-6 overflow-auto;
+}
