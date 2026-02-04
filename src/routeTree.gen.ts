@@ -11,6 +11,8 @@
 import { Route as rootRouteImport } from './routes/__root'
 import { Route as AdminRouteImport } from './routes/admin'
 import { Route as IndexRouteImport } from './routes/index'
+import { Route as AdminProdutoslistRouteImport } from './routes/admin/produtoslist'
+import { Route as AdminProdutosRouteImport } from './routes/admin/produtos'
 import { Route as AdminMainRouteImport } from './routes/admin/main'
 import { Route as AdminInfluenciadoreslistRouteImport } from './routes/admin/influenciadoreslist'
 import { Route as AdminInfluenciadoresRouteImport } from './routes/admin/influenciadores'
@@ -26,6 +28,16 @@ const IndexRoute = IndexRouteImport.update({
   id: '/',
   path: '/',
   getParentRoute: () => rootRouteImport,
+} as any)
+const AdminProdutoslistRoute = AdminProdutoslistRouteImport.update({
+  id: '/produtoslist',
+  path: '/produtoslist',
+  getParentRoute: () => AdminRoute,
+} as any)
+const AdminProdutosRoute = AdminProdutosRouteImport.update({
+  id: '/produtos',
+  path: '/produtos',
+  getParentRoute: () => AdminRoute,
 } as any)
 const AdminMainRoute = AdminMainRouteImport.update({
   id: '/main',
@@ -62,6 +74,8 @@ export interface FileRoutesByFullPath {
   '/admin/influenciadores': typeof AdminInfluenciadoresRoute
   '/admin/influenciadoreslist': typeof AdminInfluenciadoreslistRoute
   '/admin/main': typeof AdminMainRoute
+  '/admin/produtos': typeof AdminProdutosRoute
+  '/admin/produtoslist': typeof AdminProdutoslistRoute
 }
 export interface FileRoutesByTo {
   '/': typeof IndexRoute
@@ -71,6 +85,8 @@ export interface FileRoutesByTo {
   '/admin/influenciadores': typeof AdminInfluenciadoresRoute
   '/admin/influenciadoreslist': typeof AdminInfluenciadoreslistRoute
   '/admin/main': typeof AdminMainRoute
+  '/admin/produtos': typeof AdminProdutosRoute
+  '/admin/produtoslist': typeof AdminProdutoslistRoute
 }
 export interface FileRoutesById {
   __root__: typeof rootRouteImport
@@ -81,6 +97,8 @@ export interface FileRoutesById {
   '/admin/influenciadores': typeof AdminInfluenciadoresRoute
   '/admin/influenciadoreslist': typeof AdminInfluenciadoreslistRoute
   '/admin/main': typeof AdminMainRoute
+  '/admin/produtos': typeof AdminProdutosRoute
+  '/admin/produtoslist': typeof AdminProdutoslistRoute
 }
 export interface FileRouteTypes {
   fileRoutesByFullPath: FileRoutesByFullPath
@@ -92,6 +110,8 @@ export interface FileRouteTypes {
     | '/admin/influenciadores'
     | '/admin/influenciadoreslist'
     | '/admin/main'
+    | '/admin/produtos'
+    | '/admin/produtoslist'
   fileRoutesByTo: FileRoutesByTo
   to:
     | '/'
@@ -101,6 +121,8 @@ export interface FileRouteTypes {
     | '/admin/influenciadores'
     | '/admin/influenciadoreslist'
     | '/admin/main'
+    | '/admin/produtos'
+    | '/admin/produtoslist'
   id:
     | '__root__'
     | '/'
@@ -110,6 +132,8 @@ export interface FileRouteTypes {
     | '/admin/influenciadores'
     | '/admin/influenciadoreslist'
     | '/admin/main'
+    | '/admin/produtos'
+    | '/admin/produtoslist'
   fileRoutesById: FileRoutesById
 }
 export interface RootRouteChildren {
@@ -132,6 +156,20 @@ declare module '@tanstack/react-router' {
       fullPath: '/'
       preLoaderRoute: typeof IndexRouteImport
       parentRoute: typeof rootRouteImport
+    }
+    '/admin/produtoslist': {
+      id: '/admin/produtoslist'
+      path: '/produtoslist'
+      fullPath: '/admin/produtoslist'
+      preLoaderRoute: typeof AdminProdutoslistRouteImport
+      parentRoute: typeof AdminRoute
+    }
+    '/admin/produtos': {
+      id: '/admin/produtos'
+      path: '/produtos'
+      fullPath: '/admin/produtos'
+      preLoaderRoute: typeof AdminProdutosRouteImport
+      parentRoute: typeof AdminRoute
     }
     '/admin/main': {
       id: '/admin/main'
@@ -177,6 +215,8 @@ interface AdminRouteChildren {
   AdminInfluenciadoresRoute: typeof AdminInfluenciadoresRoute
   AdminInfluenciadoreslistRoute: typeof AdminInfluenciadoreslistRoute
   AdminMainRoute: typeof AdminMainRoute
+  AdminProdutosRoute: typeof AdminProdutosRoute
+  AdminProdutoslistRoute: typeof AdminProdutoslistRoute
 }
 
 const AdminRouteChildren: AdminRouteChildren = {
@@ -185,6 +225,8 @@ const AdminRouteChildren: AdminRouteChildren = {
   AdminInfluenciadoresRoute: AdminInfluenciadoresRoute,
   AdminInfluenciadoreslistRoute: AdminInfluenciadoreslistRoute,
   AdminMainRoute: AdminMainRoute,
+  AdminProdutosRoute: AdminProdutosRoute,
+  AdminProdutoslistRoute: AdminProdutoslistRoute,
 }
 
 const AdminRouteWithChildren = AdminRoute._addFileChildren(AdminRouteChildren)

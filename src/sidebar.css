@@ -1,6 +1,71 @@
 /* SIDEBAR BASE */
 .sidebar {
-  @apply w-72 min-h-screen bg-white px-4 py-6 flex flex-col gap-4 dark:bg-gray-900;
+  @apply w-72 min-h-screen bg-white px-4 py-5 flex flex-col justify-between dark:bg-gray-900;
+}
+
+
+
+.sidebar-header {
+  @apply flex items-center gap-3 mb-6 px-2;
+}
+
+.sidebar-avatar {
+  @apply w-9 h-9 flex items-center justify-center rounded-full bg-purple-100 text-purple-700 shrink-0;
+}
+
+.sidebar-header-text {
+  @apply flex flex-col leading-tight;
+}
+
+.sidebar-title {
+  @apply text-sm font-bold tracking-wide text-gray-800 dark:text-gray-100;
+}
+
+.sidebar-subtitle {
+  @apply text-xs text-gray-500 dark:text-gray-400;
+}
+
+.sidebar-nav {
+  @apply flex flex-col gap-1;
+}CNE
+
+.sidebar-item {
+  @apply flex items-center gap-3 px-3 py-2 rounded-lg text-sm font-medium 
+  text-gray-700 transition-all duration-200 
+  hover:bg-purple-50 hover:text-purple-700 
+  dark:text-gray-300 dark:hover:bg-purple-900 dark:hover:text-purple-200;
+}
+
+.sidebar-icon {
+  @apply flex items-center justify-center w-5 h-5 shrink-0 text-gray-500;
+}
+
+.sidebar-item:hover .sidebar-icon {
+  @apply text-purple-600;
+}
+
+.sidebar-item.active .sidebar-icon {
+  @apply text-white;
+}
+
+.sidebar-label {
+  @apply flex-1 truncate tracking-wide;
+}
+
+.sidebar-item.active {
+  @apply bg-linear-to-r from-purple-500 to-purple-600 text-white shadow-sm;
+}
+
+.sidebar-glow {
+  @apply absolute right-0 top-1/2 h-6 w-1 bg-purple-400 rounded-full -translate-y-1/2;
+}
+
+.sidebar-footer {
+  @apply px-2 pt-6 border-t border-gray-200 dark:border-gray-800;
+}
+
+.footer-text {
+  @apply text-xs text-gray-500 dark:text-gray-400;
 }
 
 /* HEADER */

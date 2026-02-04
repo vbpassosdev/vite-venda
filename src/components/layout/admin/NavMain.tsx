@@ -18,6 +18,8 @@ export function SidebarMenu() {
     { label: "Influenciadores Lista", to: "/admin/influenciadoreslist", icon: Star },
     { label: "Clientes", to: "/admin/clientes", icon: User },
     { label: "Clientes Lista", to: "/admin/clienteslist", icon: List },
+    { label: "Produtos", to: "/admin/produtos", icon: Star },
+    { label: "Lista de Produtos", to: "/admin/produtoslist", icon: Star },
   ];
 
   const isActive = (path: string) =>
