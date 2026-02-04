@@ -1,5 +1,4 @@
 import { createFileRoute } from "@tanstack/react-router"
-import { getInfluenciadores } from "@/services/influenciadoresService"
 import { useEffect, useState } from "react"
 import { BaseList } from "@/components/BaseList"
 import { TableBase } from "@/components/TableBase"
