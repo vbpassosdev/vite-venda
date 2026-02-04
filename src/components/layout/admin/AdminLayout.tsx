@@ -21,7 +21,7 @@ export function AdminLayout({ children }: { children: React.ReactNode }) {
         className={`
           fixed md:static z-40
           h-full w-64 shrink-0
-          bg-white border-r
+          bg-white
           transform transition-transform
           ${open ? "translate-x-0" : "-translate-x-full"}
           md:translate-x-0
@@ -41,7 +41,7 @@ export function AdminLayout({ children }: { children: React.ReactNode }) {
       <div className="flex flex-col flex-1 min-w-0">
         
         {/* Header */}
-        <header className="sticky top-0 z-20 h-14 px-4 flex items-center justify-between border-b bg-white">
+        <header className="sticky top-0 z-20 h-14 px-4 flex items-center justify-between bg-white">
           <button
             className="md:hidden"
             onClick={() => setOpen(true)}
