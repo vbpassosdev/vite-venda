@@ -39,12 +39,15 @@ function FormClientesList() {
       empty={!loading && data.length === 0}
       emptyMessage="Nenhum cliente encontrado."
       actions={
-        <button className="background-linear-to-r from-purple-500 to-pink-500 text-purple-600 
-                          shadow-md
-                          hover:shadow-purple-700 hover:opacity-30 
-                           transition rounded-lg px-4 py-2 font-semibold">
-          Novo Cliente
-        </button>
+            <button className="
+              bg-purple-500 hover:bg-purple-600
+              text-white text-xs font-medium
+              px-2.5 py-2 rounded-md
+              shadow-sm
+              transition
+            ">
+              Novo Cliente
+            </button>
       }
     >
       <TableBase

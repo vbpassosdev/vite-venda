@@ -1,5 +1,5 @@
 import { Link, useRouterState } from "@tanstack/react-router";
-import { List, Star, User } from "lucide-react";
+import { List, Star, User, ShoppingCart, Package } from "lucide-react";
 import { clsx } from "clsx";
 
 type MenuItem = {
@@ -8,18 +8,35 @@ type MenuItem = {
   icon: React.ComponentType<{ className?: string }>;
 };
 
+type MenuGroup = {
+  title: string;
+  items: MenuItem[];
+};
+
 export function SidebarMenu() {
   const pathname = useRouterState({
     select: (state) => state.location.pathname,
   });
 
-  const menuItems: MenuItem[] = [
-    { label: "Influenciadores", to: "/admin/influenciadores", icon: List },
-    { label: "Influenciadores Lista", to: "/admin/influenciadoreslist", icon: Star },
-    { label: "Clientes", to: "/admin/clientes", icon: User },
-    { label: "Clientes Lista", to: "/admin/clienteslist", icon: List },
-    { label: "Produtos", to: "/admin/produtos", icon: Star },
-    { label: "Lista de Produtos", to: "/admin/produtoslist", icon: Star },
+  const menuGroups: MenuGroup[] = [
+    {
+      title: "Cadastros",
+      items: [
+       // { label: "Influenciadores", to: "/admin/influenciadores", icon: User },
+       // { label: "Lista Influenciadores", to: "/admin/influenciadoreslist", icon: List },
+        { label: "Clientes", to: "/admin/clientes", icon: User },
+        { label: "Lista Clientes", to: "/admin/clienteslist", icon: List },
+        { label: "Produtos", to: "/admin/produtos", icon: Package },
+        { label: "Lista de Produtos", to: "/admin/produtoslist", icon: Star },
+      ],
+    },
+
+    {
+      title: "Vendas",
+      items: [
+        { label: "Pedidos", to: "/admin/pedidos", icon: ShoppingCart },
+      ],
+    },
   ];
 
   const isActive = (path: string) =>
@@ -32,27 +49,37 @@ export function SidebarMenu() {
         <h1 className="sidebar-title">Administração</h1>
       </div>
 
-      {/* Nav Main */}
-      <nav>
-        {menuItems.map((item) => {
-          const active = isActive(item.to);
-          const Icon = item.icon;
+      {/* Menu */}
+      
+      <nav className="sidebar-nav">
+        {menuGroups.map((group) => (
+          <div key={group.title} className="sidebar-group">
+            <p className="sidebar-section-title">{group.title}</p>
 
-          return (
-            <Link
-              key={item.to}
-              to={item.to}
-              className={clsx("sidebar-item", active && "active")}
-            >
-              <div className="sidebar-icon">
-                <Icon />
-              </div>
+            {group.items.map((item) => {
+              const active = isActive(item.to);
+              const Icon = item.icon;
 
-              <span className="sidebar-label">{item.label}</span>
-            </Link>
-          );
-        })}
+              return (
+                <Link
+                  key={item.to}
+                  to={item.to}
+                  className={clsx("sidebar-item", active && "active")}
+                >
+                  <div className="sidebar-icon">
+                    <Icon />
+                  </div>
+
+                  <span className="sidebar-label">{item.label}</span>
+                </Link>
+              );
+            })}
+          </div>
+        ))}
       </nav>
+
+
+
     </>
   );
 }

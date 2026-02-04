@@ -75,3 +75,19 @@
 .footer-text {
   @apply text-xs text-gray-500 dark:text-gray-400;
 }
+
+/* SECTION GROUP */
+.sidebar-group {
+  @apply flex flex-col gap-2 mt-5;
+}
+
+/* SECTION TITLE (Cadastros / Vendas) */
+.sidebar-section-title {
+  @apply px-2 text-xs font-semibold uppercase tracking-wider 
+  text-gray-400 dark:text-gray-500;
+}
+
+/* DIVIDER LINE BETWEEN GROUPS */
+.sidebar-divider {
+  @apply my-3 border-t border-gray-200 dark:border-gray-800;
+}

@@ -13,6 +13,7 @@ import { Route as AdminRouteImport } from './routes/admin'
 import { Route as IndexRouteImport } from './routes/index'
 import { Route as AdminProdutoslistRouteImport } from './routes/admin/produtoslist'
 import { Route as AdminProdutosRouteImport } from './routes/admin/produtos'
+import { Route as AdminPedidosRouteImport } from './routes/admin/pedidos'
 import { Route as AdminMainRouteImport } from './routes/admin/main'
 import { Route as AdminInfluenciadoreslistRouteImport } from './routes/admin/influenciadoreslist'
 import { Route as AdminInfluenciadoresRouteImport } from './routes/admin/influenciadores'
@@ -37,6 +38,11 @@ const AdminProdutoslistRoute = AdminProdutoslistRouteImport.update({
 const AdminProdutosRoute = AdminProdutosRouteImport.update({
   id: '/produtos',
   path: '/produtos',
+  getParentRoute: () => AdminRoute,
+} as any)
+const AdminPedidosRoute = AdminPedidosRouteImport.update({
+  id: '/pedidos',
+  path: '/pedidos',
   getParentRoute: () => AdminRoute,
 } as any)
 const AdminMainRoute = AdminMainRouteImport.update({
@@ -74,6 +80,7 @@ export interface FileRoutesByFullPath {
   '/admin/influenciadores': typeof AdminInfluenciadoresRoute
   '/admin/influenciadoreslist': typeof AdminInfluenciadoreslistRoute
   '/admin/main': typeof AdminMainRoute
+  '/admin/pedidos': typeof AdminPedidosRoute
   '/admin/produtos': typeof AdminProdutosRoute
   '/admin/produtoslist': typeof AdminProdutoslistRoute
 }
@@ -85,6 +92,7 @@ export interface FileRoutesByTo {
   '/admin/influenciadores': typeof AdminInfluenciadoresRoute
   '/admin/influenciadoreslist': typeof AdminInfluenciadoreslistRoute
   '/admin/main': typeof AdminMainRoute
+  '/admin/pedidos': typeof AdminPedidosRoute
   '/admin/produtos': typeof AdminProdutosRoute
   '/admin/produtoslist': typeof AdminProdutoslistRoute
 }
@@ -97,6 +105,7 @@ export interface FileRoutesById {
   '/admin/influenciadores': typeof AdminInfluenciadoresRoute
   '/admin/influenciadoreslist': typeof AdminInfluenciadoreslistRoute
   '/admin/main': typeof AdminMainRoute
+  '/admin/pedidos': typeof AdminPedidosRoute
   '/admin/produtos': typeof AdminProdutosRoute
   '/admin/produtoslist': typeof AdminProdutoslistRoute
 }
@@ -110,6 +119,7 @@ export interface FileRouteTypes {
     | '/admin/influenciadores'
     | '/admin/influenciadoreslist'
     | '/admin/main'
+    | '/admin/pedidos'
     | '/admin/produtos'
     | '/admin/produtoslist'
   fileRoutesByTo: FileRoutesByTo
@@ -121,6 +131,7 @@ export interface FileRouteTypes {
     | '/admin/influenciadores'
     | '/admin/influenciadoreslist'
     | '/admin/main'
+    | '/admin/pedidos'
     | '/admin/produtos'
     | '/admin/produtoslist'
   id:
@@ -132,6 +143,7 @@ export interface FileRouteTypes {
     | '/admin/influenciadores'
     | '/admin/influenciadoreslist'
     | '/admin/main'
+    | '/admin/pedidos'
     | '/admin/produtos'
     | '/admin/produtoslist'
   fileRoutesById: FileRoutesById
@@ -169,6 +181,13 @@ declare module '@tanstack/react-router' {
       path: '/produtos'
       fullPath: '/admin/produtos'
       preLoaderRoute: typeof AdminProdutosRouteImport
+      parentRoute: typeof AdminRoute
+    }
+    '/admin/pedidos': {
+      id: '/admin/pedidos'
+      path: '/pedidos'
+      fullPath: '/admin/pedidos'
+      preLoaderRoute: typeof AdminPedidosRouteImport
       parentRoute: typeof AdminRoute
     }
     '/admin/main': {
@@ -215,6 +234,7 @@ interface AdminRouteChildren {
   AdminInfluenciadoresRoute: typeof AdminInfluenciadoresRoute
   AdminInfluenciadoreslistRoute: typeof AdminInfluenciadoreslistRoute
   AdminMainRoute: typeof AdminMainRoute
+  AdminPedidosRoute: typeof AdminPedidosRoute
   AdminProdutosRoute: typeof AdminProdutosRoute
   AdminProdutoslistRoute: typeof AdminProdutoslistRoute
 }
@@ -225,6 +245,7 @@ const AdminRouteChildren: AdminRouteChildren = {
   AdminInfluenciadoresRoute: AdminInfluenciadoresRoute,
   AdminInfluenciadoreslistRoute: AdminInfluenciadoreslistRoute,
   AdminMainRoute: AdminMainRoute,
+  AdminPedidosRoute: AdminPedidosRoute,
   AdminProdutosRoute: AdminProdutosRoute,
   AdminProdutoslistRoute: AdminProdutoslistRoute,
 }

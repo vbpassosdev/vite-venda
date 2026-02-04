@@ -1,0 +1,95 @@
+/* Container geral do formulário */
+.form-pedidos {
+  display: flex;
+  flex-direction: column;
+  gap: 24px;
+}
+
+/* Cabeçalho */
+.form-pedidos-header {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+  border-bottom: 1px solid #e5e7eb;
+  padding-bottom: 12px;
+}
+
+.form-pedidos-header h1 {
+  font-size: 20px;
+  font-weight: 600;
+}
+
+.form-pedidos-header p {
+  font-size: 14px;
+  color: #6b7280;
+}
+
+/* Seção dados principais */
+.form-pedidos-section {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 16px;
+}
+
+.form-pedidos-field {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+}
+
+.form-pedidos-field label {
+  font-size: 13px;
+  font-weight: 500;
+  color: #374151;
+}
+
+/* Itens */
+.form-pedidos-itens-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.form-pedidos-itens-header h2 {
+  font-size: 16px;
+  font-weight: 600;
+}
+
+/* Tabela */
+.form-pedidos-table {
+  width: 100%;
+  border-collapse: collapse;
+  margin-top: 8px;
+}
+
+.form-pedidos-table th,
+.form-pedidos-table td {
+  padding: 10px;
+  border-bottom: 1px solid #e5e7eb;
+  text-align: left;
+}
+
+.form-pedidos-table th {
+  font-size: 13px;
+  font-weight: 600;
+  color: #374151;
+  background: #f9fafb;
+}
+
+.form-pedidos-remove-btn {
+  color: #dc2626;
+  font-size: 13px;
+}
+
+.form-pedidos-remove-btn:hover {
+  text-decoration: underline;
+}
+
+/* Total */
+.form-pedidos-total {
+  display: flex;
+  justify-content: flex-end;
+  font-size: 18px;
+  font-weight: 700;
+  margin-top: 8px;
+}

@@ -30,7 +30,7 @@ export function BaseForm({
         {children}
 
         <div className="flex justify-end pt-4">
-          <Button type="submit" disabled={loading}>
+          <Button className="bg-purple-500" type="submit" disabled={loading}>
             {loading ? "Salvando..." : submitLabel}
           </Button>
         </div>
