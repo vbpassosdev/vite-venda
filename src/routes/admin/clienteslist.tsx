@@ -1,43 +1,69 @@
-import { Button } from '@/components/ui/button'
-import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from '@/components/ui/table'
-import { createFileRoute } from '@tanstack/react-router'
+import { createFileRoute } from "@tanstack/react-router"
+import { getInfluenciadores } from "@/services/influenciadoresService"
+import { useEffect, useState } from "react"
+import { BaseList } from "@/components/BaseList"
+import { TableBase } from "@/components/TableBase"
+import { RowActions } from "@/components/RowActions"
+import { getClientes } from "@/services/clientesService"
 
-export const Route = createFileRoute('/admin/clienteslist')({
-  component: RouteComponent,
-})
+type Cliente = {
+  id: string
+  nome: string
+  email: string
+  telefone: string
+}
 
-function RouteComponent() {
+function FormClientesList() {
+  const [data, setData] = useState<Cliente[]>([])
+  const [loading, setLoading] = useState(true)
+
+  useEffect(() => {
+    getClientes()
+      .then(setData)
+      .finally(() => setLoading(false))
+  }, [])
+
+  function handleEdit(row: Cliente) {
+    console.log("Editar:", row)
+  }
+
+  function handleDelete(row: Cliente) {
+    console.log("Excluir:", row)
+  }
+
   return (
-    <div className="max-w-5xl mx-auto p-6">
-      <div className="flex justify-between items-center mb-6">
-        <h1 className="text-2xl font-bold">Lista de Clientes</h1>
-        <Button onClick={() => alert("Novo cliente")}>+ Novo</Button>
-      </div>
+    <BaseList
+      title="Clientes"
+      subtitle="Gerencie os clientes cadastrados"
+      loading={loading}
+      empty={!loading && data.length === 0}
+      emptyMessage="Nenhum cliente encontrado."
+      actions={
+        <button className="background-linear-to-r from-purple-500 to-pink-500 text-purple-600 
+                          shadow-md
+                          hover:shadow-purple-700 hover:opacity-30 
+                           transition rounded-lg px-4 py-2 font-semibold">
+          Novo Cliente
+        </button>
+      }
+    >
+      <TableBase
+        data={data}
+        columns={[
+          { header: "Nome", render: r => r.nome },
+          { header: "Email", render: r => r.email },
+          { header: "Telefone", render: r => r.telefone },
 
-      <Table>
-        <TableHeader>
-          <TableRow>
-          <TableHead>Nome</TableHead>
-          <TableHead>Email</TableHead>
-          <TableHead>Telefone</TableHead>
-          <TableHead className="text-right">Ações</TableHead>
-          </TableRow>
-        </TableHeader>
-        
-        <TableBody>
-          <TableRow>
-            <TableCell>Cliente Exemplo</TableCell>
-            <TableCell>exemplo@cliente.com</TableCell>
-            <TableCell>(11) 99999-9999</TableCell>
-            <TableCell className="text-right">
-            <Button onClick={() => alert("Editar cliente")}>Editar</Button>
-            <Button onClick={() => alert("Excluir cliente")}>Excluir</Button>
-            </TableCell>
-            </TableRow>
-        </TableBody>  
-      </Table>
-    </div>
+          {
+            header: "Ações",
+            render: (row) => <RowActions row={row} onEdit={handleEdit} onDelete={handleDelete} />
+          }
+        ]}
+      />
+    </BaseList>
   )
 }
-        
 
+export const Route = createFileRoute("/admin/clienteslist")({
+  component: FormClientesList,
+})

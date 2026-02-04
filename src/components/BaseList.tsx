@@ -22,7 +22,7 @@ export function BaseList({
   children,
 }: BaseListProps) {
   return (
-    <div className="list-container space-y-6">
+    <div className="max-w-2xl p-6">
 
       {/* HEADER */}
       <header className="list-header">
