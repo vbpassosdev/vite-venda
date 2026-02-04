@@ -12,7 +12,6 @@ export function AdminLayout({ children }: { children: React.ReactNode }) {
       {/* Overlay mobile */}
       {openMobile && (
         <div
-          className="fixed inset-0 bg-black/50 z-30 md:hidden"
           onClick={() => setOpenMobile(false)}
         />
       )}
@@ -42,7 +41,7 @@ export function AdminLayout({ children }: { children: React.ReactNode }) {
       <div className="flex flex-col flex-1 min-w-0">
         
         {/* Header */}
-        <header className="sticky top-0 z-20 h-14 px-4 flex items-center justify-between bg-white border-b">
+        <header className="sticky top-0 z-20 h-14 px-4 flex items-center justify-between bg-white">
           <div className="flex items-center gap-2">
             <button
               className="md:hidden"
