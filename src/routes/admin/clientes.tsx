@@ -1,131 +1,77 @@
-import { createFileRoute } from "@tanstack/react-router";
-import { useState } from "react";
-import { Button } from "@/components/ui/button";
-import { Input } from "@/components/ui/input";
-import { createCliente } from "@/services/clientesService";
+import { createFileRoute } from "@tanstack/react-router"
+import { useState } from "react"
+import { Input } from "@/components/ui/input"
+import { createCliente } from "@/services/clientesService"
+import { BaseForm } from "@/components/BaseForm"
 
-//formulario de clientes incluir e editar
 function FormClientes() {
-  const [nome, setNome] = useState("");
-  const [email, setEmail] = useState("");
-  const [telefone, setTelefone] = useState("");
-  const [celular, setCelular] = useState("");
-  const [tipoCliente, setTipoCliente] = useState("");
-  const [loading, setLoading] = useState(false);
-  
-  const handleSubmit = async (e: React.FormEvent) => {
-    e.preventDefault(); 
-    // Implementar lógica de submissão do formulário aqui
-    e.preventDefault();
-    setLoading(true);
+  const [form, setForm] = useState({
+    nome: "",
+    email: "",
+    telefone: "",
+    celular: "",
+    tipoCliente: ""
+  })
+
+  const [loading, setLoading] = useState(false)
+
+  function handleChange(e: React.ChangeEvent<HTMLInputElement>) {
+    setForm({ ...form, [e.target.id]: e.target.value })
+  }
+
+  async function handleSubmit(e: React.FormEvent) {
+    e.preventDefault()
+    setLoading(true)
 
     try {
-      const clienteData = {
-        nome, 
-        email,
-        telefone,
-        celular,
-        tipoCliente: Number(tipoCliente)
-      };
-      await createCliente(clienteData);
-      // Limpar o formulário após sucesso
-      setNome("");
-      setEmail("");
-      setTelefone("");
-      setCelular("");
-      setTipoCliente("");
-      alert("Cliente cadastrado com sucesso!");
-    } catch (error) {
-      console.error("Erro ao cadastrar cliente:", error);
-      alert("Erro ao cadastrar cliente");
+      await createCliente({
+        ...form,
+        tipoCliente: Number(form.tipoCliente)
+      })
+
+      setForm({
+        nome: "",
+        email: "",
+        telefone: "",
+        celular: "",
+        tipoCliente: ""
+      })
+
+      alert("Cliente cadastrado com sucesso!")
+    } catch {
+      alert("Erro ao cadastrar cliente")
     } finally {
-      setLoading(false);
-    }    
+      setLoading(false)
+    }
   }
-      
+
   return (
-    <div className="max-w-2xl p-6">
-      <h1 className="text-2xl font-bold mb-6">Cadastro de clientes</h1> 
-      <form onSubmit={handleSubmit} className="space-y-4">
-        <div>
-          <label htmlFor="nome" className="block text-sm font-medium mb-2">
-            Nome
-          </label>
-          <Input
-            id="nome"
-            type="text"
-            value={nome}
-            onChange={(e) => setNome(e.target.value)}
-            placeholder="Digite o nome"
-            required
-          />
-        </div>
-
-        <div>
-          <label htmlFor="email" className="block text-sm font-medium mb-2">
-            Email
-          </label>
-          <Input
-            id="email"
-            type="email"
-            value={email}
-            onChange={(e) => setEmail(e.target.value)}
-            placeholder="Digite o email"
-            required
-          />
-        </div>
-
-        <div>
-          <label htmlFor="telefone" className="block text-sm font-medium mb-2">
-            Telefone
-          </label>
-          <Input
-            id="telefone"
-            type="text"
-            value={telefone}
-            onChange={(e) => setTelefone(e.target.value)}
-            placeholder="Digite o telefone"
-            required
-          />
-        </div>
-
-        <div>
-          <label htmlFor="celular" className="block text-sm font-medium mb-2">
-            Celular
-          </label>
-          <Input
-            id="celular"
-            type="text"
-            value={celular}
-            onChange={(e) => setCelular(e.target.value)}
-            placeholder="Digite o celular"
-            required
-          />
-        </div>
-
-        <div>
-          <label htmlFor="tipoCliente" className="block text-sm font-medium mb-2">
-            Tipo Cliente
-          </label>
-          <Input
-            id="tipoCliente"
-            type="text"
-            value={tipoCliente}
-            onChange={(e) => setTipoCliente(e.target.value)}
-            placeholder="Digite o tipo de cliente"
-            required
-          />
-        </div>
-
-        <Button type="submit" disabled={loading}>
-          {loading ? "Cadastrando..." : "Cadastrar Cliente"}
-        </Button>
-      </form>
-    </div>
-  );
+    <BaseForm
+      title="Cadastro de Clientes"
+      subtitle="Preencha os dados do cliente"
+      loading={loading}
+      onSubmit={handleSubmit}
+    >
+      <InputField id="nome" label="Nome" value={form.nome} onChange={handleChange} />
+      <InputField id="email" label="Email" value={form.email} onChange={handleChange} />
+      <InputField id="telefone" label="Telefone" value={form.telefone} onChange={handleChange} />
+      <InputField id="celular" label="Celular" value={form.celular} onChange={handleChange} />
+      <InputField id="tipoCliente" label="Tipo Cliente" value={form.tipoCliente} onChange={handleChange} />
+    </BaseForm>
+  )
 }
 
-//renderiza a rota
+function InputField({ id, label, value, onChange }: any) {
+  return (
+    <div>
+      <label htmlFor={id} className="block text-sm font-medium mb-2">
+        {label}
+      </label>
+      <Input id={id} value={value} onChange={onChange} required />
+    </div>
+  )
+}
+
 export const Route = createFileRoute("/admin/clientes")({
   component: FormClientes,
-});
+})

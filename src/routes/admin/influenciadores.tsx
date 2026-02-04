@@ -1,147 +1,109 @@
-import { Button } from "@/components/ui/button";
-import { createInfluenciador, getInfluenciadorById, updateInfluenciador } from "@/services/influenciadoresService";
-import { createFileRoute, useSearch } from "@tanstack/react-router";
-import { useState, useEffect } from "react";
+import { createInfluenciador, getInfluenciadorById, updateInfluenciador } from "@/services/influenciadoresService"
+import { createFileRoute, useSearch } from "@tanstack/react-router"
+import { useState, useEffect } from "react"
+import { Input } from "@/components/ui/input"
+import { BaseForm } from "@/components/BaseForm"
 
-//formulario de influenciadores incluir e editar
 function FormInfluenciadores() {
-  const search = useSearch({ from: "/admin/influenciadores" }) as { id?: number };
-  const influenciadorId = search?.id;
+  const search = useSearch({ from: "/admin/influenciadores" }) as { id?: number }
+  const influenciadorId = search?.id
 
-  const [nome, setNome] = useState("");
-  const [email, setEmail] = useState("");
-  const [telefone, setTelefone] = useState("");
-  const [celular, setCelular] = useState("");
-  const [loading, setLoading] = useState(false);
+  const [form, setForm] = useState({
+    nome: "",
+    email: "",
+    telefone: "",
+    celular: ""
+  })
+
+  const [loading, setLoading] = useState(false)
 
   useEffect(() => {
     if (influenciadorId) {
-      loadInfluenciador(influenciadorId);
+      loadInfluenciador(influenciadorId)
     }
-  }, [influenciadorId]);
+  }, [influenciadorId])
 
-  const loadInfluenciador = async (id: number) => {
+  async function loadInfluenciador(id: number) {
     try {
-      setLoading(true);
-      const data = await getInfluenciadorById(id);
-      setNome(data.nome);
-      setEmail(data.email);
-      setTelefone(data.telefone);
-      setCelular(data.celular);
-    } catch (error) {
-      console.error("Erro ao carregar influenciador:", error);
-      alert("Erro ao carregar influenciador");
+      setLoading(true)
+      const data = await getInfluenciadorById(id)
+
+      setForm({
+        nome: data.nome ?? "",
+        email: data.email ?? "",
+        telefone: data.telefone ?? "",
+        celular: data.celular ?? ""
+      })
+    } catch {
+      alert("Erro ao carregar influenciador")
     } finally {
-      setLoading(false);
+      setLoading(false)
     }
-  };
-  
-  const handleSubmit = async (e: React.FormEvent) => {
-    e.preventDefault();
-    setLoading(true);
-    
+  }
+
+  function handleChange(e: React.ChangeEvent<HTMLInputElement>) {
+    setForm({ ...form, [e.target.id]: e.target.value })
+  }
+
+  async function handleSubmit(e: React.FormEvent) {
+    e.preventDefault()
+    setLoading(true)
+
     try {
-      const influenciadorData = {
-        nome,
-        email,
-        telefone,
-        celular
-      };
-      
       if (influenciadorId) {
-        await updateInfluenciador(influenciadorId, influenciadorData);
-        alert("Influenciador atualizado com sucesso!");
+        await updateInfluenciador(influenciadorId, form)
+        alert("Influenciador atualizado com sucesso!")
       } else {
-        await createInfluenciador(influenciadorData);
-        // Limpar o formulário após sucesso
-        setNome("");
-        setEmail("");
-        setTelefone("");
-        setCelular("");
-        alert("Influenciador cadastrado com sucesso!");
+        await createInfluenciador(form)
+
+        setForm({
+          nome: "",
+          email: "",
+          telefone: "",
+          celular: ""
+        })
+
+        alert("Influenciador cadastrado com sucesso!")
       }
-    } catch (error) {
-      console.error("Erro ao salvar influenciador:", error);
-      alert("Erro ao salvar influenciador");
+    } catch {
+      alert("Erro ao salvar influenciador")
     } finally {
-      setLoading(false);
+      setLoading(false)
     }
-  };
-  
+  }
+
   return (
-    <div className="max-w-2xl p-6">
-      <h1 className="text-2xl font-bold mb-6">
-        {influenciadorId ? "Editar Influenciador" : "Cadastro de Influenciadores"}
-      </h1>
-      
-      <form onSubmit={handleSubmit} className="space-y-4">  
-        <div>
-
-          <label htmlFor="nome" className="block text-sm font-medium mb-2">
-            Nome  
-          </label>
-          <input
-            id="nome"
-            type="text" 
-            value={nome}
-            onChange={(e) => setNome(e.target.value)}
-            placeholder="Digite o nome"
-            required
-          />
-
-        </div>
-
-        <div>
-          <label htmlFor="email" className="block text-sm font-medium mb-2">
-              Email  
-            </label>
-            <input
-              id="email"
-              type="text" 
-              value={email}
-              onChange={(e) => setEmail(e.target.value)}
-              placeholder="Digite o email"
-              required
-            />
-        </div>
-
-        <div>
-          <label htmlFor="telefone" className="block text-sm font-medium mb-2">
-            Telefone
-          </label>
-          <input
-            id="telefone"
-            type="text" 
-            value={telefone}
-            onChange={(e) => setTelefone(e.target.value)}
-            placeholder="Digite o telefone"
-            required
-          />  
-        </div>
-
-        <div>
-          <label htmlFor="celular" className="block text-sm font-medium mb-2">
-            Celular
-          </label>
-          <input
-            id="celular"
-            type="text" 
-            value={celular}
-            onChange={(e) => setCelular(e.target.value)}
-            placeholder="Digite o celular"
-            required
-          />  
-        </div>
-
-        <Button type="submit" disabled={loading}>
-          {loading ? "Salvando..." : influenciadorId ? "Atualizar" : "Cadastrar"}
-        </Button>
-      </form>
-    </div>
-  );
+    <BaseForm
+      title={influenciadorId ? "Editar Influenciador" : "Cadastro de Influenciadores"}
+      subtitle="Preencha os dados do influenciador"
+      loading={loading}
+      submitLabel={influenciadorId ? "Atualizar" : "Cadastrar"}
+      onSubmit={handleSubmit}
+    >
+      <InputField id="nome" label="Nome" value={form.nome} onChange={handleChange} />
+      <InputField id="email" label="Email" value={form.email} onChange={handleChange} />
+      <InputField id="telefone" label="Telefone" value={form.telefone} onChange={handleChange} />
+      <InputField id="celular" label="Celular" value={form.celular} onChange={handleChange} />
+    </BaseForm>
+  )
 }
 
-//renderiza a rota
+function InputField({ id, label, value, onChange }: any) {
+  return (
+    <div>
+      <label htmlFor={id} className="block text-sm font-medium mb-2">
+        {label}
+      </label>
+      <Input
+        id={id}
+        value={value}
+        onChange={onChange}
+        required
+      />
+    </div>
+  )
+}
+
 export const Route = createFileRoute("/admin/influenciadores")({
   component: FormInfluenciadores,
-});
+})
