@@ -1,11 +1,9 @@
-import { createFileRoute } from "@tanstack/react-router"
+import { createFileRoute, useNavigate } from "@tanstack/react-router"
 import { useEffect, useState } from "react"
 import { BaseList } from "@/components/form/BaseList"
 import { TableBase } from "@/components/form/TableBase"
 import { RowActions } from "@/components/form/RowActions"
-import { getClientes } from "@/services/clientesService"
-import { useNavigate } from "@tanstack/react-router"
-
+import { getClientes, deleteCliente } from "@/services/clientesService"
 
 type Cliente = {
   id: string
@@ -19,19 +17,30 @@ function FormClientesList() {
   const [loading, setLoading] = useState(true)
   const navigate = useNavigate()
 
-
   useEffect(() => {
-    getClientes()
-      .then(setData)
-      .finally(() => setLoading(false))
+    loadClientes()
   }, [])
 
-  function handleEdit(row: Cliente) {
-    console.log("Editar:", row)
+  async function loadClientes() {
+    setLoading(true)
+    const clientes = await getClientes()
+    setData(clientes)
+    setLoading(false)
   }
 
-  function handleDelete(row: Cliente) {
-    console.log("Excluir:", row)
+  // ✅ EDITAR → navega para tela de edição
+  function handleEdit(row: Cliente) {
+    navigate({ to: `/admin/clientes/${row.id}` })
+  }
+
+  // ✅ EXCLUIR → remove local + API
+  async function handleDelete(row: Cliente) {
+    const confirmar = window.confirm(`Excluir ${row.nome}?`)
+    if (!confirmar) return
+
+    await deleteCliente(row.id)
+
+    setData(prev => prev.filter(c => c.id !== row.id))
   }
 
   return (
@@ -42,15 +51,9 @@ function FormClientesList() {
       empty={!loading && data.length === 0}
       emptyMessage="Nenhum cliente encontrado."
       actions={
-         <button
+        <button
           onClick={() => navigate({ to: "/admin/clientes" })}
-          className="
-            bg-purple-500 hover:bg-purple-600
-            text-white text-xs font-medium
-            px-2.5 py-2 rounded-md
-            shadow-sm
-            transition
-          "
+          className="bg-purple-500 hover:bg-purple-600 text-white text-xs font-medium px-2.5 py-2 rounded-md shadow-sm transition"
         >
           Novo Cliente
         </button>
@@ -62,10 +65,15 @@ function FormClientesList() {
           { header: "Nome", render: r => r.nome },
           { header: "Email", render: r => r.email },
           { header: "Telefone", render: r => r.telefone },
-
           {
             header: "Ações",
-            render: (row) => <RowActions row={row} onEdit={handleEdit} onDelete={handleDelete} />
+            render: row => (
+              <RowActions
+                row={row}
+                onEdit={handleEdit}
+                onDelete={handleDelete}
+              />
+            )
           }
         ]}
       />
