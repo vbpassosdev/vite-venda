@@ -1,9 +1,11 @@
 import { createFileRoute } from "@tanstack/react-router"
 import { useEffect, useState } from "react"
-import { BaseList } from "@/components/BaseList"
-import { TableBase } from "@/components/TableBase"
-import { RowActions } from "@/components/RowActions"
+import { BaseList } from "@/components/form/BaseList"
+import { TableBase } from "@/components/form/TableBase"
+import { RowActions } from "@/components/form/RowActions"
 import { getClientes } from "@/services/clientesService"
+import { useNavigate } from "@tanstack/react-router"
+
 
 type Cliente = {
   id: string
@@ -15,6 +17,8 @@ type Cliente = {
 function FormClientesList() {
   const [data, setData] = useState<Cliente[]>([])
   const [loading, setLoading] = useState(true)
+  const navigate = useNavigate()
+
 
   useEffect(() => {
     getClientes()
@@ -38,15 +42,18 @@ function FormClientesList() {
       empty={!loading && data.length === 0}
       emptyMessage="Nenhum cliente encontrado."
       actions={
-            <button className="
-              bg-purple-500 hover:bg-purple-600
-              text-white text-xs font-medium
-              px-2.5 py-2 rounded-md
-              shadow-sm
-              transition
-            ">
-              Novo Cliente
-            </button>
+         <button
+          onClick={() => navigate({ to: "/admin/clientes" })}
+          className="
+            bg-purple-500 hover:bg-purple-600
+            text-white text-xs font-medium
+            px-2.5 py-2 rounded-md
+            shadow-sm
+            transition
+          "
+        >
+          Novo Cliente
+        </button>
       }
     >
       <TableBase

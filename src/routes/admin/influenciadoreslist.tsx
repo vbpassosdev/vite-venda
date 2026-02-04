@@ -1,9 +1,9 @@
 import { createFileRoute } from "@tanstack/react-router"
 import { getInfluenciadores } from "@/services/influenciadoresService"
 import { useEffect, useState } from "react"
-import { BaseList } from "@/components/BaseList"
-import { TableBase } from "@/components/TableBase"
-import { RowActions } from "@/components/RowActions"
+import { BaseList } from "@/components/form/BaseList"
+import { TableBase } from "@/components/form/TableBase"
+import { RowActions } from "@/components/form/RowActions"
 
 type Influenciador = {
   id: string

@@ -11,10 +11,10 @@
 
 /* COMPONENTS */
 @layer components {
-  @import "./sidebar.css";
-  @import "./admin-layout.css";
-  @import "./list-floral.css";
-  @import "./pedidos.css";
+  @import "./styles/sidebar.css";
+  @import "./styles/admin-layout.css";
+  @import "./styles/list-floral.css";
+  @import "./styles/pedidos.css";
 }
 
 /* UTILITIES */

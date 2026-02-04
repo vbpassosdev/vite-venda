@@ -2,7 +2,7 @@ import { createInfluenciador, getInfluenciadorById, updateInfluenciador } from "
 import { createFileRoute, useSearch } from "@tanstack/react-router"
 import { useState, useEffect } from "react"
 import { Input } from "@/components/ui/input"
-import { BaseForm } from "@/components/BaseForm"
+import { BaseForm } from "@/components/form/BaseForm"
 
 function FormInfluenciadores() {
   const search = useSearch({ from: "/admin/influenciadores" }) as { id?: number }

@@ -1,6 +1,6 @@
 import { createFileRoute } from '@tanstack/react-router'
 import { useState } from "react"
-import { BaseForm } from "@/components/BaseForm"
+import { BaseForm } from "@/components/form/BaseForm"
 import { Input } from '@/components/ui/input'
 import { Button } from '@/components/ui/button'
 

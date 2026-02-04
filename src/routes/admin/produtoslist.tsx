@@ -1,9 +1,12 @@
 import { createFileRoute } from '@tanstack/react-router'
 import { useEffect, useState } from "react"
-import { BaseList } from "@/components/BaseList"
-import { TableBase } from "@/components/TableBase"
-import { RowActions } from "@/components/RowActions"
+import { BaseList } from "@/components/form/BaseList"
+import { TableBase } from "@/components/form/TableBase"
+import { RowActions } from "@/components/form/RowActions"
 import { getProdutos } from '@/services/produtosServices'
+import { useNavigate } from "@tanstack/react-router"
+
+
 export const Route = createFileRoute('/admin/produtoslist')({
   component: FormProdutosList,
 })
@@ -18,6 +21,7 @@ type Produto = {
 function FormProdutosList() {
   const [data, setData] = useState<Produto[]>([])
   const [loading, setLoading] = useState(true)
+  const navigate = useNavigate()
 
   useEffect(() => {
     getProdutos()
@@ -40,16 +44,19 @@ function FormProdutosList() {
       loading={loading}
       empty={!loading && data.length === 0}
       emptyMessage="Nenhum produto encontrado."
-      actions={
-      <button className="
-              bg-purple-500 hover:bg-purple-600
-              text-white text-xs font-medium
-              px-2.5 py-2 rounded-md
-              shadow-sm
-              transition
-            ">
-              Novo Produto
-            </button>
+           actions={
+         <button
+          onClick={() => navigate({ to: "/admin/produtos" })}
+          className="
+            bg-purple-500 hover:bg-purple-600
+            text-white text-xs font-medium
+            px-2.5 py-2 rounded-md
+            shadow-sm
+            transition
+          "
+        >
+          Novo Produto
+        </button>
       }
     >
       <TableBase

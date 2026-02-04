@@ -1,5 +1,5 @@
 import { Link, useRouterState } from "@tanstack/react-router";
-import { List, Star, User, ShoppingCart, Package } from "lucide-react";
+import { List, Star, ShoppingCart } from "lucide-react";
 import { clsx } from "clsx";
 
 type MenuItem = {
@@ -24,9 +24,9 @@ export function SidebarMenu() {
       items: [
        // { label: "Influenciadores", to: "/admin/influenciadores", icon: User },
        // { label: "Lista Influenciadores", to: "/admin/influenciadoreslist", icon: List },
-        { label: "Clientes", to: "/admin/clientes", icon: User },
+       // { label: "Clientes", to: "/admin/clientes", icon: User },
         { label: "Lista Clientes", to: "/admin/clienteslist", icon: List },
-        { label: "Produtos", to: "/admin/produtos", icon: Package },
+      //  { label: "Produtos", to: "/admin/produtos", icon: Package },
         { label: "Lista de Produtos", to: "/admin/produtoslist", icon: Star },
       ],
     },

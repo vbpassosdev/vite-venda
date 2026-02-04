@@ -2,7 +2,7 @@ import { createFileRoute } from "@tanstack/react-router"
 import { useState } from "react"
 import { Input } from "@/components/ui/input"
 import { createCliente } from "@/services/clientesService"
-import { BaseForm } from "@/components/BaseForm"
+import { BaseForm } from "@/components/form/BaseForm"
 
 function FormClientes() {
   const [form, setForm] = useState({

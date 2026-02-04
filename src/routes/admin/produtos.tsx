@@ -1,7 +1,7 @@
 import { createFileRoute } from '@tanstack/react-router'
 import { useState } from "react"
 import { Input } from "@/components/ui/input"
-import { BaseForm } from "@/components/BaseForm"
+import { BaseForm } from "@/components/form/BaseForm"
 import { createProduto } from '@/services/produtosServices'
 
 export const Route = createFileRoute('/admin/produtos')({
