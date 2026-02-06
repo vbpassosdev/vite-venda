@@ -1,8 +1,24 @@
-import { createFileRoute } from "@tanstack/react-router"
-import { useState } from "react"
+import { createFileRoute, useSearch } from "@tanstack/react-router"
+import { useEffect, useState } from "react"
 import { Input } from "@/components/ui/input"
-import { createCliente } from "@/services/clientesService"
+import { createCliente, getClienteById, updateCliente } from "@/services/clientesService"
 import { BaseForm } from "@/components/form/BaseForm"
+
+export type Cliente = {
+  id?: string
+  nome: string
+  email: string
+  telefone: string
+  celular: string
+  tipoCliente: number
+}
+
+export const Route = createFileRoute("/admin/clientes")({
+  validateSearch: (search) => ({
+    id: search.id as string | undefined,
+  }),
+  component: FormClientes,
+})
 
 function FormClientes() {
   const [form, setForm] = useState({
@@ -12,11 +28,45 @@ function FormClientes() {
     celular: "",
     tipoCliente: ""
   })
+  
+  const { id } = useSearch({ from: "/admin/clientes" })
+
+  const isEdit = Boolean(id)
+
+
 
   const [loading, setLoading] = useState(false)
 
+    useEffect(() => {
+      if (!id) return
+
+      async function loadCliente() {
+        setLoading(true)
+        console.log("ID recebido:", id)
+        console.log("Modo edição:", isEdit)
+        try {
+          const data = await getClienteById(id as string)
+          setForm({
+            nome: data.nome,
+            email: data.email,
+            telefone: data.telefone,
+            celular: data.celular,
+            tipoCliente: String(data.tipoCliente)
+          })
+        } catch (err) {
+          console.error(err)
+          alert("Erro ao carregar cliente")
+        } finally {
+          setLoading(false)
+        }
+      }
+
+      loadCliente()
+    }, [id])
+
   function handleChange(e: React.ChangeEvent<HTMLInputElement>) {
-    setForm({ ...form, [e.target.id]: e.target.value })
+    const { id, value } = e.target
+    setForm(prev => ({ ...prev, [id]: value }))
   }
 
   async function handleSubmit(e: React.FormEvent) {
@@ -24,22 +74,29 @@ function FormClientes() {
     setLoading(true)
 
     try {
-      await createCliente({
+      const payload = {
         ...form,
         tipoCliente: Number(form.tipoCliente)
-      })
+      }
 
-      setForm({
-        nome: "",
-        email: "",
-        telefone: "",
-        celular: "",
-        tipoCliente: ""
-      })
+      if (id && id !== "novo") {
+        await updateCliente(id, payload)
+        alert("Cliente atualizado com sucesso!")
+      } else {
+        await createCliente(payload)
+        alert("Cliente cadastrado com sucesso!")
 
-      alert("Cliente cadastrado com sucesso!")
-    } catch {
-      alert("Erro ao cadastrar cliente")
+        setForm({
+          nome: "",
+          email: "",
+          telefone: "",
+          celular: "",
+          tipoCliente: ""
+        })
+      }
+    } catch (err) {
+      console.error(err)
+      alert("Erro ao salvar cliente")
     } finally {
       setLoading(false)
     }
@@ -47,7 +104,7 @@ function FormClientes() {
 
   return (
     <BaseForm
-      title="Cadastro de Clientes"
+      title={isEdit ? "Editar Cliente" : "Cadastro de Clientes"}
       subtitle="Preencha os dados do cliente"
       loading={loading}
       onSubmit={handleSubmit}
@@ -61,7 +118,17 @@ function FormClientes() {
   )
 }
 
-function InputField({ id, label, value, onChange }: any) {
+function InputField({
+  id,
+  label,
+  value,
+  onChange
+}: {
+  id: string
+  label: string
+  value: string
+  onChange: React.ChangeEventHandler<HTMLInputElement>
+}) {
   return (
     <div>
       <label htmlFor={id} className="block text-sm font-medium mb-2">
@@ -71,7 +138,3 @@ function InputField({ id, label, value, onChange }: any) {
     </div>
   )
 }
-
-export const Route = createFileRoute("/admin/clientes")({
-  component: FormClientes,
-})

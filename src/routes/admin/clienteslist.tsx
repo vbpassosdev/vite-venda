@@ -30,7 +30,11 @@ function FormClientesList() {
 
   // ✅ EDITAR → navega para tela de edição
   function handleEdit(row: Cliente) {
-    navigate({ to: `/admin/clientes/${row.id}` })
+      navigate({
+      to: "/admin/clientes",
+      search: { id: row.id }
+    })
+
   }
 
   // ✅ EXCLUIR → remove local + API
@@ -52,7 +56,12 @@ function FormClientesList() {
       emptyMessage="Nenhum cliente encontrado."
       actions={
         <button
-          onClick={() => navigate({ to: "/admin/clientes" })}
+          onClick={() => 
+           navigate({
+              to: "/admin/clientes",
+              search: { id: undefined }
+            })
+          }
           className="bg-purple-500 hover:bg-purple-600 text-white text-xs font-medium px-2.5 py-2 rounded-md shadow-sm transition"
         >
           Novo Cliente

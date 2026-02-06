@@ -13,7 +13,7 @@ export const getClientes = async () => {
   return data
 }
 
-export const getClienteById = async (id: number) => {
+export const getClienteById = async (id: string) => {
   const { data } = await api.get(`/Clientes/${id}`)
   return data
 }
@@ -23,11 +23,11 @@ export const createCliente = async (cliente: ClientesCreate) => {
   return data
 }
 
-export const updateCliente = async (id: number, cliente: ClientesCreate) => {
+export const updateCliente = async (id: string, cliente: ClientesCreate) => {
   const { data } = await api.put(`/Clientes/${id}`, cliente)
   return data
 }
 
-export const deleteCliente = async (id: any) => {
+export const deleteCliente = async (id: string) => {
   return api.delete(`/Clientes/${id}`)
 }

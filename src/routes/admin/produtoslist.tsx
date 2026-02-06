@@ -3,7 +3,7 @@ import { useEffect, useState } from "react"
 import { BaseList } from "@/components/form/BaseList"
 import { TableBase } from "@/components/form/TableBase"
 import { RowActions } from "@/components/form/RowActions"
-import { getProdutos } from '@/services/produtosServices'
+import { deleteProduto, getProdutos } from '@/services/produtosServices'
 import { useNavigate } from "@tanstack/react-router"
 
 
@@ -12,11 +12,15 @@ export const Route = createFileRoute('/admin/produtoslist')({
 })
 
 type Produto = {
-  id: string
+  id: number
   descricao: string
   referencia: string
-  tipoProduto: number
+  preco: number
+  estoque: number
+  ativo: boolean
+  dataCadastro: string
 }
+
 
 function FormProdutosList() {
   const [data, setData] = useState<Produto[]>([])
@@ -29,12 +33,27 @@ function FormProdutosList() {
       .finally(() => setLoading(false))
   }, [])
 
+
   function handleEdit(row: Produto) {
-    console.log("Editar:", row)
+    console.log(row)
+    navigate({
+      to: "/admin/produtos",
+      search: { id: String(row.id) }
+    })
   }
 
-  function handleDelete(row: Produto) {
-    console.log("Excluir:", row)
+  async function handleDelete(row: Produto) {
+    const confirmar = window.confirm(`Excluir ${row.descricao}?`)
+
+    if (!confirmar) return
+    try {
+       await deleteProduto(row.id) // Importar a função de delete
+      setData(prev => prev.filter(p => p.id !== row.id))
+      alert("Produto excluído com sucesso!")
+    } catch (err) {
+      console.error(err)
+      alert("Erro ao excluir produto")
+    }
   }
 
   return (
@@ -46,7 +65,12 @@ function FormProdutosList() {
       emptyMessage="Nenhum produto encontrado."
            actions={
          <button
-          onClick={() => navigate({ to: "/admin/produtos" })}
+          onClick={() =>
+                      navigate({
+              to: "/admin/produtos",
+              search: {id: undefined }
+            })
+          }
           className="
             bg-purple-500 hover:bg-purple-600
             text-white text-xs font-medium
@@ -64,8 +88,11 @@ function FormProdutosList() {
         columns={[
           { header: "Descrição", render: r => r.descricao },
           { header: "Referência", render: r => r.referencia },
-          { header: "Tipo Produto", render: r => r.tipoProduto },
-
+          { header: "Preço", render: r => r.preco },
+          { header: "Estoque", render: r => r.estoque },
+          { header: "Ativo", render: r => r.ativo ? "Sim" : "Não" },
+          { header: "Data Cadastro", render: r => new Date(r.dataCadastro).toLocaleDateString() },
+          
           {
             header: "Ações",
             render: (row) => <RowActions row={row} onEdit={handleEdit} onDelete={handleDelete} />
