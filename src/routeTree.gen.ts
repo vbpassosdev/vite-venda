@@ -19,6 +19,7 @@ import { Route as AdminInfluenciadoreslistRouteImport } from './routes/admin/inf
 import { Route as AdminInfluenciadoresRouteImport } from './routes/admin/influenciadores'
 import { Route as AdminClienteslistRouteImport } from './routes/admin/clienteslist'
 import { Route as AdminClientesRouteImport } from './routes/admin/clientes'
+import { Route as AdminBoletolistRouteImport } from './routes/admin/boletolist'
 
 const AdminRoute = AdminRouteImport.update({
   id: '/admin',
@@ -71,10 +72,16 @@ const AdminClientesRoute = AdminClientesRouteImport.update({
   path: '/clientes',
   getParentRoute: () => AdminRoute,
 } as any)
+const AdminBoletolistRoute = AdminBoletolistRouteImport.update({
+  id: '/boletolist',
+  path: '/boletolist',
+  getParentRoute: () => AdminRoute,
+} as any)
 
 export interface FileRoutesByFullPath {
   '/': typeof IndexRoute
   '/admin': typeof AdminRouteWithChildren
+  '/admin/boletolist': typeof AdminBoletolistRoute
   '/admin/clientes': typeof AdminClientesRoute
   '/admin/clienteslist': typeof AdminClienteslistRoute
   '/admin/influenciadores': typeof AdminInfluenciadoresRoute
@@ -87,6 +94,7 @@ export interface FileRoutesByFullPath {
 export interface FileRoutesByTo {
   '/': typeof IndexRoute
   '/admin': typeof AdminRouteWithChildren
+  '/admin/boletolist': typeof AdminBoletolistRoute
   '/admin/clientes': typeof AdminClientesRoute
   '/admin/clienteslist': typeof AdminClienteslistRoute
   '/admin/influenciadores': typeof AdminInfluenciadoresRoute
@@ -100,6 +108,7 @@ export interface FileRoutesById {
   __root__: typeof rootRouteImport
   '/': typeof IndexRoute
   '/admin': typeof AdminRouteWithChildren
+  '/admin/boletolist': typeof AdminBoletolistRoute
   '/admin/clientes': typeof AdminClientesRoute
   '/admin/clienteslist': typeof AdminClienteslistRoute
   '/admin/influenciadores': typeof AdminInfluenciadoresRoute
@@ -114,6 +123,7 @@ export interface FileRouteTypes {
   fullPaths:
     | '/'
     | '/admin'
+    | '/admin/boletolist'
     | '/admin/clientes'
     | '/admin/clienteslist'
     | '/admin/influenciadores'
@@ -126,6 +136,7 @@ export interface FileRouteTypes {
   to:
     | '/'
     | '/admin'
+    | '/admin/boletolist'
     | '/admin/clientes'
     | '/admin/clienteslist'
     | '/admin/influenciadores'
@@ -138,6 +149,7 @@ export interface FileRouteTypes {
     | '__root__'
     | '/'
     | '/admin'
+    | '/admin/boletolist'
     | '/admin/clientes'
     | '/admin/clienteslist'
     | '/admin/influenciadores'
@@ -225,10 +237,18 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof AdminClientesRouteImport
       parentRoute: typeof AdminRoute
     }
+    '/admin/boletolist': {
+      id: '/admin/boletolist'
+      path: '/boletolist'
+      fullPath: '/admin/boletolist'
+      preLoaderRoute: typeof AdminBoletolistRouteImport
+      parentRoute: typeof AdminRoute
+    }
   }
 }
 
 interface AdminRouteChildren {
+  AdminBoletolistRoute: typeof AdminBoletolistRoute
   AdminClientesRoute: typeof AdminClientesRoute
   AdminClienteslistRoute: typeof AdminClienteslistRoute
   AdminInfluenciadoresRoute: typeof AdminInfluenciadoresRoute
@@ -240,6 +260,7 @@ interface AdminRouteChildren {
 }
 
 const AdminRouteChildren: AdminRouteChildren = {
+  AdminBoletolistRoute: AdminBoletolistRoute,
   AdminClientesRoute: AdminClientesRoute,
   AdminClienteslistRoute: AdminClienteslistRoute,
   AdminInfluenciadoresRoute: AdminInfluenciadoresRoute,

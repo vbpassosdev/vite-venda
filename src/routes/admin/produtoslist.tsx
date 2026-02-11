@@ -3,7 +3,7 @@ import { useEffect, useState } from "react"
 import { BaseList } from "@/components/form/BaseList"
 import { TableBase } from "@/components/form/TableBase"
 import { RowActions } from "@/components/form/RowActions"
-import { deleteProduto, getProdutos } from '@/services/produtosServices'
+import { deleteProduto, getProdutos } from '@/services/produtosService'
 import { useNavigate } from "@tanstack/react-router"
 
 

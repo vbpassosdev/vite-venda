@@ -2,7 +2,7 @@ import { createFileRoute, useSearch } from '@tanstack/react-router'
 import { useEffect, useState } from "react"
 import { Input } from "@/components/ui/input"
 import { BaseForm } from "@/components/form/BaseForm"
-import { createProduto, getProdutoById, updateProduto } from '@/services/produtosServices'
+import { createProduto, getProdutoById, updateProduto } from '@/services/produtosService'
 
 export const Route = createFileRoute("/admin/produtos")({
   validateSearch: (search: { id?: string }) => ({

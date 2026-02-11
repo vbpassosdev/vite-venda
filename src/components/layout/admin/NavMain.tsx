@@ -28,6 +28,7 @@ export function SidebarMenu() {
         { label: "Lista Clientes", to: "/admin/clienteslist", icon: List },
       //  { label: "Produtos", to: "/admin/produtos", icon: Package },
         { label: "Lista de Produtos", to: "/admin/produtoslist", icon: Star },
+        
       ],
     },
 
@@ -35,6 +36,14 @@ export function SidebarMenu() {
       title: "Vendas",
       items: [
         { label: "Pedidos", to: "/admin/pedidos", icon: ShoppingCart },
+      ],
+    },
+
+    
+    {
+      title: "Financeiro",
+      items: [
+        { label: "Boletos", to: "/admin/boletolist", icon: ShoppingCart },
       ],
     },
   ];

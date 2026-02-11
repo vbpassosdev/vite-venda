@@ -3,11 +3,18 @@ import { useState } from "react"
 import { BaseForm } from "@/components/form/BaseForm"
 import { Input } from '@/components/ui/input'
 import { Button } from '@/components/ui/button'
+import { Search } from 'lucide-react'
+import { getClientes } from '@/services/clientesService'
 
 
 export const Route = createFileRoute('/admin/pedidos')({
   component: FormPedidos,
 })
+
+type Cliente = {
+  id: string
+  nome: string
+}
 
 type ItemPedido = {
   produto: string
@@ -16,6 +23,11 @@ type ItemPedido = {
 }
 
 function FormPedidos() {
+  const [buscaCliente, setBuscaCliente] = useState("")
+  const [clientes, setClientes] = useState<Cliente[]>([])
+  const [mostrarLista, setMostrarLista] = useState(false)
+  const [loadingClientes, setLoadingClientes] = useState(false)
+  
   const [loading, setLoading] = useState(false)
 
   const [pedido, setPedido] = useState({
@@ -27,6 +39,29 @@ function FormPedidos() {
   const [itens, setItens] = useState<ItemPedido[]>([
     { produto: "", quantidade: 1, valor: 0 }
   ])
+
+  async function buscarClientes(texto: string) {
+    if (!texto) {
+      setClientes([])
+      return
+    }
+
+    try {
+      setLoadingClientes(true)
+
+      const data = await getClientes()
+
+      const filtrados = data.filter((c: Cliente) =>
+        c.nome.toLowerCase().includes(texto.toLowerCase())
+      )
+
+      setClientes(filtrados)
+    } catch {
+      console.error("Erro ao buscar clientes")
+    } finally {
+      setLoadingClientes(false)
+    }
+  }
 
   function handleItemChange(index: number, field: keyof ItemPedido, value: string | number) {
     const novosItens = [...itens]
@@ -84,11 +119,64 @@ function FormPedidos() {
         {/* Dados principais */}
         <section className="form-pedidos-section">
           <div className="form-pedidos-field">
-            <label>Cliente</label>
-            <Input 
-              value={pedido.cliente}
-              onChange={e => setPedido({ ...pedido, cliente: e.target.value })}
-            />
+            
+
+
+
+
+  <label>Cliente</label>
+
+  <div className="relative">
+    <Search className="absolute left-3 top-1/2 -translate-y-1/2 text-gray-400 w-4 h-4" />
+
+    <Input
+      type="text"
+      placeholder="Busque por cliente..."
+      value={buscaCliente}
+      className="pl-9"
+      onChange={(e) => {
+        setBuscaCliente(e.target.value)
+        buscarClientes(e.target.value)
+        setMostrarLista(true)
+      }}
+      onBlur={() => setTimeout(() => setMostrarLista(false), 150)}
+    />
+  </div>
+
+  {mostrarLista && (
+    <div className="absolute z-50 bg-white border w-full rounded shadow mt-1 max-h-48 overflow-auto">
+
+      {loadingClientes && (
+        <div className="p-2 text-gray-500 text-sm">Buscando...</div>
+      )}
+
+      {!loadingClientes && clientes.length === 0 && (
+        <div className="p-2 text-gray-400 text-sm">Nenhum cliente encontrado</div>
+      )}
+
+      {clientes.map(cliente => (
+        <div
+          key={cliente.id}
+          className="px-3 py-2 hover:bg-gray-100 cursor-pointer"
+          onClick={() => {
+            setPedido({ ...pedido, cliente: cliente.nome })
+            setBuscaCliente(cliente.nome)
+            setMostrarLista(false)
+          }}
+        >
+          {cliente.nome}
+        </div>
+      ))}
+    </div>
+  )}
+
+
+
+
+
+
+
+
           </div>
 
           <div className="form-pedidos-field">
@@ -100,13 +188,7 @@ function FormPedidos() {
             />
           </div>
 
-          <div className="form-pedidos-field">
-            <label>Vendedor</label>
-            <Input 
-              value={pedido.vendedor}
-              onChange={e => setPedido({ ...pedido, vendedor: e.target.value })}
-            />
-          </div>
+          
         </section>
 
         {/* Itens */}
