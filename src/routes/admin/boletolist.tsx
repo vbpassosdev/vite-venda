@@ -3,12 +3,13 @@ import { useEffect, useState } from "react"
 import { BaseList } from "@/components/form/BaseList"
 import { TableBase } from "@/components/form/TableBase"
 import { RowActions } from "@/components/form/RowActions"
-import { deleteBoleto, getBoletos } from "@/services/boletosService"
+import {getBoletos, gerarBoleto} from "@/services/boletosService"
 
 type Boleto = {
   id: string
   clienteNome: string
-  valor: number
+  numeroDocumento : string
+  valorDocumento: number
   vencimento: string
 }
 
@@ -34,15 +35,32 @@ function FormBoletosList() {
       search: { id: row.id }
     })
     }
-    
-  async function handleDelete(row: Boleto) {
-    const confirmar = window.confirm(`Excluir boleto do cliente ${row.clienteNome}?`)
-    if (!confirmar) return
 
-    await deleteBoleto(row.id)
+  async function handlePrint(row: Boleto) {
+  try {
+    //Chama a API para gerar o boleto
+      const response = await gerarBoleto(row.id);
+      if (response.pdf) {
+        const byteCharacters = atob(response.pdf);
+        const byteNumbers = new Array(byteCharacters.length);
+        for (let i = 0; i < byteCharacters.length; i++) {
+          byteNumbers[i] = byteCharacters.charCodeAt(i);
+        }
+        const byteArray = new Uint8Array(byteNumbers);
+        const blob = new Blob([byteArray], { type: 'application/pdf' });
 
-    setData(prev => prev.filter(b => b.id !== row.id))
-  }
+        // 3️⃣ Cria URL e abre em nova aba
+        const url = window.URL.createObjectURL(blob);
+        window.open(url, '_blank');
+      } else {
+        console.error('PDF não encontrado na resposta da API');
+      }
+    } catch (error) {
+      console.error('Erro ao gerar o boleto:', error);
+    }
+  };
+
+
 
   return (
     <BaseList
@@ -69,7 +87,7 @@ function FormBoletosList() {
         data={data}
         columns={[
           { header: "Cliente", render: r => r.clienteNome },
-          { header: "Valor", render: r => `R$ ${r.valor.toFixed(2)}` },
+          { header: "Valor", render: r => `R$ ${r.valorDocumento.toFixed(2)}` },
           { header: "Vencimento", render: r => new Date(r.vencimento).toLocaleDateString() },
           {
             header: "Ações",
@@ -77,7 +95,7 @@ function FormBoletosList() {
               <RowActions
                 row={row}
                 onEdit={handleEdit}
-                onDelete={handleDelete}
+                onPrint={handlePrint}
               />
             )
           }

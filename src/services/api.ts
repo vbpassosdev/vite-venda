@@ -1,5 +1,7 @@
 import axios from 'axios'
 
+const API_BASE_URL = import.meta.env.VITE_API_URL || 'http://localhost:5148/api'
+
 export const api = axios.create({
-  baseURL: '/api', // proxy vai redirecionar para http://localhost:5148/api
+  baseURL: API_BASE_URL,
 })
