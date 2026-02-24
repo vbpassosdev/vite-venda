@@ -7,7 +7,7 @@ import { getClientes, deleteCliente } from "@/services/clientesService"
 
 type Cliente = {
   id: string
-  nome: string
+  razaoSocial: string
   email: string
   telefone: string
 }
@@ -39,7 +39,7 @@ function FormClientesList() {
 
   // ✅ EXCLUIR → remove local + API
   async function handleDelete(row: Cliente) {
-    const confirmar = window.confirm(`Excluir ${row.nome}?`)
+    const confirmar = window.confirm(`Excluir ${row.razaoSocial}?`)
     if (!confirmar) return
 
     await deleteCliente(row.id)
@@ -71,7 +71,7 @@ function FormClientesList() {
       <TableBase
         data={data}
         columns={[
-          { header: "Nome", render: r => r.nome },
+          { header: "Cliente", render: r => r.razaoSocial },
           { header: "Email", render: r => r.email },
           { header: "Telefone", render: r => r.telefone },
           {

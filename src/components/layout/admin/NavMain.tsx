@@ -22,28 +22,24 @@ export function SidebarMenu() {
     {
       title: "Cadastros",
       items: [
-       // { label: "Influenciadores", to: "/admin/influenciadores", icon: User },
-       // { label: "Lista Influenciadores", to: "/admin/influenciadoreslist", icon: List },
-       // { label: "Clientes", to: "/admin/clientes", icon: User },
-        { label: "Lista Clientes", to: "/admin/clienteslist", icon: List },
-      //  { label: "Produtos", to: "/admin/produtos", icon: Package },
-        { label: "Lista de Produtos", to: "/admin/produtoslist", icon: Star },
-        
+        { label: "Empresa", to: "/admin/empresa", icon: Star },
+        { label: "Lista de Clientes", to: "/admin/clienteslist", icon: List },
+        { label: "Lista de Vendedores", to: "/admin/vendedoreslist", icon: List },      
+        { label: "Lista de Produtos", to: "/admin/produtoslist", icon: List },        
       ],
     },
 
     {
       title: "Vendas",
       items: [
-        { label: "Pedidos", to: "/admin/pedidos", icon: ShoppingCart },
+        { label: "Lista de Pedidos", to: "/admin/pedidoslist", icon: List },
       ],
     },
-
     
     {
       title: "Financeiro",
       items: [
-        { label: "Boletos", to: "/admin/boletolist", icon: ShoppingCart },
+        { label: "Lista de Títulos", to: "/admin/tituloslist", icon: ShoppingCart },
       ],
     },
   ];
@@ -86,9 +82,6 @@ export function SidebarMenu() {
           </div>
         ))}
       </nav>
-
-
-
     </>
   );
 }

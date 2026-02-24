@@ -1,12 +1,12 @@
-import { createInfluenciador, getInfluenciadorById, updateInfluenciador } from "@/services/influenciadoresService"
 import { createFileRoute, useSearch } from "@tanstack/react-router"
 import { useState, useEffect } from "react"
 import { Input } from "@/components/ui/input"
+import {createVendedor, getVendedorById, updateVendedor } from "@/services/vendedoresService"
 import { BaseForm } from "@/components/form/BaseForm"
 
-function FormInfluenciadores() {
-  const search = useSearch({ from: "/admin/influenciadores" }) as { id?: number }
-  const influenciadorId = search?.id
+function FormVendedores() {
+  const search = useSearch({ from: "/admin/vendedores" }) as { id?: number }
+  const vendedorId = search?.id
 
   const [form, setForm] = useState({
     nome: "",
@@ -16,17 +16,18 @@ function FormInfluenciadores() {
   })
 
   const [loading, setLoading] = useState(false)
+  const isEdit = Boolean(vendedorId)
 
   useEffect(() => {
-    if (influenciadorId) {
-      loadInfluenciador(influenciadorId)
+    if (vendedorId) {
+      loadVendedor(vendedorId)
     }
-  }, [influenciadorId])
+  }, [vendedorId])
 
-  async function loadInfluenciador(id: number) {
+  async function loadVendedor(id: number) {
     try {
       setLoading(true)
-      const data = await getInfluenciadorById(id)
+      const data = await getVendedorById(id)
 
       setForm({
         nome: data.nome ?? "",
@@ -35,14 +36,19 @@ function FormInfluenciadores() {
         celular: data.celular ?? ""
       })
     } catch {
-      alert("Erro ao carregar influenciador")
+      alert("Erro ao carregar vendedor")
     } finally {
       setLoading(false)
     }
   }
 
   function handleChange(e: React.ChangeEvent<HTMLInputElement>) {
-    setForm({ ...form, [e.target.id]: e.target.value })
+    const { id, value } = e.target
+
+    setForm(prev => ({
+      ...prev,
+      [id]: value
+    }))
   }
 
   async function handleSubmit(e: React.FormEvent) {
@@ -50,23 +56,22 @@ function FormInfluenciadores() {
     setLoading(true)
 
     try {
-      if (influenciadorId) {
-        await updateInfluenciador(influenciadorId, form)
-        alert("Influenciador atualizado com sucesso!")
+      if (isEdit) {
+        await updateVendedor(vendedorId as number, form)
       } else {
-        await createInfluenciador(form)
-
-        setForm({
-          nome: "",
-          email: "",
-          telefone: "",
-          celular: ""
-        })
-
-        alert("Influenciador cadastrado com sucesso!")
+        await createVendedor(form)
       }
+      
+      setForm({
+        nome: "",
+        email: "",
+        telefone: "",
+        celular: ""
+      })
+
+      alert(isEdit ? "Vendedor atualizado com sucesso!" : "Vendedor cadastrado com sucesso!")
     } catch {
-      alert("Erro ao salvar influenciador")
+      alert("Erro ao salvar vendedor")
     } finally {
       setLoading(false)
     }
@@ -74,10 +79,9 @@ function FormInfluenciadores() {
 
   return (
     <BaseForm
-      title={influenciadorId ? "Editar Influenciador" : "Cadastro de Influenciadores"}
-      subtitle="Preencha os dados do influenciador"
+      title={isEdit ? "Editar Vendedor" : "Cadastro de Vendedores"}
+      subtitle="Preencha os dados do vendedor"
       loading={loading}
-      submitLabel={influenciadorId ? "Atualizar" : "Cadastrar"}
       onSubmit={handleSubmit}
     >
       <InputField id="nome" label="Nome" value={form.nome} onChange={handleChange} />
@@ -104,6 +108,6 @@ function InputField({ id, label, value, onChange }: any) {
   )
 }
 
-export const Route = createFileRoute("/admin/influenciadores")({
-  component: FormInfluenciadores,
+export const Route = createFileRoute("/admin/vendedores")({
+  component: FormVendedores,
 })

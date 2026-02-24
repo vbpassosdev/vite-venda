@@ -15,6 +15,7 @@
   @import "./styles/admin-layout.css";
   @import "./styles/list-floral.css";
   @import "./styles/pedidos.css";
+  @import "./styles/print-pedido.css";
 }
 
 /* UTILITIES */

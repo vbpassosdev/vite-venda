@@ -38,7 +38,7 @@
 
 
 
-//butons de acoes na tabela
+/* buttons de ações na tabela */
 /* ACTIONS */
 .table-actions {
   @apply flex justify-end gap-2;

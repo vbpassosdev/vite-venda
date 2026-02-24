@@ -3,14 +3,25 @@ import { useEffect, useState } from "react"
 import { Input } from "@/components/ui/input"
 import { createCliente, getClienteById, updateCliente } from "@/services/clientesService"
 import { BaseForm } from "@/components/form/BaseForm"
+import type { ClientesCreate } from "@/services/clientesService" // adjust path if needed
 
 export type Cliente = {
   id?: string
-  nome: string
-  email: string
-  telefone: string
-  celular: string
-  tipoCliente: number
+  cpfCnpj: string
+  tipoPessoa: string
+  razaoSocial: string
+  cep: string
+  logradouro: string
+  numero: string
+  complemento?: string
+  bairro: string
+  cidade: string
+  uf: string
+  celularDdd?: string
+  celular?: string
+  telefoneDdd?: string
+  telefone?: string
+  email?: string
 }
 
 export const Route = createFileRoute("/admin/clientes")({
@@ -21,13 +32,23 @@ export const Route = createFileRoute("/admin/clientes")({
 })
 
 function FormClientes() {
-  const [form, setForm] = useState({
-    nome: "",
-    email: "",
-    telefone: "",
-    celular: "",
-    tipoCliente: ""
-  })
+const [form, setForm] = useState<Cliente>({
+  cpfCnpj: "",
+  tipoPessoa: "",
+  razaoSocial: "",
+  cep: "",
+  logradouro: "",
+  numero: "",
+  complemento: "",
+  bairro: "",
+  cidade: "",
+  uf: "",
+  celularDdd: "",
+  celular: "",
+  telefoneDdd: "",
+  telefone: "",
+  email: ""
+})
   
   const { id } = useSearch({ from: "/admin/clientes" })
 
@@ -47,11 +68,21 @@ function FormClientes() {
         try {
           const data = await getClienteById(id as string)
           setForm({
-            nome: data.nome,
-            email: data.email,
-            telefone: data.telefone,
-            celular: data.celular,
-            tipoCliente: String(data.tipoCliente)
+            cpfCnpj: data.cpfCnpj,
+            tipoPessoa: data.tipoPessoa,
+            razaoSocial: data.razaoSocial,
+            cep: data.cep,
+            logradouro: data.logradouro,
+            numero: data.numero,
+            complemento: data.complemento ?? "",
+            bairro: data.bairro,
+            cidade: data.cidade,
+            uf: data.uf,
+            celularDdd: data.celularDdd?.toString() ?? "",
+            celular: data.celular?.toString() ?? "",
+            telefoneDdd: data.telefoneDdd?.toString() ?? "",
+            telefone: data.telefone?.toString() ?? "",
+            email: data.email ?? ""
           })
         } catch (err) {
           console.error(err)
@@ -74,28 +105,43 @@ function FormClientes() {
     setLoading(true)
 
     try {
-      const payload = {
+      const payload: ClientesCreate = {
         ...form,
-        tipoCliente: Number(form.tipoCliente)
+        complemento: form.complemento ?? "",
+        email: form.email ?? "",
+        celularDdd: form.celularDdd ?? "",
+        celular: form.celular ?? "",
+        telefoneDdd: form.telefoneDdd ?? "",
+        telefone: form.telefone ?? "",
       }
 
-      if (id && id !== "novo") {
+      if (isEdit) {
+        if (!id) throw new Error("ID inválido")
         await updateCliente(id, payload)
-        alert("Cliente atualizado com sucesso!")
       } else {
         await createCliente(payload)
-        alert("Cliente cadastrado com sucesso!")
-
-        setForm({
-          nome: "",
-          email: "",
-          telefone: "",
-          celular: "",
-          tipoCliente: ""
-        })
       }
-    } catch (err) {
-      console.error(err)
+      setForm({
+        cpfCnpj: "",
+        tipoPessoa: "",
+        razaoSocial: "",
+        cep: "",
+        logradouro: "",
+        numero: "",
+        complemento: "",
+        bairro: "",
+        cidade: "",
+        uf: "",
+        celularDdd: "",
+        celular: "",
+        telefoneDdd: "",
+        telefone: "",
+        email: ""
+      })
+
+      alert(isEdit ? "Cliente atualizado com sucesso!" : 
+            "Cliente cadastrado com sucesso!")
+    } catch {
       alert("Erro ao salvar cliente")
     } finally {
       setLoading(false)
@@ -109,12 +155,22 @@ function FormClientes() {
       loading={loading}
       onSubmit={handleSubmit}
     >
-      <InputField id="nome" label="Nome" value={form.nome} onChange={handleChange} />
-      <InputField id="email" label="Email" value={form.email} onChange={handleChange} />
-      <InputField id="telefone" label="Telefone" value={form.telefone} onChange={handleChange} />
-      <InputField id="celular" label="Celular" value={form.celular} onChange={handleChange} />
-      <InputField id="tipoCliente" label="Tipo Cliente" value={form.tipoCliente} onChange={handleChange} />
-    </BaseForm>
+      <InputField id="cpfCnpj" label="CPF/CNPJ" value={form.cpfCnpj} onChange={handleChange} />
+      <InputField id="tipoPessoa" label="Tipo Pessoa" value={form.tipoPessoa} onChange={handleChange} />
+      <InputField id="razaoSocial" label="Razão Social" value={form.razaoSocial} onChange={handleChange} />
+      <InputField id="cep" label="CEP" value={form.cep} onChange={handleChange} />
+      <InputField id="logradouro" label="Logradouro" value={form.logradouro} onChange={handleChange} />
+      <InputField id="numero" label="Número" value={form.numero} onChange={handleChange} />
+      <InputField id="complemento" label="Complemento" value={form.complemento ?? ""} onChange={handleChange} />
+      <InputField id="email" label="Email" value={form.email ?? ""} onChange={handleChange} />
+      <InputField id="bairro" label="Bairro" value={form.bairro} onChange={handleChange} />
+      <InputField id="cidade" label="Cidade" value={form.cidade} onChange={handleChange} />
+      <InputField id="uf" label="UF" value={form.uf} onChange={handleChange} />
+      <InputField id="celularDdd" label="DDD Celular" value={form.celularDdd ?? ""} onChange={handleChange} />
+      <InputField id="celular" label="Celular" value={form.celular ?? ""} onChange={handleChange} />
+      <InputField id="telefoneDdd" label="DDD Telefone" value={form.telefoneDdd ?? ""} onChange={handleChange} />
+      <InputField id="telefone" label="Telefone" value={form.telefone ?? ""} onChange={handleChange} />
+      </BaseForm>
   )
 }
 

@@ -1,15 +1,30 @@
 import { api } from './api'
 
-type ClientesCreate = {
-  nome: string
-  email: string
-  telefone: string
+export type ClientesCreate = {
+  cpfCnpj: string
+  tipoPessoa: string
+  razaoSocial: string
+  cep: string
+  logradouro: string
+  numero: string
+  complemento: string
+  bairro: string
+  cidade: string
+  uf: string
+  celularDdd: string
   celular: string
-  tipoCliente: number
+  telefoneDdd: string
+  telefone: string
+  email: string
 }
 
 export const getClientes = async () => {
   const { data } = await api.get('/Clientes')
+  return data
+}
+
+export const searchClientes = async (query: string) => {
+  const { data } = await api.get(`/Clientes/search?q=${encodeURIComponent(query)}`)
   return data
 }
 

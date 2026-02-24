@@ -11,15 +11,17 @@
 import { Route as rootRouteImport } from './routes/__root'
 import { Route as AdminRouteImport } from './routes/admin'
 import { Route as IndexRouteImport } from './routes/index'
+import { Route as AdminVendedoreslistRouteImport } from './routes/admin/vendedoreslist'
+import { Route as AdminVendedoresRouteImport } from './routes/admin/vendedores'
+import { Route as AdminTituloslistRouteImport } from './routes/admin/tituloslist'
+import { Route as AdminTitulosRouteImport } from './routes/admin/titulos'
 import { Route as AdminProdutoslistRouteImport } from './routes/admin/produtoslist'
 import { Route as AdminProdutosRouteImport } from './routes/admin/produtos'
+import { Route as AdminPedidoslistRouteImport } from './routes/admin/pedidoslist'
 import { Route as AdminPedidosRouteImport } from './routes/admin/pedidos'
 import { Route as AdminMainRouteImport } from './routes/admin/main'
-import { Route as AdminInfluenciadoreslistRouteImport } from './routes/admin/influenciadoreslist'
-import { Route as AdminInfluenciadoresRouteImport } from './routes/admin/influenciadores'
 import { Route as AdminClienteslistRouteImport } from './routes/admin/clienteslist'
 import { Route as AdminClientesRouteImport } from './routes/admin/clientes'
-import { Route as AdminBoletolistRouteImport } from './routes/admin/boletolist'
 
 const AdminRoute = AdminRouteImport.update({
   id: '/admin',
@@ -31,6 +33,26 @@ const IndexRoute = IndexRouteImport.update({
   path: '/',
   getParentRoute: () => rootRouteImport,
 } as any)
+const AdminVendedoreslistRoute = AdminVendedoreslistRouteImport.update({
+  id: '/vendedoreslist',
+  path: '/vendedoreslist',
+  getParentRoute: () => AdminRoute,
+} as any)
+const AdminVendedoresRoute = AdminVendedoresRouteImport.update({
+  id: '/vendedores',
+  path: '/vendedores',
+  getParentRoute: () => AdminRoute,
+} as any)
+const AdminTituloslistRoute = AdminTituloslistRouteImport.update({
+  id: '/tituloslist',
+  path: '/tituloslist',
+  getParentRoute: () => AdminRoute,
+} as any)
+const AdminTitulosRoute = AdminTitulosRouteImport.update({
+  id: '/titulos',
+  path: '/titulos',
+  getParentRoute: () => AdminRoute,
+} as any)
 const AdminProdutoslistRoute = AdminProdutoslistRouteImport.update({
   id: '/produtoslist',
   path: '/produtoslist',
@@ -39,6 +61,11 @@ const AdminProdutoslistRoute = AdminProdutoslistRouteImport.update({
 const AdminProdutosRoute = AdminProdutosRouteImport.update({
   id: '/produtos',
   path: '/produtos',
+  getParentRoute: () => AdminRoute,
+} as any)
+const AdminPedidoslistRoute = AdminPedidoslistRouteImport.update({
+  id: '/pedidoslist',
+  path: '/pedidoslist',
   getParentRoute: () => AdminRoute,
 } as any)
 const AdminPedidosRoute = AdminPedidosRouteImport.update({
@@ -51,17 +78,6 @@ const AdminMainRoute = AdminMainRouteImport.update({
   path: '/main',
   getParentRoute: () => AdminRoute,
 } as any)
-const AdminInfluenciadoreslistRoute =
-  AdminInfluenciadoreslistRouteImport.update({
-    id: '/influenciadoreslist',
-    path: '/influenciadoreslist',
-    getParentRoute: () => AdminRoute,
-  } as any)
-const AdminInfluenciadoresRoute = AdminInfluenciadoresRouteImport.update({
-  id: '/influenciadores',
-  path: '/influenciadores',
-  getParentRoute: () => AdminRoute,
-} as any)
 const AdminClienteslistRoute = AdminClienteslistRouteImport.update({
   id: '/clienteslist',
   path: '/clienteslist',
@@ -72,92 +88,99 @@ const AdminClientesRoute = AdminClientesRouteImport.update({
   path: '/clientes',
   getParentRoute: () => AdminRoute,
 } as any)
-const AdminBoletolistRoute = AdminBoletolistRouteImport.update({
-  id: '/boletolist',
-  path: '/boletolist',
-  getParentRoute: () => AdminRoute,
-} as any)
 
 export interface FileRoutesByFullPath {
   '/': typeof IndexRoute
   '/admin': typeof AdminRouteWithChildren
-  '/admin/boletolist': typeof AdminBoletolistRoute
   '/admin/clientes': typeof AdminClientesRoute
   '/admin/clienteslist': typeof AdminClienteslistRoute
-  '/admin/influenciadores': typeof AdminInfluenciadoresRoute
-  '/admin/influenciadoreslist': typeof AdminInfluenciadoreslistRoute
   '/admin/main': typeof AdminMainRoute
   '/admin/pedidos': typeof AdminPedidosRoute
+  '/admin/pedidoslist': typeof AdminPedidoslistRoute
   '/admin/produtos': typeof AdminProdutosRoute
   '/admin/produtoslist': typeof AdminProdutoslistRoute
+  '/admin/titulos': typeof AdminTitulosRoute
+  '/admin/tituloslist': typeof AdminTituloslistRoute
+  '/admin/vendedores': typeof AdminVendedoresRoute
+  '/admin/vendedoreslist': typeof AdminVendedoreslistRoute
 }
 export interface FileRoutesByTo {
   '/': typeof IndexRoute
   '/admin': typeof AdminRouteWithChildren
-  '/admin/boletolist': typeof AdminBoletolistRoute
   '/admin/clientes': typeof AdminClientesRoute
   '/admin/clienteslist': typeof AdminClienteslistRoute
-  '/admin/influenciadores': typeof AdminInfluenciadoresRoute
-  '/admin/influenciadoreslist': typeof AdminInfluenciadoreslistRoute
   '/admin/main': typeof AdminMainRoute
   '/admin/pedidos': typeof AdminPedidosRoute
+  '/admin/pedidoslist': typeof AdminPedidoslistRoute
   '/admin/produtos': typeof AdminProdutosRoute
   '/admin/produtoslist': typeof AdminProdutoslistRoute
+  '/admin/titulos': typeof AdminTitulosRoute
+  '/admin/tituloslist': typeof AdminTituloslistRoute
+  '/admin/vendedores': typeof AdminVendedoresRoute
+  '/admin/vendedoreslist': typeof AdminVendedoreslistRoute
 }
 export interface FileRoutesById {
   __root__: typeof rootRouteImport
   '/': typeof IndexRoute
   '/admin': typeof AdminRouteWithChildren
-  '/admin/boletolist': typeof AdminBoletolistRoute
   '/admin/clientes': typeof AdminClientesRoute
   '/admin/clienteslist': typeof AdminClienteslistRoute
-  '/admin/influenciadores': typeof AdminInfluenciadoresRoute
-  '/admin/influenciadoreslist': typeof AdminInfluenciadoreslistRoute
   '/admin/main': typeof AdminMainRoute
   '/admin/pedidos': typeof AdminPedidosRoute
+  '/admin/pedidoslist': typeof AdminPedidoslistRoute
   '/admin/produtos': typeof AdminProdutosRoute
   '/admin/produtoslist': typeof AdminProdutoslistRoute
+  '/admin/titulos': typeof AdminTitulosRoute
+  '/admin/tituloslist': typeof AdminTituloslistRoute
+  '/admin/vendedores': typeof AdminVendedoresRoute
+  '/admin/vendedoreslist': typeof AdminVendedoreslistRoute
 }
 export interface FileRouteTypes {
   fileRoutesByFullPath: FileRoutesByFullPath
   fullPaths:
     | '/'
     | '/admin'
-    | '/admin/boletolist'
     | '/admin/clientes'
     | '/admin/clienteslist'
-    | '/admin/influenciadores'
-    | '/admin/influenciadoreslist'
     | '/admin/main'
     | '/admin/pedidos'
+    | '/admin/pedidoslist'
     | '/admin/produtos'
     | '/admin/produtoslist'
+    | '/admin/titulos'
+    | '/admin/tituloslist'
+    | '/admin/vendedores'
+    | '/admin/vendedoreslist'
   fileRoutesByTo: FileRoutesByTo
   to:
     | '/'
     | '/admin'
-    | '/admin/boletolist'
     | '/admin/clientes'
     | '/admin/clienteslist'
-    | '/admin/influenciadores'
-    | '/admin/influenciadoreslist'
     | '/admin/main'
     | '/admin/pedidos'
+    | '/admin/pedidoslist'
     | '/admin/produtos'
     | '/admin/produtoslist'
+    | '/admin/titulos'
+    | '/admin/tituloslist'
+    | '/admin/vendedores'
+    | '/admin/vendedoreslist'
   id:
     | '__root__'
     | '/'
     | '/admin'
-    | '/admin/boletolist'
     | '/admin/clientes'
     | '/admin/clienteslist'
-    | '/admin/influenciadores'
-    | '/admin/influenciadoreslist'
     | '/admin/main'
     | '/admin/pedidos'
+    | '/admin/pedidoslist'
     | '/admin/produtos'
     | '/admin/produtoslist'
+    | '/admin/titulos'
+    | '/admin/tituloslist'
+    | '/admin/vendedores'
+    | '/admin/vendedoreslist'
   fileRoutesById: FileRoutesById
 }
 export interface RootRouteChildren {
@@ -181,6 +204,34 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof IndexRouteImport
       parentRoute: typeof rootRouteImport
     }
+    '/admin/vendedoreslist': {
+      id: '/admin/vendedoreslist'
+      path: '/vendedoreslist'
+      fullPath: '/admin/vendedoreslist'
+      preLoaderRoute: typeof AdminVendedoreslistRouteImport
+      parentRoute: typeof AdminRoute
+    }
+    '/admin/vendedores': {
+      id: '/admin/vendedores'
+      path: '/vendedores'
+      fullPath: '/admin/vendedores'
+      preLoaderRoute: typeof AdminVendedoresRouteImport
+      parentRoute: typeof AdminRoute
+    }
+    '/admin/tituloslist': {
+      id: '/admin/tituloslist'
+      path: '/tituloslist'
+      fullPath: '/admin/tituloslist'
+      preLoaderRoute: typeof AdminTituloslistRouteImport
+      parentRoute: typeof AdminRoute
+    }
+    '/admin/titulos': {
+      id: '/admin/titulos'
+      path: '/titulos'
+      fullPath: '/admin/titulos'
+      preLoaderRoute: typeof AdminTitulosRouteImport
+      parentRoute: typeof AdminRoute
+    }
     '/admin/produtoslist': {
       id: '/admin/produtoslist'
       path: '/produtoslist'
@@ -193,6 +244,13 @@ declare module '@tanstack/react-router' {
       path: '/produtos'
       fullPath: '/admin/produtos'
       preLoaderRoute: typeof AdminProdutosRouteImport
+      parentRoute: typeof AdminRoute
+    }
+    '/admin/pedidoslist': {
+      id: '/admin/pedidoslist'
+      path: '/pedidoslist'
+      fullPath: '/admin/pedidoslist'
+      preLoaderRoute: typeof AdminPedidoslistRouteImport
       parentRoute: typeof AdminRoute
     }
     '/admin/pedidos': {
@@ -209,20 +267,6 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof AdminMainRouteImport
       parentRoute: typeof AdminRoute
     }
-    '/admin/influenciadoreslist': {
-      id: '/admin/influenciadoreslist'
-      path: '/influenciadoreslist'
-      fullPath: '/admin/influenciadoreslist'
-      preLoaderRoute: typeof AdminInfluenciadoreslistRouteImport
-      parentRoute: typeof AdminRoute
-    }
-    '/admin/influenciadores': {
-      id: '/admin/influenciadores'
-      path: '/influenciadores'
-      fullPath: '/admin/influenciadores'
-      preLoaderRoute: typeof AdminInfluenciadoresRouteImport
-      parentRoute: typeof AdminRoute
-    }
     '/admin/clienteslist': {
       id: '/admin/clienteslist'
       path: '/clienteslist'
@@ -237,38 +281,35 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof AdminClientesRouteImport
       parentRoute: typeof AdminRoute
     }
-    '/admin/boletolist': {
-      id: '/admin/boletolist'
-      path: '/boletolist'
-      fullPath: '/admin/boletolist'
-      preLoaderRoute: typeof AdminBoletolistRouteImport
-      parentRoute: typeof AdminRoute
-    }
   }
 }
 
 interface AdminRouteChildren {
-  AdminBoletolistRoute: typeof AdminBoletolistRoute
   AdminClientesRoute: typeof AdminClientesRoute
   AdminClienteslistRoute: typeof AdminClienteslistRoute
-  AdminInfluenciadoresRoute: typeof AdminInfluenciadoresRoute
-  AdminInfluenciadoreslistRoute: typeof AdminInfluenciadoreslistRoute
   AdminMainRoute: typeof AdminMainRoute
   AdminPedidosRoute: typeof AdminPedidosRoute
+  AdminPedidoslistRoute: typeof AdminPedidoslistRoute
   AdminProdutosRoute: typeof AdminProdutosRoute
   AdminProdutoslistRoute: typeof AdminProdutoslistRoute
+  AdminTitulosRoute: typeof AdminTitulosRoute
+  AdminTituloslistRoute: typeof AdminTituloslistRoute
+  AdminVendedoresRoute: typeof AdminVendedoresRoute
+  AdminVendedoreslistRoute: typeof AdminVendedoreslistRoute
 }
 
 const AdminRouteChildren: AdminRouteChildren = {
-  AdminBoletolistRoute: AdminBoletolistRoute,
   AdminClientesRoute: AdminClientesRoute,
   AdminClienteslistRoute: AdminClienteslistRoute,
-  AdminInfluenciadoresRoute: AdminInfluenciadoresRoute,
-  AdminInfluenciadoreslistRoute: AdminInfluenciadoreslistRoute,
   AdminMainRoute: AdminMainRoute,
   AdminPedidosRoute: AdminPedidosRoute,
+  AdminPedidoslistRoute: AdminPedidoslistRoute,
   AdminProdutosRoute: AdminProdutosRoute,
   AdminProdutoslistRoute: AdminProdutoslistRoute,
+  AdminTitulosRoute: AdminTitulosRoute,
+  AdminTituloslistRoute: AdminTituloslistRoute,
+  AdminVendedoresRoute: AdminVendedoresRoute,
+  AdminVendedoreslistRoute: AdminVendedoreslistRoute,
 }
 
 const AdminRouteWithChildren = AdminRoute._addFileChildren(AdminRouteChildren)

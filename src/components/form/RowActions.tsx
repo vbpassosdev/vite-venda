@@ -1,14 +1,18 @@
 import { MoreHorizontal } from "lucide-react"
 import { useState, useRef, useEffect } from "react"
 import { createPortal } from "react-dom"
+
+const MENU_HEIGHT = 150
+
 type RowActionsProps<T> = {
   row: T
   onEdit?: (row: T) => void
   onPrint?: (row: T) => void
   onDelete?: (row: T) => void
+  printLabel?: string
 }
 
-export function RowActions<T>({ row, onEdit, onPrint }: RowActionsProps<T>) {
+export function RowActions<T>({ row, onEdit, onPrint, printLabel = "Imprimir" }: RowActionsProps<T>) {
   const [open, setOpen] = useState(false)
   const [openUp, setOpenUp] = useState(false)
   const buttonRef = useRef<HTMLButtonElement>(null)
@@ -33,9 +37,8 @@ export function RowActions<T>({ row, onEdit, onPrint }: RowActionsProps<T>) {
     if (open && buttonRef.current) {
       const rect = buttonRef.current.getBoundingClientRect()
       const spaceBelow = window.innerHeight - rect.bottom
-      const menuHeight = 150 // altura aproximada do menu
 
-      setOpenUp(spaceBelow < menuHeight)
+      setOpenUp(spaceBelow < MENU_HEIGHT)
     }
   }, [open])
 
@@ -58,7 +61,9 @@ export function RowActions<T>({ row, onEdit, onPrint }: RowActionsProps<T>) {
             ref={menuRef}
             style={{
               position: "fixed",
-              top: buttonRef.current?.getBoundingClientRect().bottom ?? 0,
+              top: openUp
+                ? (buttonRef.current?.getBoundingClientRect().top ?? 0) - MENU_HEIGHT
+                : buttonRef.current?.getBoundingClientRect().bottom ?? 0,
               left: buttonRef.current?.getBoundingClientRect().left ?? 0,
             }}
             className="w-48 z-9999 rounded-xl border border-gray-200 bg-white shadow-lg"
@@ -83,7 +88,7 @@ export function RowActions<T>({ row, onEdit, onPrint }: RowActionsProps<T>) {
                 }}
                 className="flex items-center gap-2 w-full px-4 py-2 text-sm text-red-600 hover:bg-red-50"
               >
-                Gerar Boleto
+                {printLabel}
               </button>
             )}
           </div>,

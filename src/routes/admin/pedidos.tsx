@@ -1,271 +1,359 @@
-import { createFileRoute } from '@tanstack/react-router'
-import { useState } from "react"
+import { createFileRoute, useSearch } from '@tanstack/react-router'
+import axios from 'axios'
+import { useEffect, useState, type FormEvent } from "react"
 import { BaseForm } from "@/components/form/BaseForm"
 import { Input } from '@/components/ui/input'
 import { Button } from '@/components/ui/button'
 import { Search } from 'lucide-react'
-import { getClientes } from '@/services/clientesService'
-
+import { BuscarCliente } from '@/components/form/BuscarCliente'
+import type { Cliente as ClienteBusca } from '@/components/form/BuscarCliente'
+import { BuscarProduto } from "@/components/form/BuscarProduto"
+import { PedidoPage } from '@/components/form/PedidoPage'
+import { createPedido, getPedidoById, updatePedido, type PedidoCreate } from '@/services/pedidosService'
 
 export const Route = createFileRoute('/admin/pedidos')({
+  validateSearch: (search) => ({
+    id: search.id as string | undefined,
+    print: search.print as string | undefined,
+  }),
   component: FormPedidos,
 })
 
-type Cliente = {
-  id: string
-  nome: string
-}
-
 type ItemPedido = {
-  produto: string
+  idProduto: number
+  produtoNome: string
   quantidade: number
-  valor: number
+  valorUnitario: number
 }
 
 function FormPedidos() {
-  const [buscaCliente, setBuscaCliente] = useState("")
-  const [clientes, setClientes] = useState<Cliente[]>([])
-  const [mostrarLista, setMostrarLista] = useState(false)
-  const [loadingClientes, setLoadingClientes] = useState(false)
-  
+  const { id, print } = useSearch({ from: "/admin/pedidos" })
+  const isEdit = Boolean(id)
+  const autoPrint = print === "1"
   const [loading, setLoading] = useState(false)
-
+  const [loadingPedido, setLoadingPedido] = useState(false)
+  const [itens, setItens] = useState<ItemPedido[]>([])
+  const [mostrarNovoItem, setMostrarNovoItem] = useState(false)
+  const [novoItem, setNovoItem] = useState<ItemPedido>({
+    idProduto: 0,
+    produtoNome: "",
+    quantidade: 1,
+    valorUnitario: 0,
+  })
   const [pedido, setPedido] = useState({
-    cliente: "",
-    data: "",
-    vendedor: "",
+    clienteId: "",
+    dataPedido: new Date(),
+    valorTotal: 0,
+    cliente: ""
   })
 
-  const [itens, setItens] = useState<ItemPedido[]>([
-    { produto: "", quantidade: 1, valor: 0 }
-  ])
+  useEffect(() => {
+    if (!id) return
 
-  async function buscarClientes(texto: string) {
-    if (!texto) {
-      setClientes([])
-      return
-    }
+    setLoadingPedido(true)
+    getPedidoById(id)
+      .then((data) => {
+        const clienteNome =
+          data?.clienteNome ||
+          data?.cliente?.razaoSocial ||
+          data?.cliente?.nome ||
+          ""
 
-    try {
-      setLoadingClientes(true)
+        setPedido({
+          clienteId: String(data?.clienteId || data?.cliente?.id || ""),
+          dataPedido: data?.dataPedido ? new Date(data.dataPedido) : new Date(),
+          valorTotal: Number(data?.valorTotal || 0),
+          cliente: clienteNome,
+        })
 
-      const data = await getClientes()
+        const itensApi = Array.isArray(data?.itens) ? data.itens : []
+        setItens(
+          itensApi.map((item: any) => ({
+            idProduto: Number(item?.produtoId || item?.idProduto || 0),
+            produtoNome:
+              item?.produtoNome ||
+              item?.produto?.nome ||
+              "",
+            quantidade: Number(item?.quantidade || 0),
+            valorUnitario: Number(item?.valorUnitario || 0),
+          })),
+        )
+      })
+      .catch(() => {
+        alert("Erro ao carregar pedido")
+      })
+      .finally(() => setLoadingPedido(false))
+  }, [id])
 
-      const filtrados = data.filter((c: Cliente) =>
-        c.nome.toLowerCase().includes(texto.toLowerCase())
-      )
+  const totalPedido = itens.reduce(
+    (total, item) => total + item.quantidade * item.valorUnitario,
+    0,
+  )
 
-      setClientes(filtrados)
-    } catch {
-      console.error("Erro ao buscar clientes")
-    } finally {
-      setLoadingClientes(false)
-    }
-  }
-
-  function handleItemChange(index: number, field: keyof ItemPedido, value: string | number) {
-    const novosItens = [...itens]
-    if (field === 'produto') {
-      novosItens[index][field] = value as string
-    } else {
-      novosItens[index][field] = value as number
-    }
-    setItens(novosItens)
+  const pedidoParaImpressao = {
+    numero: isEdit && id ? Number(id) || 0 : 0,
+    data: pedido.dataPedido.toLocaleDateString('pt-BR'),
+    clienteNome: pedido.cliente || 'Cliente não informado',
+    clienteDocumento: '-',
+    clienteEndereco: '-',
+    itens: itens.map((item) => ({
+      produto: item.produtoNome,
+      quantidade: item.quantidade,
+      valorUnitario: item.valorUnitario,
+    })),
+    subtotal: totalPedido,
+    desconto: 0,
+    total: totalPedido,
   }
 
   function adicionarItem() {
-    setItens([...itens, { produto: "", quantidade: 1, valor: 0 }])
-  }
+  if (!novoItem.idProduto) return
 
-  function removerItem(index: number) {
-    setItens(itens.filter((_, i) => i !== index))
-  }
+  setItens(prev => [...prev, novoItem])
 
-  const totalPedido = itens.reduce(
-    (total, item) => total + item.quantidade * item.valor,
-    0
-  )
+  setNovoItem({
+    idProduto: 0,
+    produtoNome: "",
+    quantidade: 1,
+    valorUnitario: 0,
+  })
 
-  async function handleSubmit(e: React.FormEvent) {
+  setMostrarNovoItem(false)
+}
+
+function removerItem(index: number) {
+  setItens(prev => prev.filter((_, i) => i !== index))
+}
+
+ async function handleSubmit(e: FormEvent) {
     e.preventDefault()
+
+    if (!pedido.clienteId) {
+      alert("Selecione um cliente antes de salvar o pedido")
+      return
+    }
+
+    if (itens.length === 0) {
+      alert("Adicione pelo menos um item ao pedido")
+      return
+    }
+
+    const itemInvalido = itens.some(
+      (item) =>
+        !item.produtoNome ||
+        item.idProduto <= 0 ||
+        item.quantidade <= 0 ||
+        item.valorUnitario <= 0,
+    )
+
+    if (itemInvalido) {
+      alert("Revise os itens: produto, quantidade e valor unitário são obrigatórios")
+      return
+    }
+
     setLoading(true)
 
     try {
-      console.log("Pedido enviado:", { pedido, itens, totalPedido })
-      alert("Pedido cadastrado com sucesso!")
-    } catch {
-      alert("Erro ao cadastrar pedido")
+      const valorTotal = itens.reduce(
+        (total, item) => total + item.quantidade * item.valorUnitario,
+        0,
+      )
+
+      const payload: PedidoCreate = {
+        clienteId: pedido.clienteId,
+        dataPedido: pedido.dataPedido.toISOString(),
+        valorTotal,
+        itens: itens.map((item) => ({
+          produtoId: item.idProduto,
+          produtoNome: item.produtoNome,
+          quantidade: item.quantidade,
+          valorUnitario: item.valorUnitario,
+        })),
+      }
+
+      if (isEdit) {
+        if (!id) throw new Error("ID inválido")
+        await updatePedido(id, payload)
+      } else {
+        await createPedido(payload)
+      }
+      setPedido({
+        clienteId: "",
+        dataPedido: new Date(),
+        valorTotal: 0,
+        cliente: ""
+      })
+      setItens([])
+      setMostrarNovoItem(false)
+
+      alert(isEdit ? "Pedido atualizado com sucesso!" : 
+            "Pedido cadastrado com sucesso!")
+    } catch (error) {
+      if (axios.isAxiosError(error)) {
+        const message =
+          error.response?.data?.message ||
+          error.response?.data?.title ||
+          error.message
+        alert(`Erro ao salvar pedido: ${message}`)
+      } else {
+        alert("Erro ao salvar pedido")
+      }
     } finally {
       setLoading(false)
     }
   }
 
+  
   return (
-    <BaseForm
-      title="Lançamento de Pedido"
-      subtitle="Preencha os dados do pedido"
-      loading={loading}
+     <BaseForm
+      title={isEdit ? "Editar Pedido" : "Cadastro de Pedido"}
+      subtitle="Preencha os dados do pedido de venda"
+      loading={loading || loadingPedido}
       onSubmit={handleSubmit}
     >
-
       <div className="form-pedidos">
-
-        {/* Cabeçalho */}
         <header className="form-pedidos-header">
           <h1>Pedido de Venda</h1>
           <p>Dados gerais do pedido</p>
+          <PedidoPage pedido={pedidoParaImpressao} autoPrint={autoPrint} />
         </header>
 
-        {/* Dados principais */}
         <section className="form-pedidos-section">
-          <div className="form-pedidos-field">
-            
+        <div className="form-pedidos-field">   
+            <div className="form-pedidos-field">
+              <Search className="absolute left-3 top-1/2 -translate-y-1/2 text-gray-400 w-4 h-4" />
+            <label>Cliente</label>
 
-
-
-
-  <label>Cliente</label>
-
-  <div className="relative">
-    <Search className="absolute left-3 top-1/2 -translate-y-1/2 text-gray-400 w-4 h-4" />
-
-    <Input
-      type="text"
-      placeholder="Busque por cliente..."
-      value={buscaCliente}
-      className="pl-9"
-      onChange={(e) => {
-        setBuscaCliente(e.target.value)
-        buscarClientes(e.target.value)
-        setMostrarLista(true)
-      }}
-      onBlur={() => setTimeout(() => setMostrarLista(false), 150)}
-    />
-  </div>
-
-  {mostrarLista && (
-    <div className="absolute z-50 bg-white border w-full rounded shadow mt-1 max-h-48 overflow-auto">
-
-      {loadingClientes && (
-        <div className="p-2 text-gray-500 text-sm">Buscando...</div>
-      )}
-
-      {!loadingClientes && clientes.length === 0 && (
-        <div className="p-2 text-gray-400 text-sm">Nenhum cliente encontrado</div>
-      )}
-
-      {clientes.map(cliente => (
-        <div
-          key={cliente.id}
-          className="px-3 py-2 hover:bg-gray-100 cursor-pointer"
-          onClick={() => {
-            setPedido({ ...pedido, cliente: cliente.nome })
-            setBuscaCliente(cliente.nome)
-            setMostrarLista(false)
-          }}
-        >
-          {cliente.nome}
-        </div>
-      ))}
-    </div>
-  )}
-
-
-
-
-
-
-
-
+            <BuscarCliente
+              onSelect={(cliente: ClienteBusca) =>
+                setPedido(prev => ({
+                  ...prev,
+                  clienteId: cliente.id,
+                  cliente: cliente.razaoSocial,
+                }))
+              }
+            />
           </div>
 
           <div className="form-pedidos-field">
             <label>Data do Pedido</label>
             <Input 
               type="date"
-              value={pedido.data}
-              onChange={e => setPedido({ ...pedido, data: e.target.value })}
+              value={pedido.dataPedido.toISOString().split("T")[0]}
+              onChange={e => setPedido({ ...pedido, dataPedido: new Date(e.target.value) })}
             />
           </div>
-
-          
+        </div>       
         </section>
 
         {/* Itens */}
         <section>
-          <div className="form-pedidos-itens-header">
+          <div className="form-pedidos-itens-header flex justify-between items-center">
             <h2>Itens do Pedido</h2>
 
-            <Button type="button" variant="outline" onClick={adicionarItem}>
+            <Button
+              type="button"
+              variant="outline"
+              onClick={() => setMostrarNovoItem(true)}
+            >
               + Adicionar Item
             </Button>
           </div>
 
-          <table className="form-pedidos-table">
-            <thead>
-              <tr>
-                <th>Produto</th>
-                <th>Qtde</th>
-                <th>Valor</th>
-                <th>Total</th>
-                <th></th>
-              </tr>
-            </thead>
+          {/* Formulário Novo Item */}
+          {mostrarNovoItem && (
+            <div className="border rounded p-4 mt-3 space-y-3 bg-gray-50">
 
-            <tbody>
-              {itens.map((item, index) => (
-                <tr key={index}>
+              <BuscarProduto
+                value={novoItem.produtoNome}
+                onSelect={(produto) =>
+                  setNovoItem(prev => ({
+                    ...prev,
+                    idProduto: Number(produto.id),
+                    produtoNome: produto.nome,
+                  }))
+                }
+              />
 
-                  <td>
-                    <Input
-                      value={item.produto}
-                      onChange={e => handleItemChange(index, "produto", e.target.value)}
-                    />
-                  </td>
+              <div className="grid grid-cols-2 gap-3">
+                <Input
+                  type="number"
+                  placeholder="Quantidade"
+                  value={novoItem.quantidade}
+                  onChange={(e) =>
+                    setNovoItem(prev => ({
+                      ...prev,
+                      quantidade: Number(e.target.value),
+                    }))
+                  }
+                />
 
-                  <td>
-                    <Input
-                      type="number"
-                      value={item.quantidade}
-                      onChange={e => handleItemChange(index, "quantidade", Number(e.target.value))}
-                    />
-                  </td>
+                <Input
+                  type="number"
+                  placeholder="Valor Unitário"
+                  value={novoItem.valorUnitario}
+                  onChange={(e) =>
+                    setNovoItem(prev => ({
+                      ...prev,
+                      valorUnitario: Number(e.target.value),
+                    }))
+                  }
+                />
+              </div>
 
-                  <td>
-                    <Input
-                      type="number"
-                      value={item.valor}
-                      onChange={e => handleItemChange(index, "valor", Number(e.target.value))}
-                    />
-                  </td>
+              <div className="flex gap-2">
+                <Button type="button" onClick={adicionarItem}>
+                  Salvar Item
+                </Button>
 
-                  <td>
-                    R$ {(item.quantidade * item.valor).toFixed(2)}
-                  </td>
+                <Button
+                  type="button"
+                  variant="ghost"
+                  onClick={() => setMostrarNovoItem(false)}
+                >
+                  Cancelar
+                </Button>
+              </div>
+            </div>
+          )}
 
-                  <td>
-                    <button
-                      type="button"
-                      className="form-pedidos-remove-btn"
-                      onClick={() => removerItem(index)}
+              {/* Lista de Itens */}
+                <div className="form-pedidos-itens-list mt-4 space-y-2">
+                  {itens.length === 0 && (
+                    <p className="text-gray-500">Nenhum item adicionado</p>
+                  )}
+
+                  {itens.map((item, index) => (
+                    <div
+                      key={index}
+                      className="flex justify-between items-center border rounded p-3 bg-white"
                     >
-                      Remover
-                    </button>
-                  </td>
+                      <div>
+                        <div className="font-medium">{item.produtoNome}</div>
+                        <div className="text-sm text-gray-500">
+                          {item.quantidade} x R$ {item.valorUnitario.toFixed(2)}
+                        </div>
+                      </div>
 
-                </tr>
-              ))}
-            </tbody>
-          </table>
+                      <div className="flex items-center gap-3">
+                        <div className="font-semibold">
+                          R$ {(item.quantidade * item.valorUnitario).toFixed(2)}
+                        </div>
+
+                        <Button
+                          type="button"
+                          variant="destructive"
+                          onClick={() => removerItem(index)}
+                        >
+                          Remover
+                        </Button>
+                      </div>
+                    </div>
+                  ))}
+                </div>
         </section>
-
-        {/* Total */}
-        <div className="form-pedidos-total">
-          Total: R$ {totalPedido.toFixed(2)}
-        </div>
-
-      </div>
-
-    </BaseForm>
-  )
+    </div>
+  </BaseForm>
+)
 }
+

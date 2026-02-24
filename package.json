@@ -37,6 +37,7 @@
     "lucide-react": "^0.544.0",
     "react": "^19.2.0",
     "react-dom": "^19.2.0",
+    "react-to-print": "^3.3.0",
     "shadcn-ui": "^0.9.5",
     "streamdown": "^1.6.5",
     "tailwind-merge": "^3.0.2",
