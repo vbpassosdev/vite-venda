@@ -93,7 +93,7 @@ function FormPedidos() {
   const pedidoParaImpressao = {
     numero: isEdit && id ? Number(id) || 0 : 0,
     data: pedido.dataPedido.toLocaleDateString('pt-BR'),
-    clienteNome: pedido.cliente || 'Cliente não informado',
+    clienteNome: pedido.cliente || 'Cliente nao informado',
     clienteDocumento: '-',
     clienteEndereco: '-',
     itens: itens.map((item) => ({
@@ -107,25 +107,25 @@ function FormPedidos() {
   }
 
   function adicionarItem() {
-  if (!novoItem.idProduto) return
+    if (!novoItem.idProduto) return
 
-  setItens(prev => [...prev, novoItem])
+    setItens(prev => [...prev, novoItem])
 
-  setNovoItem({
-    idProduto: 0,
-    produtoNome: "",
-    quantidade: 1,
-    valorUnitario: 0,
-  })
+    setNovoItem({
+      idProduto: 0,
+      produtoNome: "",
+      quantidade: 1,
+      valorUnitario: 0,
+    })
 
-  setMostrarNovoItem(false)
-}
+    setMostrarNovoItem(false)
+  }
 
-function removerItem(index: number) {
-  setItens(prev => prev.filter((_, i) => i !== index))
-}
+  function removerItem(index: number) {
+    setItens(prev => prev.filter((_, i) => i !== index))
+  }
 
- async function handleSubmit(e: FormEvent) {
+  async function handleSubmit(e: FormEvent) {
     e.preventDefault()
 
     if (!pedido.clienteId) {
@@ -147,7 +147,7 @@ function removerItem(index: number) {
     )
 
     if (itemInvalido) {
-      alert("Revise os itens: produto, quantidade e valor unitário são obrigatórios")
+      alert("Revise os itens: produto, quantidade e valor unitario sao obrigatorios")
       return
     }
 
@@ -172,7 +172,7 @@ function removerItem(index: number) {
       }
 
       if (isEdit) {
-        if (!id) throw new Error("ID inválido")
+        if (!id) throw new Error("ID invalido")
         await updatePedido(id, payload)
       } else {
         await createPedido(payload)
@@ -186,8 +186,7 @@ function removerItem(index: number) {
       setItens([])
       setMostrarNovoItem(false)
 
-      alert(isEdit ? "Pedido atualizado com sucesso!" : 
-            "Pedido cadastrado com sucesso!")
+      alert(isEdit ? "Pedido atualizado com sucesso!" : "Pedido cadastrado com sucesso!")
     } catch (error) {
       if (axios.isAxiosError(error)) {
         const message =
@@ -203,67 +202,63 @@ function removerItem(index: number) {
     }
   }
 
-  
   return (
-     <BaseForm
-      title={isEdit ? "Editar Pedido" : "Cadastro de Pedido"}
-      subtitle="Preencha os dados do pedido de venda"
+    <BaseForm
+      title={isEdit ? "Editar pedido" : "Cadastro de pedido"}
+      subtitle="Preencha os dados do pedido para simular faturamento e emissao"
       loading={loading || loadingPedido}
       onSubmit={handleSubmit}
     >
       <div className="form-pedidos">
         <header className="form-pedidos-header">
-          <h1>Pedido de Venda</h1>
-          <p>Dados gerais do pedido</p>
+          <h1>Pedido para faturamento</h1>
+          <p>Dados gerais do pedido e conferencia para impressao</p>
           <PedidoPage pedido={pedidoParaImpressao} autoPrint={autoPrint} />
         </header>
 
         <section className="form-pedidos-section">
-        <div className="form-pedidos-field">   
+          <div className="form-pedidos-field">
             <div className="form-pedidos-field">
               <Search className="absolute left-3 top-1/2 -translate-y-1/2 text-gray-400 w-4 h-4" />
-            <label>Cliente</label>
+              <label>Cliente</label>
 
-            <BuscarCliente
-              onSelect={(cliente: ClienteBusca) =>
-                setPedido(prev => ({
-                  ...prev,
-                  clienteId: cliente.id,
-                  cliente: cliente.razaoSocial,
-                }))
-              }
-            />
-          </div>
+              <BuscarCliente
+                onSelect={(cliente: ClienteBusca) =>
+                  setPedido(prev => ({
+                    ...prev,
+                    clienteId: cliente.id,
+                    cliente: cliente.razaoSocial,
+                  }))
+                }
+              />
+            </div>
 
-          <div className="form-pedidos-field">
-            <label>Data do Pedido</label>
-            <Input 
-              type="date"
-              value={pedido.dataPedido.toISOString().split("T")[0]}
-              onChange={e => setPedido({ ...pedido, dataPedido: new Date(e.target.value) })}
-            />
+            <div className="form-pedidos-field">
+              <label>Data do pedido</label>
+              <Input
+                type="date"
+                value={pedido.dataPedido.toISOString().split("T")[0]}
+                onChange={e => setPedido({ ...pedido, dataPedido: new Date(e.target.value) })}
+              />
+            </div>
           </div>
-        </div>       
         </section>
 
-        {/* Itens */}
         <section>
           <div className="form-pedidos-itens-header flex justify-between items-center">
-            <h2>Itens do Pedido</h2>
+            <h2>Itens para emissao</h2>
 
             <Button
               type="button"
               variant="outline"
               onClick={() => setMostrarNovoItem(true)}
             >
-              + Adicionar Item
+              + Adicionar item
             </Button>
           </div>
 
-          {/* Formulário Novo Item */}
           {mostrarNovoItem && (
             <div className="border rounded p-4 mt-3 space-y-3 bg-gray-50">
-
               <BuscarProduto
                 value={novoItem.produtoNome}
                 onSelect={(produto) =>
@@ -290,7 +285,7 @@ function removerItem(index: number) {
 
                 <Input
                   type="number"
-                  placeholder="Valor Unitário"
+                  placeholder="Valor unitario"
                   value={novoItem.valorUnitario}
                   onChange={(e) =>
                     setNovoItem(prev => ({
@@ -303,7 +298,7 @@ function removerItem(index: number) {
 
               <div className="flex gap-2">
                 <Button type="button" onClick={adicionarItem}>
-                  Salvar Item
+                  Salvar item
                 </Button>
 
                 <Button
@@ -317,43 +312,42 @@ function removerItem(index: number) {
             </div>
           )}
 
-              {/* Lista de Itens */}
-                <div className="form-pedidos-itens-list mt-4 space-y-2">
-                  {itens.length === 0 && (
-                    <p className="text-gray-500">Nenhum item adicionado</p>
-                  )}
+          <div className="form-pedidos-itens-list mt-4 space-y-2">
+            {itens.length === 0 && (
+              <p className="text-gray-500">Nenhum item adicionado</p>
+            )}
 
-                  {itens.map((item, index) => (
-                    <div
-                      key={index}
-                      className="flex justify-between items-center border rounded p-3 bg-white"
-                    >
-                      <div>
-                        <div className="font-medium">{item.produtoNome}</div>
-                        <div className="text-sm text-gray-500">
-                          {item.quantidade} x R$ {item.valorUnitario.toFixed(2)}
-                        </div>
-                      </div>
-
-                      <div className="flex items-center gap-3">
-                        <div className="font-semibold">
-                          R$ {(item.quantidade * item.valorUnitario).toFixed(2)}
-                        </div>
-
-                        <Button
-                          type="button"
-                          variant="destructive"
-                          onClick={() => removerItem(index)}
-                        >
-                          Remover
-                        </Button>
-                      </div>
-                    </div>
-                  ))}
+            {itens.map((item, index) => (
+              <div
+                key={index}
+                className="flex justify-between items-center border rounded p-3 bg-white"
+              >
+                <div>
+                  <div className="font-medium">{item.produtoNome}</div>
+                  <div className="text-sm text-gray-500">
+                    {item.quantidade} x R$ {item.valorUnitario.toFixed(2)}
+                  </div>
                 </div>
+
+                <div className="flex items-center gap-3">
+                  <div className="font-semibold">
+                    R$ {(item.quantidade * item.valorUnitario).toFixed(2)}
+                  </div>
+
+                  <Button
+                    type="button"
+                    variant="destructive"
+                    onClick={() => removerItem(index)}
+                  >
+                    Remover
+                  </Button>
+                </div>
+              </div>
+            ))}
+          </div>
         </section>
-    </div>
-  </BaseForm>
-)
+      </div>
+    </BaseForm>
+  )
 }
 

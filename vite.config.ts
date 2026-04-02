@@ -18,9 +18,17 @@ const config = defineConfig({
       '/api': {
         target: 'http://localhost:5148',
         changeOrigin: true,
-      }
-    }
-  }
+      },
+    },
+  },
+  preview: {
+    proxy: {
+      '/api': {
+        target: 'http://localhost:5148',
+        changeOrigin: true,
+      },
+    },
+  },
 })
 
 export default config

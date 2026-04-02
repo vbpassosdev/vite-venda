@@ -87,14 +87,14 @@ function FormTitulos() {
 
       if (isEdit && id !== "novo") {
         await updateTitulo(id!, payload)
-        alert("Título atualizado com sucesso!")
+        alert("Titulo atualizado com sucesso!")
       } else {
         await createTitulo(payload)
-        alert("Título cadastrado com sucesso!")
+        alert("Titulo cadastrado com sucesso!")
       }
     } catch (err) {
       console.error(err)
-      alert("Erro ao salvar título")
+      alert("Erro ao salvar titulo")
     } finally {
       setLoading(false)
     }
@@ -102,8 +102,8 @@ function FormTitulos() {
 
   return (
     <BaseForm
-      title={isEdit ? "Editar Título" : "Cadastro de Título"}
-      subtitle="Dados do boleto"
+      title={isEdit ? "Editar titulo de cobranca" : "Cadastro de titulo para boleto"}
+      subtitle="Preencha os dados para emissao do boleto"
       loading={loading}
       onSubmit={handleSubmit}
     >
@@ -266,4 +266,5 @@ function InputField({
         </div>
     )
 }
+
 

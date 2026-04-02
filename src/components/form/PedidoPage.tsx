@@ -27,7 +27,7 @@ export function PedidoPage({ pedido, autoPrint = false }: PedidoPageProps) {
 
   return (
     <>
-      <button onClick={handlePrint}>Imprimir Pedido</button>
+      <button onClick={handlePrint}>Visualizar impressao</button>
 
       <div
         aria-hidden

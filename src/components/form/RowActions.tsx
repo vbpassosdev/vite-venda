@@ -12,7 +12,7 @@ type RowActionsProps<T> = {
   printLabel?: string
 }
 
-export function RowActions<T>({ row, onEdit, onPrint, printLabel = "Imprimir" }: RowActionsProps<T>) {
+export function RowActions<T>({ row, onEdit, onPrint, printLabel = "Visualizar" }: RowActionsProps<T>) {
   const [open, setOpen] = useState(false)
   const [openUp, setOpenUp] = useState(false)
   const buttonRef = useRef<HTMLButtonElement>(null)
@@ -44,16 +44,13 @@ export function RowActions<T>({ row, onEdit, onPrint, printLabel = "Imprimir" }:
 
   return (
     <div className="relative text-left">
-      {/* BOTÃO */}
       <button
         ref={buttonRef}
         onClick={() => setOpen(!open)}
-        className="flex items-center gap-2 px-3 py-2 rounded-lg border border-gray-200 bg-white hover:bg-gray-50 transition text-sm"
+        className="flex items-center gap-2 px-3 py-2 rounded-lg border border-slate-200 bg-white hover:bg-slate-50 transition text-sm"
       >
         <MoreHorizontal className="w-4 h-4" />
       </button>
-
-      {/* MENU */}
 
       {open &&
         createPortal(
@@ -66,7 +63,7 @@ export function RowActions<T>({ row, onEdit, onPrint, printLabel = "Imprimir" }:
                 : buttonRef.current?.getBoundingClientRect().bottom ?? 0,
               left: buttonRef.current?.getBoundingClientRect().left ?? 0,
             }}
-            className="w-48 z-9999 rounded-xl border border-gray-200 bg-white shadow-lg"
+            className="w-48 z-9999 rounded-xl border border-slate-200 bg-white shadow-lg"
           >
             {onEdit && (
               <button
@@ -74,9 +71,9 @@ export function RowActions<T>({ row, onEdit, onPrint, printLabel = "Imprimir" }:
                   onEdit(row)
                   setOpen(false)
                 }}
-                className="flex items-center gap-2 w-full px-4 py-2 text-sm hover:bg-indigo-50"
+                className="flex items-center gap-2 w-full px-4 py-2 text-sm text-slate-700 hover:bg-sky-50"
               >
-                Editar
+                Abrir
               </button>
             )}
 
@@ -86,7 +83,7 @@ export function RowActions<T>({ row, onEdit, onPrint, printLabel = "Imprimir" }:
                   onPrint(row)
                   setOpen(false)
                 }}
-                className="flex items-center gap-2 w-full px-4 py-2 text-sm text-red-600 hover:bg-red-50"
+                className="flex items-center gap-2 w-full px-4 py-2 text-sm text-emerald-700 hover:bg-emerald-50"
               >
                 {printLabel}
               </button>
@@ -94,8 +91,6 @@ export function RowActions<T>({ row, onEdit, onPrint, printLabel = "Imprimir" }:
           </div>,
           document.body
         )}
-
-   
     </div>
   )
 }

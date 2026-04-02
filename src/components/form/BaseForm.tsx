@@ -14,7 +14,7 @@ export function BaseForm({
   title,
   subtitle,
   loading = false,
-  submitLabel = "Salvar exemplo",
+  submitLabel = "Salvar",
   onSubmit,
   children
 }: BaseFormProps) {
@@ -30,7 +30,7 @@ export function BaseForm({
 
         <div className="flex justify-end pt-4">
           <Button className="bg-sky-600 hover:bg-sky-700" type="submit" disabled={loading}>
-            {loading ? "Salvando exemplo..." : submitLabel}
+            {loading ? "Salvando..." : submitLabel}
           </Button>
         </div>
       </form>

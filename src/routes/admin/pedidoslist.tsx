@@ -16,56 +16,64 @@ type Pedido = {
 }
 
 function FormPedidosList() {
-    const [data, setData] = useState<Pedido[]>([])
-    const [loading, setLoading] = useState(true)
-    const navigate = useNavigate()
+  const [data, setData] = useState<Pedido[]>([])
+  const [loading, setLoading] = useState(true)
+  const navigate = useNavigate()
 
-      function formatDate(value: string | Date) {
-        const parsedDate = value instanceof Date ? value : new Date(value)
+  function formatDate(value: string | Date) {
+    const parsedDate = value instanceof Date ? value : new Date(value)
 
-        if (Number.isNaN(parsedDate.getTime())) {
-          return '-'
-        }
+    if (Number.isNaN(parsedDate.getTime())) {
+      return '-'
+    }
 
-        return parsedDate.toLocaleDateString()
-      }
+    return parsedDate.toLocaleDateString()
+  }
 
-      function getClienteNome(pedido: Pedido) {
-        if (typeof pedido.cliente === 'string' && pedido.cliente.trim()) {
-          return pedido.cliente
-        }
+  function getClienteNome(pedido: Pedido) {
+    if (typeof pedido.cliente === 'string' && pedido.cliente.trim()) {
+      return pedido.cliente
+    }
 
-        if (pedido.cliente && typeof pedido.cliente === 'object') {
-          return pedido.cliente.razaoSocial || pedido.cliente.nome || '-'
-        }
+    if (pedido.cliente && typeof pedido.cliente === 'object') {
+      return pedido.cliente.razaoSocial || pedido.cliente.nome || '-'
+    }
 
-        return pedido.clienteNome || '-'
-      }
+    return pedido.clienteNome || '-'
+  }
 
-      useEffect(() => {
-        getPedidos()
-          .then(setData)
-          .finally(() => setLoading(false))
-      }, [])
+  function getStatusTone(status: string) {
+    const normalized = status.toLowerCase()
 
-      function handleEdit(row: Pedido) {
-        console.log(row)
-        navigate({
-          to: "/admin/pedidos",
-          search: { id: String(row.id), print: undefined }
-        })
-      }    
+    if (normalized.includes('fat') || normalized.includes('emit')) return 'bg-emerald-100 text-emerald-800'
+    if (normalized.includes('aber') || normalized.includes('pend')) return 'bg-amber-100 text-amber-800'
+    return 'bg-sky-100 text-sky-800'
+  }
 
-    function handlePrint(row: Pedido) {
-      navigate({
-        to: "/admin/pedidos",
-        search: { id: String(row.id), print: "1" }
-      })
-    }       
-  return(
+  useEffect(() => {
+    getPedidos()
+      .then(setData)
+      .finally(() => setLoading(false))
+  }, [])
+
+  function handleEdit(row: Pedido) {
+    navigate({
+      to: "/admin/pedidos",
+      search: { id: String(row.id), print: undefined }
+    })
+  }
+
+  function handlePrint(row: Pedido) {
+    navigate({
+      to: "/admin/pedidos",
+      search: { id: String(row.id), print: "1" }
+    })
+  }
+
+  return (
     <BaseList
       title="Pedidos"
-      subtitle="Gerencie os pedidos gerados"
+      subtitle="Acompanhe os pedidos do fluxo de faturamento"
       loading={loading}
       empty={!loading && data.length === 0}
       emptyMessage="Nenhum pedido encontrado."
@@ -77,37 +85,59 @@ function FormPedidosList() {
               search: { id: undefined, print: undefined }
             })
           }
-          className="bg-purple-500 hover:bg-purple-600 text-white text-xs font-medium px-2.5 py-2 rounded-md shadow-sm transition"
+          className="bg-sky-600 hover:bg-sky-700 text-white text-xs font-medium px-2.5 py-2 rounded-md shadow-sm transition"
         >
-          Novo Pedido
+          Novo pedido
         </button>
       }
     >
       <TableBase
         data={data}
         columns={[
-          { header: "Valor Total", render: r => `R$ ${r.valorTotal.toFixed(2)}` },
-          { header: "Cliente", render: r => getClienteNome(r) },
-          { header: "Data do Pedido", render: r => formatDate(r.dataPedido) },
-          { header: "Status", render: r => r.statusDescricao || r.status },
           {
-            header: "Ações",
+            header: "Pedido",
+            render: r => (
+              <div>
+                <div className="font-semibold text-slate-900">#{r.id}</div>
+                <div className="text-xs text-slate-500">{formatDate(r.dataPedido)}</div>
+              </div>
+            ),
+          },
+          { header: "Cliente", render: r => <span className="font-medium text-slate-700">{getClienteNome(r)}</span> },
+          {
+            header: "Valor total",
+            render: r => (
+              <span className="inline-flex rounded-full bg-emerald-50 px-3 py-1 text-xs font-semibold text-emerald-700">
+                R$ {r.valorTotal.toFixed(2)}
+              </span>
+            ),
+          },
+          {
+            header: "Status",
+            render: r => (
+              <span className={`inline-flex rounded-full px-3 py-1 text-xs font-semibold ${getStatusTone(r.statusDescricao || r.status)}`}>
+                {r.statusDescricao || r.status}
+              </span>
+            ),
+          },
+          {
+            header: "Acoes",
             render: row => (
               <RowActions
                 row={row}
                 onEdit={handleEdit}
                 onPrint={handlePrint}
+                printLabel="Ver impressao"
               />
             )
           }
         ]}
       />
     </BaseList>
-       
-      )
-    }
+  )
+}
 
-  export const Route = createFileRoute('/admin/pedidoslist')({
+export const Route = createFileRoute('/admin/pedidoslist')({
   component: FormPedidosList,
 })
 

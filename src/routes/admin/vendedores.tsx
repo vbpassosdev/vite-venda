@@ -79,7 +79,7 @@ function FormVendedores() {
 
   return (
     <BaseForm
-      title={isEdit ? "Editar Vendedor" : "Cadastro de Vendedores"}
+      title={isEdit ? "Editar vendedor" : "Cadastro de vendedor"}
       subtitle="Preencha os dados do vendedor"
       loading={loading}
       onSubmit={handleSubmit}
@@ -111,3 +111,4 @@ function InputField({ id, label, value, onChange }: any) {
 export const Route = createFileRoute("/admin/vendedores")({
   component: FormVendedores,
 })
+

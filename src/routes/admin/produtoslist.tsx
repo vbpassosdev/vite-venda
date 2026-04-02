@@ -6,7 +6,6 @@ import { RowActions } from "@/components/form/RowActions"
 import { deleteProduto, getProdutos } from '@/services/produtosService'
 import { useNavigate } from "@tanstack/react-router"
 
-
 export const Route = createFileRoute('/admin/produtoslist')({
   component: FormProdutosList,
 })
@@ -21,7 +20,6 @@ type Produto = {
   dataCadastro: string
 }
 
-
 function FormProdutosList() {
   const [data, setData] = useState<Produto[]>([])
   const [loading, setLoading] = useState(true)
@@ -33,9 +31,7 @@ function FormProdutosList() {
       .finally(() => setLoading(false))
   }, [])
 
-
   function handleEdit(row: Produto) {
-    console.log(row)
     navigate({
       to: "/admin/produtos",
       search: { id: String(row.id) }
@@ -43,13 +39,13 @@ function FormProdutosList() {
   }
 
   async function handleDelete(row: Produto) {
-    const confirmar = window.confirm(`Excluir ${row.descricao}?`)
+    const confirmar = window.confirm(`Remover ${row.descricao} de vendas?`)
 
     if (!confirmar) return
     try {
-       await deleteProduto(row.id) // Importar a função de delete
+      await deleteProduto(row.id)
       setData(prev => prev.filter(p => p.id !== row.id))
-      alert("Produto excluído com sucesso!")
+      alert("Produto removido com sucesso!")
     } catch (err) {
       console.error(err)
       alert("Erro ao excluir produto")
@@ -58,43 +54,63 @@ function FormProdutosList() {
 
   return (
     <BaseList
-      title="Produtos Cadastrados"
-      subtitle="Gerencie os produtos cadastrados"
+      title="Produtos para emissao"
+      subtitle="Revise os produtos usados nos pedidos e na emissao de NF-e"
       loading={loading}
       empty={!loading && data.length === 0}
       emptyMessage="Nenhum produto encontrado."
-           actions={
-         <button
+      actions={
+        <button
           onClick={() =>
-                      navigate({
+            navigate({
               to: "/admin/produtos",
-              search: {id: undefined }
+              search: { id: undefined }
             })
           }
-          className="
-            bg-purple-500 hover:bg-purple-600
-            text-white text-xs font-medium
-            px-2.5 py-2 rounded-md
-            shadow-sm
-            transition
-          "
+          className="bg-sky-600 hover:bg-sky-700 text-white text-xs font-medium px-2.5 py-2 rounded-md shadow-sm transition"
         >
-          Novo Produto
+          Novo produto
         </button>
       }
     >
       <TableBase
         data={data}
         columns={[
-          { header: "Descrição", render: r => r.descricao },
-          { header: "Referência", render: r => r.referencia },
-          { header: "Preço", render: r => r.preco },
-          { header: "Estoque", render: r => r.estoque },
-          { header: "Ativo", render: r => r.ativo ? "Sim" : "Não" },
-          { header: "Data Cadastro", render: r => new Date(r.dataCadastro).toLocaleDateString() },
-          
           {
-            header: "Ações",
+            header: "Produto",
+            render: r => (
+              <div>
+                <div className="font-semibold text-slate-900">{r.descricao}</div>
+                <div className="text-xs text-slate-500">Ref. {r.referencia}</div>
+              </div>
+            ),
+          },
+          {
+            header: "Preco",
+            render: r => (
+              <span className="inline-flex rounded-full bg-emerald-50 px-3 py-1 text-xs font-semibold text-emerald-700">
+                R$ {r.preco.toFixed(2)}
+              </span>
+            ),
+          },
+          {
+            header: "Estoque",
+            render: r => (
+              <span className={`inline-flex rounded-full px-3 py-1 text-xs font-semibold ${r.estoque > 0 ? 'bg-sky-100 text-sky-800' : 'bg-amber-100 text-amber-800'}`}>
+                {r.estoque} unidades
+              </span>
+            ),
+          },
+          {
+            header: "Status",
+            render: r => (
+              <span className={`inline-flex rounded-full px-3 py-1 text-xs font-semibold ${r.ativo ? 'bg-emerald-100 text-emerald-800' : 'bg-slate-200 text-slate-700'}`}>
+                {r.ativo ? 'Disponivel' : 'Inativo'}
+              </span>
+            ),
+          },
+          {
+            header: "Acoes",
             render: (row) => <RowActions row={row} onEdit={handleEdit} onDelete={handleDelete} />
           }
         ]}

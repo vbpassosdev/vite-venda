@@ -54,8 +54,6 @@ const [form, setForm] = useState<Cliente>({
 
   const isEdit = Boolean(id)
 
-
-
   const [loading, setLoading] = useState(false)
 
     useEffect(() => {
@@ -150,7 +148,7 @@ const [form, setForm] = useState<Cliente>({
 
   return (
     <BaseForm
-      title={isEdit ? "Editar Cliente" : "Cadastro de Clientes"}
+      title={isEdit ? "Editar cliente" : "Cadastro de cliente"}
       subtitle="Preencha os dados do cliente"
       loading={loading}
       onSubmit={handleSubmit}
@@ -194,3 +192,4 @@ function InputField({
     </div>
   )
 }
+

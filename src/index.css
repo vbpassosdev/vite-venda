@@ -1,23 +1,31 @@
 @import "tailwindcss";
 
-/* GLOBAL RESET / BASE */
 @layer base {
   * {
     margin: 0;
     padding: 0;
     box-sizing: border-box;
   }
+
+  body {
+    min-height: 100vh;
+    background: linear-gradient(180deg, #f7fafc 0%, #edf4ff 100%);
+    color: #0f172a;
+    font-family: "Segoe UI", Tahoma, Geneva, Verdana, sans-serif;
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+  }
+
+  a {
+    text-decoration: none;
+  }
 }
 
-/* COMPONENTS */
 @layer components {
-  @import "./styles/sidebar.css";
-  @import "./styles/admin-layout.css";
   @import "./styles/list-floral.css";
   @import "./styles/pedidos.css";
   @import "./styles/print-pedido.css";
 }
 
-/* UTILITIES */
 @layer utilities {
 }

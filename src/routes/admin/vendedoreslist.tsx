@@ -5,6 +5,10 @@ import { TableBase } from "@/components/form/TableBase"
 import { RowActions } from "@/components/form/RowActions"
 import { getVendedores } from "@/services/vendedoresService"
 
+export const Route = createFileRoute("/admin/vendedoreslist")({
+  component: FormVendedoresList,
+})
+
 type Vendedor = {
   id: string
   nome: string
@@ -24,7 +28,10 @@ function FormVendedoresList() {
   }, [])
 
   function handleEdit(row: Vendedor) {
-    console.log("Editar:", row)
+    navigate({
+      to: "/admin/vendedores",
+      search: { id: row.id }
+    })
   }
 
   function handleDelete(row: Vendedor) {
@@ -33,26 +40,22 @@ function FormVendedoresList() {
 
   return (
     <BaseList
-      title="Vendedores"
-      subtitle="Gerencie os vendedores cadastrados"
+      title="Equipe e vendedores"
+      subtitle="Consulte os vendedores envolvidos nas operacoes comerciais"
       loading={loading}
       empty={!loading && data.length === 0}
       emptyMessage="Nenhum vendedor encontrado."
       actions={
-        <button 
-          onClick={() => 
-           navigate({
+        <button
+          onClick={() =>
+            navigate({
               to: "/admin/vendedores",
               search: { id: undefined }
             })
           }
-        
-          className="background-linear-to-r from-purple-500 to-pink-500 text-purple-600 
-                          shadow-md
-                          hover:shadow-purple-700 hover:opacity-30 
-                           transition rounded-lg px-4 py-2 font-semibold"
-        >  
-        Novo Vendedor
+          className="bg-sky-600 hover:bg-sky-700 text-white text-xs font-medium px-2.5 py-2 rounded-md shadow-sm transition"
+        >
+          Novo vendedor
         </button>
       }
     >
@@ -62,9 +65,8 @@ function FormVendedoresList() {
           { header: "Nome", render: r => r.nome },
           { header: "Email", render: r => r.email },
           { header: "Telefone", render: r => r.telefone },
-
           {
-            header: "Ações",
+            header: "Acoes",
             render: (row) => <RowActions row={row} onEdit={handleEdit} onDelete={handleDelete} />
           }
         ]}
@@ -73,6 +75,3 @@ function FormVendedoresList() {
   )
 }
 
-export const Route = createFileRoute("/admin/vendedoreslist")({
-  component: FormVendedoresList,
-})

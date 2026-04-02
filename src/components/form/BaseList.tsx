@@ -23,16 +23,12 @@ export function BaseList({
 }: BaseListProps) {
   return (
     <div className="max-w-2xl p-6">
-
-      {/* HEADER */}
       <header className="list-header">
         <div>
-          <h1 className="list-title">
-            {title}
-          </h1>
+          <h1 className="list-title">{title}</h1>
 
           {subtitle && (
-            <p className="text-sm text-purple-500 mt-1">
+            <p className="text-sm text-sky-700 mt-1">
               {subtitle}
             </p>
           )}
@@ -45,40 +41,33 @@ export function BaseList({
         )}
       </header>
 
-      {/* TOOLBAR */}
       {toolbar && (
-        <div className="bg-white/80 border border-purple-200 rounded-xl p-3 flex flex-wrap gap-3 items-center">
+        <div className="bg-white/80 border border-sky-200 rounded-xl p-3 flex flex-wrap gap-3 items-center">
           {toolbar}
         </div>
       )}
 
-      {/* CONTENT */}
       <div className="table-wrapper-floral">
-
-        {/* LOADING */}
         {loading && (
-          <div className="p-12 text-center text-purple-500 animate-pulse font-medium">
+          <div className="p-12 text-center text-sky-700 animate-pulse font-medium">
             Carregando dados...
           </div>
         )}
 
-        {/* EMPTY */}
         {!loading && empty && (
           <div className="empty-state">
             <h3>{emptyMessage}</h3>
             <p className="text-sm opacity-80">
-              Tente ajustar os filtros ou adicionar novos registros.
+              Tente revisar os filtros ou adicionar um novo registro.
             </p>
           </div>
         )}
 
-        {/* DATA */}
         {!loading && !empty && (
           <div className="p-4">
             {children}
           </div>
         )}
-
       </div>
     </div>
   )

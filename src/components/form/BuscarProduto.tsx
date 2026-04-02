@@ -43,7 +43,6 @@ export function BuscarProduto({ value = "", onSelect }: Props) {
     }
   }
 
-  // debounce
   useEffect(() => {
     const delay = setTimeout(() => {
       buscarProdutos(busca)
@@ -108,9 +107,8 @@ export function BuscarProduto({ value = "", onSelect }: Props) {
 
       {mostrarLista && (
         <div className="absolute z-50 bg-white border w-full rounded shadow mt-1 max-h-48 overflow-auto">
-
           {loading && (
-            <div className="p-2 text-gray-500 text-sm">Buscando...</div>
+            <div className="p-2 text-gray-500 text-sm">Buscando registros...</div>
           )}
 
           {!loading && produtos.length === 0 && (
