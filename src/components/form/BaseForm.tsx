@@ -1,4 +1,3 @@
-// components/BaseForm.tsx
 import { ReactNode } from "react"
 import { Button } from "@/components/ui/button"
 
@@ -15,7 +14,7 @@ export function BaseForm({
   title,
   subtitle,
   loading = false,
-  submitLabel = "Salvar",
+  submitLabel = "Salvar exemplo",
   onSubmit,
   children
 }: BaseFormProps) {
@@ -30,8 +29,8 @@ export function BaseForm({
         {children}
 
         <div className="flex justify-end pt-4">
-          <Button className="bg-purple-500" type="submit" disabled={loading}>
-            {loading ? "Salvando..." : submitLabel}
+          <Button className="bg-sky-600 hover:bg-sky-700" type="submit" disabled={loading}>
+            {loading ? "Salvando exemplo..." : submitLabel}
           </Button>
         </div>
       </form>
