@@ -24,6 +24,3 @@
   @import "./styles/pedidos.css";
   @import "./styles/print-pedido.css";
 }
-
-@layer utilities {
-}
