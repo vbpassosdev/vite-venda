@@ -48,10 +48,10 @@ function FormTitulosList() {
     const diffInDays = Math.ceil((dueDate.getTime() - today.setHours(0, 0, 0, 0)) / (1000 * 60 * 60 * 24))
 
     if (diffInDays <= 3) {
-      return "bg-amber-100 text-amber-800"
+      return "app-badge app-badge-warning"
     }
 
-    return "bg-emerald-100 text-emerald-800"
+    return "app-badge app-badge-success"
   }
 
   return (
@@ -69,7 +69,7 @@ function FormTitulosList() {
               search: { id: undefined }
             })
           }
-          className="bg-sky-600 hover:bg-sky-700 text-white text-xs font-medium px-2.5 py-2 rounded-md shadow-sm transition"
+          className="app-btn app-btn-primary app-btn-sm shadow-sm"
         >
           Novo titulo
         </button>
@@ -90,7 +90,7 @@ function FormTitulosList() {
           {
             header: "Valor",
             render: r => (
-              <span className="inline-flex rounded-full bg-emerald-50 px-3 py-1 text-xs font-semibold text-emerald-700">
+              <span className="app-badge app-badge-success">
                 R$ {r.valorDocumento.toFixed(2)}
               </span>
             ),
@@ -98,7 +98,7 @@ function FormTitulosList() {
           {
             header: "Vencimento",
             render: r => (
-              <span className={`inline-flex rounded-full px-3 py-1 text-xs font-semibold ${getDueBadge(r.vencimento)}`}>
+              <span className={getDueBadge(r.vencimento)}>
                 {new Date(r.vencimento).toLocaleDateString()}
               </span>
             ),

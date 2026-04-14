@@ -55,11 +55,11 @@ function HomePage() {
   }
 
   return (
-    <div className="min-h-screen bg-[linear-gradient(180deg,#f7fafc_0%,#edf4ff_45%,#f8fbff_100%)] text-slate-900">
+    <div className="app-page">
       <div className="mx-auto flex min-h-screen max-w-7xl flex-col px-6 py-8 lg:px-10">
-        <header className="mb-10 flex flex-col gap-4 rounded-[28px] border border-white/70 bg-white/80 px-5 py-4 shadow-[0_10px_30px_rgba(15,23,42,0.08)] backdrop-blur sm:flex-row sm:items-center sm:justify-between">
+        <header className="app-shell-panel mb-10 flex flex-col gap-4 rounded-[28px] px-5 py-4 sm:flex-row sm:items-center sm:justify-between">
           <div>
-            <p className="text-xs font-semibold uppercase tracking-[0.24em] text-sky-700">
+            <p className="app-eyebrow">
               Vendas fiscal e financeiro
             </p>
             <h1 className="text-lg font-semibold text-slate-900">
@@ -70,7 +70,7 @@ function HomePage() {
           <div className="flex flex-wrap items-center gap-3">
             <Link
               to="/admin/main"
-              className="inline-flex items-center gap-2 rounded-full bg-emerald-600 px-4 py-2 text-sm font-medium text-white transition hover:bg-emerald-700"
+              className="app-btn app-btn-success rounded-full px-4 py-2"
             >
               Acessar sistema
               <ArrowRight className="h-4 w-4" />
@@ -84,9 +84,9 @@ function HomePage() {
               {highlights.map(({ title, description, icon: Icon }) => (
                 <article
                   key={title}
-                  className="rounded-[28px] border border-slate-200/80 bg-white p-6 shadow-[0_20px_50px_rgba(148,163,184,0.16)]"
+                  className="app-card p-6"
                 >
-                  <div className="mb-4 inline-flex rounded-2xl bg-sky-100 p-3 text-sky-700">
+                  <div className="app-avatar-accent mb-4 inline-flex rounded-2xl p-3">
                     <Icon className="h-5 w-5" />
                   </div>
                   <h3 className="text-lg font-semibold text-slate-900">{title}</h3>
@@ -117,13 +117,13 @@ function AccessPanel({
   }, [mode]);
 
   return (
-    <aside className="rounded-[32px] border border-slate-200/80 bg-white p-7 shadow-[0_24px_60px_rgba(15,23,42,0.08)]">
+    <aside className="app-card-lg p-7">
       <div className="mb-6 flex items-center gap-3">
-        <div className="rounded-2xl bg-slate-900 p-3 text-white">
+        <div className="app-icon-dark rounded-2xl p-3">
           {mode === "reset" ? <BookOpen className="h-5 w-5" /> : <LockKeyhole className="h-5 w-5" />}
         </div>
         <div>
-          <p className="text-sm font-medium uppercase tracking-[0.18em] text-slate-500">
+          <p className="app-section-label">
             Acesso de vendas
           </p>
           <h3 className="text-2xl font-semibold text-slate-950">{title}</h3>
@@ -160,7 +160,7 @@ function LoginForm({ onForgotPassword }: { onForgotPassword: () => void }) {
           type="email"
           value={email}
           onChange={(event) => setEmail(event.target.value)}
-          className="w-full rounded-2xl border border-slate-200 bg-slate-50 px-4 py-3 text-slate-900 outline-none transition placeholder:text-slate-400 focus:border-sky-400 focus:bg-white"
+          className="app-input"
           placeholder="vendas@empresa.com"
         />
       </label>
@@ -171,7 +171,7 @@ function LoginForm({ onForgotPassword }: { onForgotPassword: () => void }) {
           type="password"
           value={password}
           onChange={(event) => setPassword(event.target.value)}
-          className="w-full rounded-2xl border border-slate-200 bg-slate-50 px-4 py-3 text-slate-900 outline-none transition placeholder:text-slate-400 focus:border-sky-400 focus:bg-white"
+          className="app-input"
           placeholder="Digite sua senha"
         />
       </label>
@@ -179,7 +179,7 @@ function LoginForm({ onForgotPassword }: { onForgotPassword: () => void }) {
       <button
         type="submit"
         disabled={isSubmitting}
-        className="inline-flex w-full items-center justify-center gap-2 rounded-2xl bg-sky-600 px-4 py-3 text-sm font-semibold text-white transition hover:bg-sky-700 disabled:cursor-not-allowed disabled:opacity-60"
+        className="app-btn app-btn-primary w-full px-4 py-3 text-sm font-semibold"
       >
         {isSubmitting ? "Entrando..." : "Acessar"}
         <ArrowRight className="h-4 w-4" />
@@ -188,7 +188,7 @@ function LoginForm({ onForgotPassword }: { onForgotPassword: () => void }) {
       <button
         type="button"
         onClick={onForgotPassword}
-        className="w-full rounded-2xl border border-slate-200 px-4 py-3 text-sm font-medium text-slate-600 transition hover:bg-slate-50"
+        className="app-btn app-btn-outline w-full px-4 py-3 text-sm font-medium"
       >
         Esqueci minha senha
       </button>
@@ -225,20 +225,20 @@ function ForgotPasswordForm({
           type="email"
           value={email}
           onChange={(event) => setEmail(event.target.value)}
-          className="w-full rounded-2xl border border-slate-200 bg-slate-50 px-4 py-3 text-slate-900 outline-none transition placeholder:text-slate-400 focus:border-sky-400 focus:bg-white"
+          className="app-input"
           placeholder="vendas@empresa.com"
         />
       </label>
 
       {message ? (
-        <div className="rounded-2xl border border-emerald-200 bg-emerald-50 px-4 py-3 text-sm text-emerald-700">
+        <div className="app-alert app-alert-success">
           {message}
         </div>
       ) : null}
 
       <button
         type="submit"
-        className="inline-flex w-full items-center justify-center gap-2 rounded-2xl bg-sky-600 px-4 py-3 text-sm font-semibold text-white transition hover:bg-sky-700"
+        className="app-btn app-btn-primary w-full px-4 py-3 text-sm font-semibold"
       >
         Enviar instrucoes
         <ArrowRight className="h-4 w-4" />
@@ -247,7 +247,7 @@ function ForgotPasswordForm({
       <button
         type="button"
         onClick={onReset}
-        className="w-full rounded-2xl border border-slate-200 px-4 py-3 text-sm font-medium text-slate-600 transition hover:bg-slate-50"
+        className="app-btn app-btn-outline w-full px-4 py-3 text-sm font-medium"
       >
         Abrir tela de redefinicao
       </button>
@@ -255,7 +255,7 @@ function ForgotPasswordForm({
       <button
         type="button"
         onClick={onBack}
-        className="w-full rounded-2xl border border-slate-200 px-4 py-3 text-sm font-medium text-slate-600 transition hover:bg-slate-50"
+        className="app-btn app-btn-outline w-full px-4 py-3 text-sm font-medium"
       >
         Voltar para o login
       </button>
@@ -283,12 +283,12 @@ function ResetPasswordForm({ onBackToLogin }: { onBackToLogin: () => void }) {
 
   return (
     <form className="space-y-4" onSubmit={handleSubmit}>
-      <div className="rounded-2xl border border-sky-200 bg-sky-50 px-4 py-3 text-sm text-sky-700">
+      <div className="app-alert">
         Preencha os campos abaixo para redefinir a senha em vendas.
       </div>
 
       {message ? (
-        <div className="rounded-2xl border border-emerald-200 bg-emerald-50 px-4 py-3 text-sm text-emerald-700">
+        <div className="app-alert app-alert-success">
           {message}
         </div>
       ) : null}
@@ -299,7 +299,7 @@ function ResetPasswordForm({ onBackToLogin }: { onBackToLogin: () => void }) {
           type="password"
           value={password}
           onChange={(event) => setPassword(event.target.value)}
-          className="w-full rounded-2xl border border-slate-200 bg-slate-50 px-4 py-3 text-slate-900 outline-none transition placeholder:text-slate-400 focus:border-sky-400 focus:bg-white"
+          className="app-input"
           placeholder="Digite a nova senha"
         />
       </label>
@@ -310,14 +310,14 @@ function ResetPasswordForm({ onBackToLogin }: { onBackToLogin: () => void }) {
           type="password"
           value={confirmPassword}
           onChange={(event) => setConfirmPassword(event.target.value)}
-          className="w-full rounded-2xl border border-slate-200 bg-slate-50 px-4 py-3 text-slate-900 outline-none transition placeholder:text-slate-400 focus:border-sky-400 focus:bg-white"
+          className="app-input"
           placeholder="Repita a nova senha"
         />
       </label>
 
       <button
         type="submit"
-        className="inline-flex w-full items-center justify-center gap-2 rounded-2xl bg-sky-600 px-4 py-3 text-sm font-semibold text-white transition hover:bg-sky-700"
+        className="app-btn app-btn-primary w-full px-4 py-3 text-sm font-semibold"
       >
         Salvar nova senha
         <ArrowRight className="h-4 w-4" />
@@ -326,7 +326,7 @@ function ResetPasswordForm({ onBackToLogin }: { onBackToLogin: () => void }) {
       <button
         type="button"
         onClick={onBackToLogin}
-        className="w-full rounded-2xl border border-slate-200 px-4 py-3 text-sm font-medium text-slate-600 transition hover:bg-slate-50"
+        className="app-btn app-btn-outline w-full px-4 py-3 text-sm font-medium"
       >
         Voltar para o login
       </button>
@@ -336,7 +336,7 @@ function ResetPasswordForm({ onBackToLogin }: { onBackToLogin: () => void }) {
 
 function ExperienceNotes() {
   return (
-    <div className="mt-6 rounded-[28px] bg-slate-50 p-5">
+    <div className="app-panel-muted mt-6">
       <p className="text-sm font-medium text-slate-800">Rotinas implementadas</p>
       <ul className="mt-4 space-y-3 text-sm text-slate-600">
         <li className="flex items-start gap-3 rounded-2xl bg-white px-4 py-3">

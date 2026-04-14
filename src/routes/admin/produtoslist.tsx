@@ -67,7 +67,7 @@ function FormProdutosList() {
               search: { id: undefined }
             })
           }
-          className="bg-sky-600 hover:bg-sky-700 text-white text-xs font-medium px-2.5 py-2 rounded-md shadow-sm transition"
+          className="app-btn app-btn-primary app-btn-sm shadow-sm"
         >
           Novo produto
         </button>
@@ -88,7 +88,7 @@ function FormProdutosList() {
           {
             header: "Preco",
             render: r => (
-              <span className="inline-flex rounded-full bg-emerald-50 px-3 py-1 text-xs font-semibold text-emerald-700">
+              <span className="app-badge app-badge-success">
                 R$ {r.preco.toFixed(2)}
               </span>
             ),
@@ -96,7 +96,7 @@ function FormProdutosList() {
           {
             header: "Estoque",
             render: r => (
-              <span className={`inline-flex rounded-full px-3 py-1 text-xs font-semibold ${r.estoque > 0 ? 'bg-sky-100 text-sky-800' : 'bg-amber-100 text-amber-800'}`}>
+              <span className={`app-badge ${r.estoque > 0 ? 'app-badge-primary' : 'app-badge-warning'}`}>
                 {r.estoque} unidades
               </span>
             ),
@@ -104,7 +104,7 @@ function FormProdutosList() {
           {
             header: "Status",
             render: r => (
-              <span className={`inline-flex rounded-full px-3 py-1 text-xs font-semibold ${r.ativo ? 'bg-emerald-100 text-emerald-800' : 'bg-slate-200 text-slate-700'}`}>
+              <span className={`app-badge ${r.ativo ? 'app-badge-success' : 'app-badge-neutral'}`}>
                 {r.ativo ? 'Disponivel' : 'Inativo'}
               </span>
             ),

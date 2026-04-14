@@ -53,7 +53,7 @@ function FormVendedoresList() {
               search: { id: undefined }
             })
           }
-          className="bg-sky-600 hover:bg-sky-700 text-white text-xs font-medium px-2.5 py-2 rounded-md shadow-sm transition"
+          className="app-btn app-btn-primary app-btn-sm shadow-sm"
         >
           Novo vendedor
         </button>

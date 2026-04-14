@@ -55,14 +55,14 @@ export function SidebarMenu() {
   const isActive = (path: string) => pathname === path || pathname.startsWith(`${path}/`);
 
   return (
-    <div className="flex h-full flex-col bg-[linear-gradient(180deg,#ffffff_0%,#f8fbff_100%)] px-4 py-5">
-      <div className="mb-6 rounded-[28px] border border-slate-200 bg-white p-5 shadow-[0_18px_40px_rgba(148,163,184,0.14)]">
+    <div className="app-surface flex h-full flex-col px-4 py-5">
+      <div className="app-card mb-6 p-5">
         <div className="flex items-center gap-3">
-          <div className="rounded-2xl bg-sky-600 p-3 text-white">
+          <div className="app-icon-primary rounded-2xl p-3">
             <BarChart3 className="h-5 w-5" />
           </div>
           <div>
-            <p className="text-xs font-semibold uppercase tracking-[0.22em] text-sky-700">
+            <p className="app-eyebrow">
               Vendas
             </p>
             <h1 className="text-lg font-semibold text-slate-900">Menu de acesso</h1>
@@ -77,7 +77,7 @@ export function SidebarMenu() {
       <nav className="flex-1 space-y-6">
         {menuGroups.map((group) => (
           <div key={group.title}>
-            <p className="mb-3 px-3 text-xs font-semibold uppercase tracking-[0.2em] text-slate-400">
+            <p className="mb-3 px-3 text-xs font-semibold uppercase tracking-[0.2em] app-text-muted">
               {group.title}
             </p>
 

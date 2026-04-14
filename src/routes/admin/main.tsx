@@ -44,9 +44,9 @@ export const Route = createFileRoute("/admin/main")({
 });
 
 function toneClasses(tone: string) {
-  if (tone === "emerald") return "bg-emerald-100 text-emerald-700";
-  if (tone === "amber") return "bg-amber-100 text-amber-700";
-  return "bg-sky-100 text-sky-700";
+  if (tone === "emerald") return "app-badge-success";
+  if (tone === "amber") return "app-badge-warning";
+  return "app-badge-primary";
 }
 
 function RouteComponent() {
@@ -56,16 +56,16 @@ function RouteComponent() {
         {metrics.map(({ title, value, change, icon: Icon, tone }) => (
           <article
             key={title}
-            className="rounded-[28px] border border-slate-200/80 bg-white p-6 shadow-[0_20px_50px_rgba(148,163,184,0.14)]"
+            className="app-card p-6"
           >
             <div className="flex items-center justify-between">
-              <span className="text-sm font-medium text-slate-500">{title}</span>
-              <div className={`rounded-2xl p-3 ${toneClasses(tone)}`}>
+              <span className="app-text-muted text-sm font-medium">{title}</span>
+              <div className={`app-badge ${toneClasses(tone)} rounded-2xl p-3`}>
                 <Icon className="h-5 w-5" />
               </div>
             </div>
             <p className="mt-5 text-3xl font-semibold text-slate-950">{value}</p>
-            <p className={`mt-3 inline-flex rounded-full px-3 py-1 text-xs font-semibold ${toneClasses(tone)}`}>
+            <p className={`app-badge mt-3 ${toneClasses(tone)}`}>
               {change}
             </p>
           </article>
@@ -73,15 +73,15 @@ function RouteComponent() {
       </section>
 
       <section className="grid gap-6 xl:grid-cols-[1fr_0.9fr]">
-        <div className="rounded-[32px] border border-slate-200/80 bg-white p-6 shadow-[0_24px_60px_rgba(15,23,42,0.08)]">
+        <div className="app-card-lg p-6">
           <div className="flex items-center justify-between">
             <div>
-              <p className="text-sm font-semibold uppercase tracking-[0.18em] text-slate-500">
+              <p className="app-section-label">
                 Evolucao das vendas
               </p>
               <h2 className="mt-2 text-2xl font-semibold text-slate-950">Resumo semanal</h2>
             </div>
-            <span className="rounded-full bg-emerald-50 px-3 py-1 text-sm font-medium text-emerald-700">
+            <span className="app-badge app-badge-success text-sm font-medium">
               Atualizado agora
             </span>
           </div>
@@ -101,8 +101,8 @@ function RouteComponent() {
           </div>
         </div>
 
-        <div className="rounded-[32px] border border-slate-200/80 bg-white p-6 shadow-[0_24px_60px_rgba(15,23,42,0.08)]">
-          <p className="text-sm font-semibold uppercase tracking-[0.18em] text-slate-500">Atividade recente</p>
+        <div className="app-card-lg p-6">
+          <p className="app-section-label">Atividade recente</p>
           <h2 className="mt-2 text-2xl font-semibold text-slate-950">Praticas do dia</h2>
 
           <div className="mt-6 space-y-4">

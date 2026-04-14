@@ -8,7 +8,7 @@ export function AdminLayout({ children }: { children: React.ReactNode }) {
   const [openDesktop, setOpenDesktop] = useState(true);
 
   return (
-    <div className="flex min-h-screen bg-[linear-gradient(180deg,#f4f7fb_0%,#eef5ff_100%)] text-slate-900">
+    <div className="app-page flex min-h-screen">
       {openMobile ? (
         <button
           type="button"
@@ -19,7 +19,7 @@ export function AdminLayout({ children }: { children: React.ReactNode }) {
       ) : null}
 
       <aside
-        className={`fixed inset-y-0 left-0 z-40 h-full border-r border-slate-200/70 bg-white/90 shadow-[0_24px_60px_rgba(15,23,42,0.08)] backdrop-blur transition-all duration-300 ease-in-out md:static md:shadow-none ${
+        className={`app-shell-panel fixed inset-y-0 left-0 z-40 h-full border-r transition-all duration-300 ease-in-out md:static md:shadow-none ${
           openMobile ? "translate-x-0" : "-translate-x-full"
         } md:translate-x-0 ${openDesktop ? "w-[290px]" : "md:w-[96px]"}`}
       >
@@ -43,7 +43,7 @@ export function AdminLayout({ children }: { children: React.ReactNode }) {
             <div className="flex items-center gap-2">
               <button
                 type="button"
-                className="rounded-2xl border border-slate-200 bg-white p-2 text-slate-600 shadow-sm md:hidden"
+                className="app-btn app-btn-outline app-btn-icon md:hidden"
                 onClick={() => setOpenMobile(true)}
               >
                 <Menu className="h-5 w-5" />
@@ -51,7 +51,7 @@ export function AdminLayout({ children }: { children: React.ReactNode }) {
 
               <button
                 type="button"
-                className="hidden rounded-2xl border border-slate-200 bg-white p-2 text-slate-600 shadow-sm transition hover:bg-slate-50 md:block"
+                className="app-btn app-btn-outline app-btn-icon hidden md:inline-flex"
                 onClick={() => setOpenDesktop(!openDesktop)}
                 title={openDesktop ? "Recolher menu" : "Expandir menu"}
               >
@@ -59,7 +59,7 @@ export function AdminLayout({ children }: { children: React.ReactNode }) {
               </button>
 
               <div>
-                <p className="text-xs font-semibold uppercase tracking-[0.18em] text-sky-700">Vendas fiscal</p>
+                <p className="app-eyebrow">Vendas fiscal</p>
                 <h2 className="text-xl font-semibold text-slate-950">Emissao de boleto e NF-e</h2>
               </div>
             </div>
@@ -68,13 +68,13 @@ export function AdminLayout({ children }: { children: React.ReactNode }) {
               <div className="flex items-center gap-2">
                 <button
                   type="button"
-                  className="rounded-2xl border border-slate-200 bg-white p-3 text-slate-600 shadow-sm transition hover:bg-slate-50"
+                  className="app-btn app-btn-outline app-btn-icon"
                 >
                   <Bell className="h-5 w-5" />
                 </button>
 
-                <div className="flex items-center gap-3 rounded-2xl border border-slate-200 bg-white px-3 py-2 shadow-sm">
-                  <div className="flex h-10 w-10 items-center justify-center rounded-2xl bg-sky-100 text-sky-700">
+                <div className="app-card flex items-center gap-3 rounded-2xl px-3 py-2 shadow-sm">
+                  <div className="app-avatar-accent flex h-10 w-10 items-center justify-center rounded-2xl">
                     <User className="h-5 w-5" />
                   </div>
                   <div>
@@ -85,7 +85,7 @@ export function AdminLayout({ children }: { children: React.ReactNode }) {
 
                 <Link
                   to="/"
-                  className="inline-flex items-center gap-2 rounded-2xl border border-slate-200 bg-white px-4 py-3 text-sm font-medium text-slate-600 shadow-sm transition hover:bg-slate-50"
+                  className="app-btn app-btn-outline app-btn-md shadow-sm"
                 >
                   <Home className="h-4 w-4" />
                   Inicio

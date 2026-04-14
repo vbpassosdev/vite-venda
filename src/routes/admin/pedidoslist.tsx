@@ -45,9 +45,9 @@ function FormPedidosList() {
   function getStatusTone(status: string) {
     const normalized = status.toLowerCase()
 
-    if (normalized.includes('fat') || normalized.includes('emit')) return 'bg-emerald-100 text-emerald-800'
-    if (normalized.includes('aber') || normalized.includes('pend')) return 'bg-amber-100 text-amber-800'
-    return 'bg-sky-100 text-sky-800'
+    if (normalized.includes('fat') || normalized.includes('emit')) return 'app-badge app-badge-success'
+    if (normalized.includes('aber') || normalized.includes('pend')) return 'app-badge app-badge-warning'
+    return 'app-badge app-badge-primary'
   }
 
   useEffect(() => {
@@ -85,7 +85,7 @@ function FormPedidosList() {
               search: { id: undefined, print: undefined }
             })
           }
-          className="bg-sky-600 hover:bg-sky-700 text-white text-xs font-medium px-2.5 py-2 rounded-md shadow-sm transition"
+          className="app-btn app-btn-primary app-btn-sm shadow-sm"
         >
           Novo pedido
         </button>
@@ -107,7 +107,7 @@ function FormPedidosList() {
           {
             header: "Valor total",
             render: r => (
-              <span className="inline-flex rounded-full bg-emerald-50 px-3 py-1 text-xs font-semibold text-emerald-700">
+              <span className="app-badge app-badge-success">
                 R$ {r.valorTotal.toFixed(2)}
               </span>
             ),
@@ -115,7 +115,7 @@ function FormPedidosList() {
           {
             header: "Status",
             render: r => (
-              <span className={`inline-flex rounded-full px-3 py-1 text-xs font-semibold ${getStatusTone(r.statusDescricao || r.status)}`}>
+              <span className={getStatusTone(r.statusDescricao || r.status)}>
                 {r.statusDescricao || r.status}
               </span>
             ),

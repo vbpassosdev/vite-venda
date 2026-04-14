@@ -21,15 +21,15 @@ export function BaseForm({
   return (
     <div className="max-w-3xl p-6 space-y-6">
       <div>
-        <h1 className="text-2xl font-bold">{title}</h1>
-        {subtitle && <p className="text-sm text-gray-500">{subtitle}</p>}
+        <h1 className="text-2xl font-bold app-title">{title}</h1>
+        {subtitle && <p className="text-sm app-text-muted">{subtitle}</p>}
       </div>
 
       <form onSubmit={onSubmit} className="space-y-4">
         {children}
 
         <div className="flex justify-end pt-4">
-          <Button className="bg-sky-600 hover:bg-sky-700" type="submit" disabled={loading}>
+          <Button type="submit" disabled={loading}>
             {loading ? "Salvando..." : submitLabel}
           </Button>
         </div>

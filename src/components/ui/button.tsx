@@ -8,23 +8,23 @@ interface ButtonProps extends React.ButtonHTMLAttributes<HTMLButtonElement> {
 
 const Button = React.forwardRef<HTMLButtonElement, ButtonProps>(
   ({ className, variant = 'default', size = 'default', ...props }, ref) => {
-    const baseStyles = 'inline-flex items-center justify-center gap-2 whitespace-nowrap rounded-md text-sm font-medium transition-all disabled:pointer-events-none disabled:opacity-50 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-offset-2'
+    const baseStyles = 'app-btn'
 
     const variantStyles = {
-      default: 'bg-blue-600 text-white hover:bg-blue-700',
-      destructive: 'bg-red-600 text-white hover:bg-red-700',
-      outline: 'border border-gray-300 bg-white hover:bg-gray-100 dark:border-gray-600 dark:bg-gray-900 dark:hover:bg-gray-800',
-      secondary: 'bg-gray-200 text-gray-900 hover:bg-gray-300 dark:bg-gray-700 dark:text-gray-100',
-      ghost: 'hover:bg-gray-100 dark:hover:bg-gray-800',
-      link: 'text-blue-600 underline-offset-4 hover:underline',
+      default: 'app-btn-primary',
+      destructive: 'app-btn-danger',
+      outline: 'app-btn-outline',
+      secondary: 'app-btn-outline',
+      ghost: 'app-btn-ghost',
+      link: 'app-btn-link',
     }
 
     const sizeStyles = {
-      default: 'h-9 px-4 py-2',
-      sm: 'h-8 px-3 text-xs',
-      lg: 'h-10 px-6',
-      icon: 'h-9 w-9',
-      'icon-sm': 'h-8 w-8',
+      default: 'app-btn-md',
+      sm: 'app-btn-sm',
+      lg: 'app-btn-lg',
+      icon: 'app-btn-icon',
+      'icon-sm': 'app-btn-icon-sm',
     }
 
     return (

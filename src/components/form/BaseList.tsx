@@ -28,7 +28,7 @@ export function BaseList({
           <h1 className="list-title">{title}</h1>
 
           {subtitle && (
-            <p className="text-sm text-sky-700 mt-1">
+            <p className="mt-1 text-sm app-text-muted">
               {subtitle}
             </p>
           )}
@@ -42,14 +42,14 @@ export function BaseList({
       </header>
 
       {toolbar && (
-        <div className="bg-white/80 border border-sky-200 rounded-xl p-3 flex flex-wrap gap-3 items-center">
+        <div className="app-shell-panel flex flex-wrap items-center gap-3 rounded-xl p-3">
           {toolbar}
         </div>
       )}
 
       <div className="table-wrapper-floral">
         {loading && (
-          <div className="p-12 text-center text-sky-700 animate-pulse font-medium">
+          <div className="app-text-muted p-12 text-center font-medium animate-pulse">
             Carregando dados...
           </div>
         )}

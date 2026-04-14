@@ -10,9 +10,9 @@ interface TableBaseProps<T> {
 
 export function TableBase<T>({ data, columns }: TableBaseProps<T>) {
   return (
-    <div className="overflow-hidden rounded-[24px] border border-slate-200 bg-white shadow-[0_18px_40px_rgba(148,163,184,0.12)]">
+    <div className="app-table">
       <table className="w-full text-sm">
-        <thead className="bg-[linear-gradient(180deg,#eff6ff_0%,#f8fbff_100%)] border-b border-sky-100">
+        <thead className="app-table-head">
           <tr>
             {columns.map((col, i) => (
               <th
@@ -29,7 +29,7 @@ export function TableBase<T>({ data, columns }: TableBaseProps<T>) {
           {data.map((row, i) => (
             <tr
               key={i}
-              className="border-b border-slate-100 transition hover:bg-[linear-gradient(180deg,#f8fbff_0%,#fefefe_100%)] last:border-b-0"
+              className="app-table-row transition"
             >
               {columns.map((col, j) => (
                 <td key={j} className="px-4 py-4 align-middle text-slate-700">

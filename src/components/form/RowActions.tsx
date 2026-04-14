@@ -47,7 +47,7 @@ export function RowActions<T>({ row, onEdit, onPrint, printLabel = "Visualizar" 
       <button
         ref={buttonRef}
         onClick={() => setOpen(!open)}
-        className="flex items-center gap-2 px-3 py-2 rounded-lg border border-slate-200 bg-white hover:bg-slate-50 transition text-sm"
+        className="app-btn app-btn-outline app-btn-sm"
       >
         <MoreHorizontal className="w-4 h-4" />
       </button>
@@ -63,7 +63,7 @@ export function RowActions<T>({ row, onEdit, onPrint, printLabel = "Visualizar" 
                 : buttonRef.current?.getBoundingClientRect().bottom ?? 0,
               left: buttonRef.current?.getBoundingClientRect().left ?? 0,
             }}
-            className="w-48 z-9999 rounded-xl border border-slate-200 bg-white shadow-lg"
+            className="app-menu-panel z-9999 w-48"
           >
             {onEdit && (
               <button
@@ -71,7 +71,7 @@ export function RowActions<T>({ row, onEdit, onPrint, printLabel = "Visualizar" 
                   onEdit(row)
                   setOpen(false)
                 }}
-                className="flex items-center gap-2 w-full px-4 py-2 text-sm text-slate-700 hover:bg-sky-50"
+                className="app-menu-item app-menu-item-primary"
               >
                 Abrir
               </button>
@@ -83,7 +83,7 @@ export function RowActions<T>({ row, onEdit, onPrint, printLabel = "Visualizar" 
                   onPrint(row)
                   setOpen(false)
                 }}
-                className="flex items-center gap-2 w-full px-4 py-2 text-sm text-emerald-700 hover:bg-emerald-50"
+                className="app-menu-item app-menu-item-success"
               >
                 {printLabel}
               </button>
